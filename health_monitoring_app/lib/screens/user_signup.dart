@@ -172,6 +172,8 @@ class _UserSignupPageState extends State<UserSignupPage> {
               dropDownCollege,
               formFieldBuilder(courseController,
                   "Course (ex. BS Computer Science)", "course"),
+              formFieldBuilder(
+                  stdNumController, "Student Number", "student number"),
               email,
               password,
               signupButton,

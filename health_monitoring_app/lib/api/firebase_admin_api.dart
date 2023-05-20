@@ -8,7 +8,7 @@ class FirebaseAdminAPI {
       final docRef = await db.collection("admin").add(admin);
       await db.collection("admin").doc(docRef.id).update({'id': docRef.id});
 
-      return "New user was added!";
+      return "New admin was added!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }

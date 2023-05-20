@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
         ChangeNotifierProvider(create: ((context) => AdminProvider())),
+        ChangeNotifierProvider(create: ((context) => UserProvider())),
       ],
       child: MyApp(),
     ),

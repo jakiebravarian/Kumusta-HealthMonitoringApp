@@ -1,9 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/user_signup.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import '../screens/signup.dart';
+import 'admin_signup.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -67,7 +68,12 @@ class _LoginPageState extends State<LoginPage> {
                   content: Text('Email and password does not match.')));
             } else if (errorCode == 'successful') {
               // if (context.mounted) Navigator.pop(context);
-              Navigator.pushNamed(context, Entry.routename);
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Entry(),
+                ),
+              );
             }
           }
         },
@@ -82,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const SignupPage(),
+              builder: (context) => const UserSignupPage(),
             ),
           );
         },
@@ -98,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const SignupPage(),
+              builder: (context) => const AdminSignupPage(),
             ),
           );
         },

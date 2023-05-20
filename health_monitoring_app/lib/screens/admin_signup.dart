@@ -8,20 +8,17 @@ import '../providers/admin_provider.dart';
 import '../providers/auth_provider.dart';
 import 'package:email_validator/email_validator.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class AdminSignupPage extends StatefulWidget {
+  const AdminSignupPage({super.key});
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _AdminSignupPageState createState() => _AdminSignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _AdminSignupPageState extends State<AdminSignupPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    // TextEditingController firstnameController = TextEditingController();
-    // TextEditingController lastnameController = TextEditingController();
-
     TextEditingController nameController = TextEditingController();
     TextEditingController empNoController = TextEditingController();
     TextEditingController positionController = TextEditingController();
@@ -29,80 +26,48 @@ class _SignupPageState extends State<SignupPage> {
 
     final formKey = GlobalKey<FormState>();
 
-    final name = TextFormField(
-      controller: nameController,
-      decoration: const InputDecoration(
-        hintText: "First Name",
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your firstname.';
-        }
-      },
-    );
-
-    final empNumber = TextFormField(
-      controller: empNoController,
-      decoration: const InputDecoration(
-        hintText: "Employee Number",
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your employee number.';
-        }
-      },
-    );
-
-    final positionField = TextFormField(
-      controller: positionController,
-      decoration: const InputDecoration(
-        hintText: "Position",
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your position.';
-        }
-      },
-    );
-
-    final homeUnitField = TextFormField(
-      controller: homeUnitController,
-      decoration: const InputDecoration(
-        hintText: "Home Unit",
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your home unit.';
-        }
-      },
-    );
+    TextFormField formFieldBuilder(controller, hintText, placeholder) {
+      return (TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hintText,
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your $placeholder.';
+          }
+        },
+      ));
+    }
 
     final email = TextFormField(
-      controller: emailController,
-      decoration: const InputDecoration(
-        hintText: "Email",
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your email.';
-        } else if (!EmailValidator.validate(value)) {
-          return 'Invalid email address.';
-        }
-      },
-    );
+        key: const Key('emailField'),
+        controller: emailController,
+        decoration: const InputDecoration(
+          hintText: "Email",
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your email.';
+          } else if (!EmailValidator.validate(value)) {
+            return 'Invalid email address.';
+          }
+        });
 
     final password = TextFormField(
-      controller: passwordController,
-      obscureText: true,
-      decoration: const InputDecoration(
-        hintText: 'Password',
-      ),
-      validator: (value) {
-        if (value.toString().length < 7) {
-          return 'Password should have minimum of 6 characters.';
-        }
-      },
-    );
+        key: const Key('pwField'),
+        controller: passwordController,
+        obscureText: true,
+        decoration: const InputDecoration(
+          hintText: 'Password',
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your password.';
+          } else if (value.toString().length <= 6) {
+            return 'Weak password';
+          }
+        });
 
     final signupButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -153,10 +118,11 @@ class _SignupPageState extends State<SignupPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25),
               ),
-              name,
-              empNumber,
-              positionField,
-              homeUnitField,
+              formFieldBuilder(nameController, "Name", "name"),
+              formFieldBuilder(
+                  empNoController, "Employee number", "employee number"),
+              formFieldBuilder(positionController, "Position", "position"),
+              formFieldBuilder(homeUnitController, "Home Unit", "home unit"),
               email,
               password,
               signupButton,

@@ -1,6 +1,6 @@
 # CMSC 23 FINAL PROJECT (Health Monitoring App for UPLB residents)
 
-### Author: 
+### Developers: 
   - Alcantara, Mark Henry 
   - Brabante, Jakie
   - Gonzales, Kat

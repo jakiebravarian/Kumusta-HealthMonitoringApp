@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:project_app/screens/user_signup.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -71,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const Entry(),
+                  builder: (context) => const HealthEntry(),
                 ),
               );
             }
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const UserSignupPage(),
+              builder: (context) => const UserSignupPage1(),
             ),
           );
         },

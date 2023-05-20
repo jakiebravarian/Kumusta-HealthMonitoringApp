@@ -1,24 +1,26 @@
 import 'dart:convert';
 
 class User {
-  final String email;
+  String? email;
   String? id;
-  String name;
-  String username;
-  String course;
-  String stdnum;
+  String? name;
+  String? username;
+  String? college;
+  String? course;
+  String? stdnum;
   List<String>? illnessList;
   bool? isQuarantined;
   bool? isAdmin;
   bool? isUnderMonitoring;
 
   User(
-      {required this.email,
+      {this.email,
       this.id,
-      required this.name,
-      required this.username,
-      required this.course,
-      required this.stdnum,
+      this.name,
+      this.username,
+      this.college,
+      this.course,
+      this.stdnum,
       this.illnessList,
       this.isQuarantined,
       this.isAdmin,
@@ -31,6 +33,7 @@ class User {
         id: json['id'],
         name: json['name'],
         username: json['username'],
+        college: json['college'],
         course: json['course'],
         stdnum: json['studentNum'],
         isQuarantined: json['isQuarantined'],
@@ -48,6 +51,7 @@ class User {
       'email': user.email,
       'name': user.name,
       'username': user.username,
+      'college': user.college,
       'course': user.course,
       'studentNum': user.stdnum,
       'isQuarantined': user.isQuarantined,

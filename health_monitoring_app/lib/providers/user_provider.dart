@@ -7,9 +7,31 @@ class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
   // late Stream<QuerySnapshot> _todosStream;
   // Todo? _selectedTodo;
+  User? user = User();
 
   UserProvider() {
     firebaseService = FirebaseUserAPI();
+  }
+
+  User? get getUser => user;
+
+  void setUserInfo1(name, username) {
+    user?.name = name;
+    user?.username = username;
+  }
+
+  void setUserInfo11(college, course, stdnum) {
+    user?.college = college;
+    user?.course = course;
+    user?.stdnum = stdnum;
+  }
+
+  void setUserInfo2(illnesses) {
+    user?.illnessList;
+  }
+
+  void setUserInfo3(email) {
+    user?.email = email;
   }
 
   // getter

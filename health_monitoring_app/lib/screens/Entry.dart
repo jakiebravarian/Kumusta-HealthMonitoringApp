@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Entry extends StatefulWidget {
+class HealthEntry extends StatefulWidget {
   static const routename = '/addEntry';
 
-  const Entry({super.key});
+  const HealthEntry({super.key});
 
   @override
-  HealthEntry createState() => HealthEntry();
+  HealthEntryState createState() => HealthEntryState();
 }
 
-class HealthEntry extends State<Entry> {
+class HealthEntryState extends State<HealthEntry> {
   static final Map<String, bool> _illness = {
     "Fever (37.8 C and above)": false,
     "Feeling feverish": false,

@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/user_signup.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'admin_signup.dart';
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const SignupPage(),
+              builder: (context) => const UserSignupPage(),
             ),
           );
         },
@@ -103,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const SignupPage(),
+              builder: (context) => const AdminSignupPage(),
             ),
           );
         },

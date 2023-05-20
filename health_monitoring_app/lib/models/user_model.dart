@@ -36,6 +36,7 @@ class User {
         college: json['college'],
         course: json['course'],
         stdnum: json['studentNum'],
+        illnessList: json["illnesses"],
         isQuarantined: json['isQuarantined'],
         isAdmin: json['isAdmin'],
         isUnderMonitoring: json['isUnderMonitoring']);
@@ -54,6 +55,7 @@ class User {
       'college': user.college,
       'course': user.course,
       'studentNum': user.stdnum,
+      'illnesses': user.illnessList,
       'isQuarantined': user.isQuarantined,
       'isAdmin': user.isAdmin,
       'isUnderMonitoring': user.isUnderMonitoring

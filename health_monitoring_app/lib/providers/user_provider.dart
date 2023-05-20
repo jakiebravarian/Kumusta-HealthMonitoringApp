@@ -27,7 +27,7 @@ class UserProvider with ChangeNotifier {
   }
 
   void setUserInfo2(illnesses) {
-    user?.illnessList;
+    user?.illnessList = illnesses;
   }
 
   void setUserInfo3(email) {

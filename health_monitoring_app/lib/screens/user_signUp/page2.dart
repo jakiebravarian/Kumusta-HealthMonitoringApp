@@ -68,7 +68,7 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
             }
           });
           context.read<UserProvider>().setUserInfo2(listOfIllnesses);
-          print(context.read<UserProvider>().getUser);
+
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const UserSignupPage3(),

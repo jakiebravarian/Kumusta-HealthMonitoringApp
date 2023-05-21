@@ -12,6 +12,7 @@ class User {
   bool? isQuarantined;
   bool? isAdmin;
   bool? isUnderMonitoring;
+  String? userID;
 
   User(
       {this.email,
@@ -24,7 +25,8 @@ class User {
       this.illnessList,
       this.isQuarantined,
       this.isAdmin,
-      this.isUnderMonitoring});
+      this.isUnderMonitoring,
+      this.userID});
 
   // Factory constructor to instantiate object from json format
   factory User.fromJson(Map<String, dynamic> json) {
@@ -39,7 +41,8 @@ class User {
         illnessList: json["illnesses"],
         isQuarantined: json['isQuarantined'],
         isAdmin: json['isAdmin'],
-        isUnderMonitoring: json['isUnderMonitoring']);
+        isUnderMonitoring: json['isUnderMonitoring'],
+        userID: json["uid"]);
   }
 
   static List<User> fromJsonArray(String jsonData) {
@@ -58,7 +61,8 @@ class User {
       'illnesses': user.illnessList,
       'isQuarantined': user.isQuarantined,
       'isAdmin': user.isAdmin,
-      'isUnderMonitoring': user.isUnderMonitoring
+      'isUnderMonitoring': user.isUnderMonitoring,
+      'uid': user.userID
     };
   }
 }

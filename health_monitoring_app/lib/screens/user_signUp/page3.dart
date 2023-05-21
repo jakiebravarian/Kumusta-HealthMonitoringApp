@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/Homepage.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/entry_model.dart';
@@ -57,15 +58,18 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
           if (formKey.currentState!.validate()) {
             context.read<UserProvider>().setUserInfo3(emailController.text);
             User? temp = context.read<UserProvider>().getUser;
-            context.read<UserProvider>().addUser(temp!);
-
-            await context
+            temp?.isAdmin = false;
+            temp?.isQuarantined = false;
+            temp?.isUnderMonitoring = false;
+            String uid = await context
                 .read<AuthProvider>()
                 .signUp(emailController.text, passwordController.text);
+            temp?.userID = uid;
+            context.read<UserProvider>().addUser(temp!);
 
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const HealthEntry(),
+                builder: (context) => const Homepage(),
               ),
             );
           }

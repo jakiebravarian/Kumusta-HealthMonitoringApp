@@ -48,8 +48,8 @@ class UserProvider with ChangeNotifier {
   // }
 
   void addUser(User user) async {
-    String message = await firebaseService.addUser(user.toJson(user));
-    print(message);
+    String returnValue = await firebaseService.addUser(user.toJson(user));
+    print(returnValue);
     notifyListeners();
   }
 

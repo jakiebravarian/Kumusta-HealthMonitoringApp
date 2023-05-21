@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/Homepage.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:project_app/screens/user_signup.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    late String errorCode;
+    late String returnedValue;
     final email = TextFormField(
         key: const Key('emailField'),
         controller: emailController,
@@ -55,24 +56,24 @@ class _LoginPageState extends State<LoginPage> {
       child: ElevatedButton(
         onPressed: () async {
           if (formKey.currentState!.validate()) {
-            errorCode = await context.read<AuthProvider>().signIn(
+            returnedValue = await context.read<AuthProvider>().signIn(
                   emailController.text.trim(),
                   passwordController.text.trim(),
                 );
-            if (errorCode == 'user-not-found') {
+            if (returnedValue == 'user-not-found') {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.red.shade900,
                   content: Text('User not found.')));
-            } else if (errorCode == 'wrong-password') {
+            } else if (returnedValue == 'wrong-password') {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.red.shade900,
                   content: Text('Email and password does not match.')));
-            } else if (errorCode == 'successful') {
+            } else {
               // if (context.mounted) Navigator.pop(context);
-
+              HomepageState.userID = returnedValue;
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const HealthEntry(),
+                  builder: (context) => const Homepage(),
                 ),
               );
             }

@@ -2,19 +2,21 @@ import 'dart:convert';
 
 class Entry {
   String? id;
-  String date;
-  bool isApproved;
-  bool isExposed;
-  List<String> symptoms;
-  String userID;
+  DateTime? date;
+  bool? isApproved;
+  bool? isExposed;
+  bool? isUnderMonitoring;
+  List<String>? symptoms;
+  String? userID;
 
   Entry({
     this.id,
-    required this.date,
-    required this.isApproved,
-    required this.isExposed,
-    required this.symptoms,
-    required this.userID,
+    this.date,
+    this.isApproved,
+    this.isExposed,
+    this.isUnderMonitoring,
+    this.symptoms,
+    this.userID,
   });
 
   // Factory constructor to instantiate object from json format
@@ -24,6 +26,7 @@ class Entry {
       date: json['date'],
       isApproved: json['isApporved'],
       isExposed: json['isExposed'],
+      isUnderMonitoring: json['isUnderMonitoring'],
       symptoms: json['symptoms'],
       userID: json['userID'],
     );
@@ -39,6 +42,7 @@ class Entry {
       'date': entry.date,
       'isApproved': entry.isApproved,
       'isExposed': entry.isExposed,
+      'isUnderMonitoring': entry.isUnderMonitoring,
       'symptoms': entry.symptoms,
       'userID': entry.userID,
     };

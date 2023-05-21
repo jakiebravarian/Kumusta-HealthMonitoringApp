@@ -31,6 +31,19 @@ class _UserSignupPageState extends State<UserSignupPage> {
 
   late String chosenCollege;
 
+  static final Map<String, bool> _preExistingIllness = {
+    "Fever (37.8 C and above)": false,
+    "Feeling feverish": false,
+    "Muscle or joint pains": false,
+    "Cough": false,
+    "Colds": false,
+    "Sore throat": false,
+    "Difficulty of breathing": false,
+    "Diarrhea": false,
+    "Loss of taste": false,
+    "Loss of smell": false
+  };
+
   @override
   void initState() {
     // TODO: implement initState
@@ -153,6 +166,50 @@ class _UserSignupPageState extends State<UserSignupPage> {
       }).toList(),
     );
 
+    Widget checkbox(key, value) => CheckboxListTile(
+          value: value,
+          onChanged: (bool? value) {
+            value = value!;
+            _preExistingIllness[key] = value!;
+            print(_preExistingIllness);
+            // setState(() {
+
+            // });
+          },
+          title: Text(key),
+        );
+
+    List<Widget> checkboxBuilder() {
+      List<Widget> checkboxes = [];
+      _preExistingIllness.forEach((key, value) {
+        checkboxes.add(checkbox(key, value));
+      });
+      return checkboxes;
+    }
+
+    showCheckboxes() {
+      return showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(content: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                //your code checkbox button here
+                for (var checkbox in checkboxBuilder()) checkbox,
+              ]);
+            }));
+          });
+    }
+
+    Widget subheading(text) => ListTile(
+          onTap: showCheckboxes,
+          title: Text(
+            text,
+            style: const TextStyle(fontSize: 14),
+          ),
+          trailing: const Icon(Icons.edit),
+        );
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
@@ -174,6 +231,7 @@ class _UserSignupPageState extends State<UserSignupPage> {
                   "Course (ex. BS Computer Science)", "course"),
               formFieldBuilder(
                   stdNumController, "Student Number", "student number"),
+              subheading("Select pre-existing illness:"),
               email,
               password,
               signupButton,

@@ -7,6 +7,12 @@ class FirebaseAuthAPI {
     return auth.authStateChanges();
   }
 
+  User? _currentUser;
+  User? get getCurrentUser => _currentUser;
+
+  // static String? _userIDLoggedIn;
+  // String? get currentlyLoggedIn => _userIDLoggedIn;
+
   Future<String> signIn(String email, String password) async {
     UserCredential credential;
     try {
@@ -15,6 +21,7 @@ class FirebaseAuthAPI {
 
       //let's print the object returned by signInWithEmailAndPassword
       //you can use this object to get the user's id, email, etc.
+      _currentUser = auth.currentUser;
       print(credential.user?.uid);
       return credential.user!.uid;
     } on FirebaseAuthException catch (e) {

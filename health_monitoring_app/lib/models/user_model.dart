@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class User {
+class UserModel {
   String? email;
   String? id;
   String? name;
@@ -14,7 +14,7 @@ class User {
   bool? isUnderMonitoring;
   String? userID;
 
-  User(
+  UserModel(
       {this.email,
       this.id,
       this.name,
@@ -29,8 +29,8 @@ class User {
       this.userID});
 
   // Factory constructor to instantiate object from json format
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
         email: json['email'],
         id: json['id'],
         name: json['name'],
@@ -45,12 +45,12 @@ class User {
         userID: json["uid"]);
   }
 
-  static List<User> fromJsonArray(String jsonData) {
+  static List<UserModel> fromJsonArray(String jsonData) {
     final Iterable<dynamic> data = jsonDecode(jsonData);
-    return data.map<User>((dynamic d) => User.fromJson(d)).toList();
+    return data.map<UserModel>((dynamic d) => UserModel.fromJson(d)).toList();
   }
 
-  Map<String, dynamic> toJson(User user) {
+  Map<String, dynamic> toJson(UserModel user) {
     return {
       'email': user.email,
       'name': user.name,

@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_app/api/firebase_auth_api.dart';
 import 'package:project_app/models/entry_model.dart';
-import '../api/firebase_admin_api.dart';
+import 'package:project_app/providers/user_provider.dart';
+
 import '../api/firebase_entry_api.dart';
-import '../api/firebase_user_api.dart';
-import '../models/user_model.dart';
 
 class EntryProvider with ChangeNotifier {
   late FirebaseEntryAPI firebaseService;
-  // late Stream<QuerySnapshot> _todosStream;
+  late FirebaseAuthAPI firebaseAuth;
+  late Stream<QuerySnapshot> _entriesStream;
   // Todo? _selectedTodo;
 
   Map<String, bool> symptomsMap = {
@@ -22,14 +24,17 @@ class EntryProvider with ChangeNotifier {
     "Loss of taste": false,
     "Loss of smell": false
   };
-
+  UserProvider userProvider = UserProvider();
   Map<String, bool> isExposed = {"Yes": false, "No": false};
   Map<String, bool> isUnderMonitoring = {"Yes": false, "No": false};
-
+  String _uid = "";
+  String get uid => _uid;
   Entry? entry = Entry();
 
   EntryProvider() {
     firebaseService = FirebaseEntryAPI();
+    firebaseAuth = FirebaseAuthAPI();
+    fetchData(uid);
   }
 
   Entry? get getEntry => entry;
@@ -62,6 +67,14 @@ class EntryProvider with ChangeNotifier {
       isUnderMonitoring[value] = true;
       isUnderMonitoring["Yes"] = false;
     }
+    notifyListeners();
+  }
+
+  Stream<QuerySnapshot> get entriesData => _entriesStream;
+
+  fetchData(userID) {
+    _entriesStream = firebaseService.getAllEntries(userID);
+    _uid = userID;
     notifyListeners();
   }
   // getter

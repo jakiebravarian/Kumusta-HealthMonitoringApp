@@ -1,10 +1,13 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:project_app/providers/entry_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/Homepage.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:project_app/screens/user_signup.dart';
 import 'package:provider/provider.dart';
+import '../models/user_model.dart';
 import '../providers/auth_provider.dart';
 import 'admin_signup.dart';
 
@@ -60,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   emailController.text.trim(),
                   passwordController.text.trim(),
                 );
+            // if (context.mounted) Navigator.pop(context);
             if (returnedValue == 'user-not-found') {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.red.shade900,
@@ -69,8 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: Colors.red.shade900,
                   content: Text('Email and password does not match.')));
             } else {
-              // if (context.mounted) Navigator.pop(context);
-              HomepageState.userID = returnedValue;
+              context.read<AuthProvider>().fetchAuthentication();
+              context.read<EntryProvider>().fetchData(returnedValue);
+
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const Homepage(),

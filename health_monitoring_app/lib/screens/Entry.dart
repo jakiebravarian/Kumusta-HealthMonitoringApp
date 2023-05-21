@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/screens/Homepage.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
 
 class HealthEntry extends StatefulWidget {
   static const routename = '/addEntry';
@@ -136,7 +139,8 @@ class HealthEntryState extends State<HealthEntry> {
                 content: Text('Fill out the required sections.')));
           } else {
             Entry? entry = context.read<EntryProvider>().getEntry;
-            entry?.date = DateTime.now();
+            entry?.userID = context.read<EntryProvider>().uid;
+            entry?.date = DateTime.now().toString();
             entry?.isApproved = false;
             if (context.read<EntryProvider>().monitoring["Yes"] == true) {
               entry?.isUnderMonitoring = true;
@@ -158,7 +162,7 @@ class HealthEntryState extends State<HealthEntry> {
             });
 
             entry?.symptoms = symptomsList;
-            entry?.userID = HomepageState.userID;
+
             context.read<EntryProvider>().addEntry(entry!);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Color.fromARGB(255, 126, 231, 45),

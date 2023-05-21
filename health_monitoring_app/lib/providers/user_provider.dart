@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import '../api/firebase_admin_api.dart';
+
 import '../api/firebase_user_api.dart';
 import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
   // late Stream<QuerySnapshot> _todosStream;
-  // Todo? _selectedTodo;
-  User? user = User();
+
+  UserModel? user = UserModel();
 
   UserProvider() {
     firebaseService = FirebaseUserAPI();
   }
 
-  User? get getUser => user;
+  UserModel? get getUser => user;
 
   void setUserInfo1(name, username) {
     user?.name = name;
@@ -34,20 +34,12 @@ class UserProvider with ChangeNotifier {
     user?.email = email;
   }
 
-  // getter
-  // Stream<QuerySnapshot> get todos => _todosStream;
-  // Todo get selected => _selectedTodo!;
-
-  // changeSelectedTodo(Todo item) {
-  //   _selectedTodo = item;
-  // }
-
   // void fetchTodos() {
   //   _todosStream = firebaseService.getAllTodos();
   //   notifyListeners();
   // }
 
-  void addUser(User user) async {
+  void addUser(UserModel user) async {
     String returnValue = await firebaseService.addUser(user.toJson(user));
     print(returnValue);
     notifyListeners();

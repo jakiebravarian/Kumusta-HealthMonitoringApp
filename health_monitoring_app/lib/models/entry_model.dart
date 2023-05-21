@@ -2,11 +2,11 @@ import 'dart:convert';
 
 class Entry {
   String? id;
-  DateTime? date;
+  String? date;
   bool? isApproved;
   bool? isExposed;
   bool? isUnderMonitoring;
-  List<String>? symptoms;
+  List<dynamic>? symptoms;
   String? userID;
 
   Entry({

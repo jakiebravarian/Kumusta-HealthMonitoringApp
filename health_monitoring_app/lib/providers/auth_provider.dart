@@ -9,6 +9,7 @@ class AuthProvider with ChangeNotifier {
 
   AuthProvider() {
     authService = FirebaseAuthAPI();
+
     fetchAuthentication();
   }
 
@@ -22,8 +23,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<String> signUp(String email, String password) async {
     var uid = await authService.signUp(email, password);
-    return uid;
     notifyListeners();
+    return uid;
   }
 
   Future<String> signIn(String email, String password) async {

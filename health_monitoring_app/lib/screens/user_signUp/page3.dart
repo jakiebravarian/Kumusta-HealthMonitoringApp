@@ -57,7 +57,7 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             context.read<UserProvider>().setUserInfo3(emailController.text);
-            User? temp = context.read<UserProvider>().getUser;
+            UserModel? temp = context.read<UserProvider>().getUser;
             temp?.isAdmin = false;
             temp?.isQuarantined = false;
             temp?.isUnderMonitoring = false;

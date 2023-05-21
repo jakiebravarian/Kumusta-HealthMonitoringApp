@@ -14,6 +14,13 @@ class FirebaseEntryAPI {
     }
   }
 
+  Stream<QuerySnapshot> getAllEntries(userID) {
+    return db
+        .collection("entries")
+        .where("userID", isEqualTo: userID)
+        .snapshots();
+  }
+
   // Stream<QuerySnapshot> getAllEntries(String id) {
   //   return db.collection("entries").snapshots().where(() => false);
   // }

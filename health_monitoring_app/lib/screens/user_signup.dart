@@ -18,7 +18,7 @@ class UserSignupPage extends StatefulWidget {
 
 class _UserSignupPageState extends State<UserSignupPage> {
   List<String> collegeList = <String>[
-    'College of Arts and Sciences(CAS)',
+    'College of Arts and Sciences (CAS)',
     'College of Economics and Management (CEM)',
     'College of Engineering and Agro-Industrial Technology (CEAT)',
     'College of Forestry and Natural Resources (CFNR)',

@@ -16,6 +16,84 @@ class WelcomeState extends State<Welcome> {
     super.initState();
   }
 
+  final appLogo = SizedBox(
+      width: 165,
+      child: Image.asset(
+        'assets/images/The Lifesavers Hand and bone.png',
+        fit: BoxFit.fitWidth,
+      ));
+
+  final appName = Text("Kumusta",
+      style: GoogleFonts.raleway(
+          textStyle: const TextStyle(
+              color: Color(0xFF432C81),
+              fontSize: 32,
+              fontWeight: FontWeight.w700)));
+
+  final appDescription = Padding(
+    padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
+    child: Text(
+        "Revolutionizing Wellness with our Smart Health Monitoring App, Empowering UPLB Students to Thrive in Mind, Body, and Academics.",
+        textAlign: TextAlign.center,
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Color(0xFF82799D),
+                fontSize: 16,
+                fontWeight: FontWeight.w500))),
+  );
+
+  final studentButton = TextButton(
+      onPressed: () async {},
+      style: TextButton.styleFrom(
+        backgroundColor: const Color(0xFF432C81),
+        minimumSize: const Size(236, 42),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      child: Text(
+        "Student",
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600)),
+      ));
+
+  final adminButton = OutlinedButton(
+      style: OutlinedButton.styleFrom(
+          minimumSize: const Size(236, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+      onPressed: () async {},
+      child: Text(
+        "Admin",
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Color(0xFF2635B7),
+                fontSize: 16,
+                fontWeight: FontWeight.w600)),
+      ));
+
+  final employeeButton = OutlinedButton(
+      style: OutlinedButton.styleFrom(
+          minimumSize: const Size(236, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+      onPressed: () async {},
+      child: Text(
+        "Employee",
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Color(0xFF2635B7),
+                fontSize: 16,
+                fontWeight: FontWeight.w600)),
+      ));
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,12 +103,24 @@ class WelcomeState extends State<Welcome> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Hatdog",
-                style: GoogleFonts.raleway(
-                    textStyle: const TextStyle(
-                        color: Color(0xFF56428F),
-                        fontSize: 56.0,
-                        fontWeight: FontWeight.w900))),
+            appLogo,
+            const SizedBox(
+              height: 32,
+            ),
+            appName,
+            appDescription,
+            const SizedBox(
+              height: 64,
+            ),
+            studentButton,
+            const SizedBox(
+              height: 16,
+            ),
+            adminButton,
+            const SizedBox(
+              height: 16,
+            ),
+            employeeButton
           ],
         ),
       )),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
+import 'package:project_app/screens/splash_screen.dart';
 import 'package:project_app/screens/welcome.dart';
 
 import 'package:provider/provider.dart';
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/': (context) => const Welcome(),
+        '/': (context) => const SplashScreen(),
+        '/welcome': (context) => const Welcome(),
         '/login': (context) => const LoginPage(),
         '/todo': (context) => const LoginPage(),
       },

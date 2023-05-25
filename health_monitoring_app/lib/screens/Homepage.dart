@@ -69,12 +69,16 @@ class HomepageState extends State<Homepage> {
               child: Text("No Entries Found"),
             );
           }
-          print("dkakldasl");
+
           return ListView.builder(
             itemCount: snapshot.data?.docs.length,
             itemBuilder: ((context, index) {
               Entry entry = Entry.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
+
+              // String formattedDate = DateFormat.yMMMEd().format(now);
+              // DateTime formattedDate = DateTime.parse(entry.date!);
+
               entry.id = snapshot.data?.docs[index].id;
               return Dismissible(
                 key: Key(entry.id.toString()),
@@ -83,7 +87,7 @@ class HomepageState extends State<Homepage> {
                   child: const Icon(Icons.delete),
                 ),
                 child: ListTile(
-                  title: Text("Entry: ${entry.id}"),
+                  title: Text("Entry: ${entry.date}"),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

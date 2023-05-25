@@ -47,6 +47,13 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void resetSymptomsMap() {
+    symptomsMap.forEach((key, value) {
+      symptomsMap[key] = false;
+    });
+    notifyListeners();
+  }
+
   void toggleIsExposed(value) {
     if (value == "Yes") {
       isExposed[value] = true;

@@ -164,6 +164,7 @@ class HealthEntryState extends State<HealthEntry> {
             entry?.symptoms = symptomsList;
 
             context.read<EntryProvider>().addEntry(entry!);
+            context.read<EntryProvider>().resetSymptomsMap();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Color.fromARGB(255, 126, 231, 45),
                 content: Text('New entry is added.')));

@@ -2,9 +2,9 @@
 
 ### Developers: 
   - Alcantara, Mark Henry 
-  - Brabante, Jakie
+  - Brabante, Jakie Ashley
   - Gonzales, Kat
-  - tulio, Brad Lee
+  - Tulio, Brad Lee
 
 ### Section: B6L
 

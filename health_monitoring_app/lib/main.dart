@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:project_app/models/entry_model.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/Homepage.dart';
+import 'package:project_app/providers/auth_provider.dart';
 
-import 'package:provider/provider.dart';
+import 'package:project_app/screens/signup_login.dart';
+import 'package:project_app/screens/splash_screen.dart';
+import 'package:project_app/screens/welcome.dart';
+import 'package:project_app/screens/login.dart';
 
-import '../providers/auth_provider.dart';
-
-import '../screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'models/user_model.dart';
@@ -29,7 +33,7 @@ void main() async {
         ChangeNotifierProvider(create: ((context) => UserProvider())),
         ChangeNotifierProvider(create: ((context) => EntryProvider())),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -41,18 +45,75 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Health Monitoring Application',
-      // home: MainPage(),
-      initialRoute: '/',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      routes: {
-        '/': (context) => const Homepage(),
-        '/login': (context) => const LoginPage(),
-        '/addEntry': (context) => const HealthEntry(),
-      },
-    );
+        title: 'Kumusta',
+        initialRoute: '/',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          inputDecorationTheme: InputDecorationTheme(
+            fillColor: Colors.white,
+            filled: true,
+            focusedBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(width: 1, color: Color(0xFF432C81)),
+                borderRadius: BorderRadius.circular(16)),
+            enabledBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(width: 1, color: Color(0xFFEDECF4)),
+                borderRadius: BorderRadius.circular(16)),
+            errorBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(width: 1, color: Color(0xFFEB5858)),
+                borderRadius: BorderRadius.circular(16)),
+            border: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(width: 1, color: Color(0xFFEDECF4)),
+                borderRadius: BorderRadius.circular(16)),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 20,
+            ),
+            hintStyle: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFF7B6BA8),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -0.5)),
+            errorStyle: GoogleFonts.inter(
+                textStyle: const TextStyle(
+                    color: Color(0xFFEB5858),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400)),
+          ),
+        ),
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/welcome': (context) => const Welcome(),
+          '/signup-login': (context) => const SignUpLogin(),
+          '/addEntry': (context) => const HealthEntry(),
+          '/login': (context) => const LoginPage(),
+          '/todo': (context) => const LoginPage(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == SignUpLogin.routename) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return SignUpLogin(
+                  userType: settings.arguments as String,
+                );
+              },
+            );
+          }
+          if (settings.name == LoginPage.routename) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return LoginPage(
+                  userType: settings.arguments as String,
+                );
+              },
+            );
+          }
+          return null;
+        });
   }
 }
 

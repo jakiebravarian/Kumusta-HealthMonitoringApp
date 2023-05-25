@@ -96,6 +96,15 @@ class MyApp extends StatelessWidget {
               },
             );
           }
+          if (settings.name == LoginPage.routename) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return LoginPage(
+                  userType: settings.arguments as String,
+                );
+              },
+            );
+          }
           return null;
         });
   }

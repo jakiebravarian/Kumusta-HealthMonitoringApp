@@ -98,7 +98,7 @@ class SignUpLoginState extends State<SignUpLogin> {
         ));
   }
 
-  loginButton(context) {
+  loginButton(context, user) {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             minimumSize: const Size(327, 42),
@@ -107,11 +107,7 @@ class SignUpLoginState extends State<SignUpLogin> {
             ),
             side: const BorderSide(color: Color(0xFF432C81), width: 1)),
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            ),
-          );
+          Navigator.pushNamed(context, LoginPage.routename, arguments: user);
         },
         child: Text(
           "Login",
@@ -145,7 +141,7 @@ class SignUpLoginState extends State<SignUpLogin> {
             const SizedBox(
               height: 16,
             ),
-            loginButton(context)
+            loginButton(context, user)
           ],
         ),
       )),

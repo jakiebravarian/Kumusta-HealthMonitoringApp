@@ -10,7 +10,9 @@ import '../providers/auth_provider.dart';
 import 'admin_signup.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  static const routename = '/login2';
+  final String? userType;
+  const LoginPage({super.key, this.userType});
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -23,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
     final formKey = GlobalKey<FormState>();
     late String errorCode;
+    String user = widget.userType.toString();
 
     final displayImage = SizedBox(
         width: 227,
@@ -103,38 +106,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final signUpButtonForUser = Padding(
-      key: const Key('userSignUpButton'),
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const UserSignupPage1(),
-            ),
-          );
-        },
-        child: const Text('Sign Up as User',
-            style: TextStyle(color: Colors.white)),
-      ),
-    );
-
-    final signUpButtonForAdmin = Padding(
-      key: const Key('adminSignUpButton'),
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AdminSignupPage(),
-            ),
-          );
-        },
-        child: const Text('Sign Up as Admin',
-            style: TextStyle(color: Colors.white)),
-      ),
-    );
-
     final signUp = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -145,7 +116,21 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 14,
                     fontWeight: FontWeight.w500))),
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              if (user == "Admin" || user == "Employee") {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminSignupPage(),
+                  ),
+                );
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const UserSignupPage1(),
+                  ),
+                );
+              }
+            },
             child: Text("Sign Up",
                 style: GoogleFonts.raleway(
                     textStyle: const TextStyle(
@@ -188,13 +173,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               loginButton,
               signUp
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     signUpButtonForUser,
-              //     signUpButtonForAdmin,
-              //   ],
-              // )
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
+import 'package:project_app/screens/signup_login.dart';
 import 'package:project_app/screens/splash_screen.dart';
 import 'package:project_app/screens/welcome.dart';
 
@@ -37,17 +38,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo with Auth',
-      initialRoute: '/',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/welcome': (context) => const Welcome(),
-        '/login': (context) => const LoginPage(),
-        '/todo': (context) => const LoginPage(),
-      },
-    );
+        title: 'Kumusta',
+        initialRoute: '/',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/welcome': (context) => const Welcome(),
+          '/signup-login': (context) => const SignUpLogin(),
+          '/login': (context) => const LoginPage(),
+          '/todo': (context) => const LoginPage(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == SignUpLogin.routename) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return SignUpLogin(
+                  userType: settings.arguments as String,
+                );
+              },
+            );
+          }
+          return null;
+        });
   }
 }

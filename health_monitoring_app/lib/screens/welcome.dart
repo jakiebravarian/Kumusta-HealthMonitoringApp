@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_app/screens/signup_login.dart';
 
 class Welcome extends StatefulWidget {
   static const routename = '/welcome';
@@ -42,57 +43,72 @@ class WelcomeState extends State<Welcome> {
                 fontWeight: FontWeight.w500))),
   );
 
-  final studentButton = TextButton(
-      onPressed: () async {},
-      style: TextButton.styleFrom(
-        backgroundColor: const Color(0xFF432C81),
-        minimumSize: const Size(236, 42),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+  studentButton(context) {
+    return TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, SignUpLogin.routename,
+              arguments: "Student");
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: const Color(0xFF432C81),
+          minimumSize: const Size(236, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
         ),
-      ),
-      child: Text(
-        "Student",
-        style: GoogleFonts.raleway(
-            textStyle: const TextStyle(
-                color: Color(0xFFFFFFFF),
-                fontSize: 16,
-                fontWeight: FontWeight.w600)),
-      ));
+        child: Text(
+          "Student",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ));
+  }
 
-  final adminButton = OutlinedButton(
-      style: OutlinedButton.styleFrom(
-          minimumSize: const Size(236, 42),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          side: const BorderSide(color: Color(0xFF432C81), width: 1)),
-      onPressed: () async {},
-      child: Text(
-        "Admin",
-        style: GoogleFonts.raleway(
-            textStyle: const TextStyle(
-                color: Color(0xFF2635B7),
-                fontSize: 16,
-                fontWeight: FontWeight.w600)),
-      ));
+  adminButton(context) {
+    return OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            minimumSize: const Size(236, 42),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+        onPressed: () {
+          Navigator.pushNamed(context, SignUpLogin.routename,
+              arguments: "Admin");
+        },
+        child: Text(
+          "Admin",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFF2635B7),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ));
+  }
 
-  final employeeButton = OutlinedButton(
-      style: OutlinedButton.styleFrom(
-          minimumSize: const Size(236, 42),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          side: const BorderSide(color: Color(0xFF432C81), width: 1)),
-      onPressed: () async {},
-      child: Text(
-        "Employee",
-        style: GoogleFonts.raleway(
-            textStyle: const TextStyle(
-                color: Color(0xFF2635B7),
-                fontSize: 16,
-                fontWeight: FontWeight.w600)),
-      ));
+  employeeButton(context) {
+    return OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            minimumSize: const Size(236, 42),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+        onPressed: () {
+          Navigator.pushNamed(context, SignUpLogin.routename,
+              arguments: "Employee");
+        },
+        child: Text(
+          "Employee",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFF2635B7),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,15 +128,15 @@ class WelcomeState extends State<Welcome> {
             const SizedBox(
               height: 64,
             ),
-            studentButton,
+            studentButton(context),
             const SizedBox(
               height: 16,
             ),
-            adminButton,
+            adminButton(context),
             const SizedBox(
               height: 16,
             ),
-            employeeButton
+            employeeButton(context)
           ],
         ),
       )),

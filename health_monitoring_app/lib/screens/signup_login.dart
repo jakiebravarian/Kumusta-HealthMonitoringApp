@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:project_app/screens/admin_signup.dart';
+import 'package:project_app/screens/login.dart';
+import 'package:project_app/screens/user_signup.dart';
+
 class SignUpLogin extends StatefulWidget {
   static const routename = '/signup-login2';
   final String? userType;
@@ -44,7 +48,8 @@ class SignUpLoginState extends State<SignUpLogin> {
                 textStyle: const TextStyle(
                     color: Color(0xFF432C81),
                     fontSize: 20,
-                    fontWeight: FontWeight.w700))),
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5))),
         const SizedBox(
           height: 8,
         ),
@@ -53,45 +58,70 @@ class SignUpLoginState extends State<SignUpLogin> {
                 textStyle: const TextStyle(
                     color: Color(0xFF432C81),
                     fontSize: 32,
-                    fontWeight: FontWeight.w700)))
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -1)))
       ],
     );
   }
 
-  final signUpButton = TextButton(
-      onPressed: () {},
-      style: TextButton.styleFrom(
-        backgroundColor: const Color(0xFF432C81),
-        minimumSize: const Size(327, 42),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
-      child: Text(
-        "Sign Up",
-        style: GoogleFonts.raleway(
-            textStyle: const TextStyle(
-                color: Color(0xFFFFFFFF),
-                fontSize: 16,
-                fontWeight: FontWeight.w600)),
-      ));
-
-  final loginButton = OutlinedButton(
-      style: OutlinedButton.styleFrom(
+  signUpButton(context, user) {
+    return TextButton(
+        onPressed: () {
+          if (user == "Admin" || user == "Employee") {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const AdminSignupPage(),
+              ),
+            );
+          } else {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const UserSignupPage(),
+              ),
+            );
+          }
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: const Color(0xFF432C81),
           minimumSize: const Size(327, 42),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          side: const BorderSide(color: Color(0xFF432C81), width: 1)),
-      onPressed: () async {},
-      child: Text(
-        "Login",
-        style: GoogleFonts.raleway(
-            textStyle: const TextStyle(
-                color: Color(0xFF432C81),
-                fontSize: 16,
-                fontWeight: FontWeight.w600)),
-      ));
+        ),
+        child: Text(
+          "Sign Up",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ));
+  }
+
+  loginButton(context) {
+    return OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            minimumSize: const Size(327, 42),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const LoginPage(),
+            ),
+          );
+        },
+        child: Text(
+          "Login",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFF432C81),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,11 +141,11 @@ class SignUpLoginState extends State<SignUpLogin> {
             const SizedBox(
               height: 96,
             ),
-            signUpButton,
+            signUpButton(context, user),
             const SizedBox(
               height: 16,
             ),
-            loginButton
+            loginButton(context)
           ],
         ),
       )),

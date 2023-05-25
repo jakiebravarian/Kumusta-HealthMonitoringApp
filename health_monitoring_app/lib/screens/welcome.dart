@@ -29,7 +29,8 @@ class WelcomeState extends State<Welcome> {
           textStyle: const TextStyle(
               color: Color(0xFF432C81),
               fontSize: 32,
-              fontWeight: FontWeight.w700)));
+              fontWeight: FontWeight.w700,
+              letterSpacing: -1)));
 
   final appDescription = Padding(
     padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
@@ -40,7 +41,8 @@ class WelcomeState extends State<Welcome> {
             textStyle: const TextStyle(
                 color: Color(0xFF82799D),
                 fontSize: 16,
-                fontWeight: FontWeight.w500))),
+                fontWeight: FontWeight.w500,
+                letterSpacing: -0.11))),
   );
 
   studentButton(context) {

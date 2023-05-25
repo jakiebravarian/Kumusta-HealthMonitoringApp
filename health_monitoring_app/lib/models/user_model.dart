@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class User {
+class UserModel {
   String? email;
   String? id;
   String? name;
@@ -12,8 +12,9 @@ class User {
   bool? isQuarantined;
   bool? isAdmin;
   bool? isUnderMonitoring;
+  String? userID;
 
-  User(
+  UserModel(
       {this.email,
       this.id,
       this.name,
@@ -24,11 +25,12 @@ class User {
       this.illnessList,
       this.isQuarantined,
       this.isAdmin,
-      this.isUnderMonitoring});
+      this.isUnderMonitoring,
+      this.userID});
 
   // Factory constructor to instantiate object from json format
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
         email: json['email'],
         id: json['id'],
         name: json['name'],
@@ -39,15 +41,16 @@ class User {
         illnessList: json["illnesses"],
         isQuarantined: json['isQuarantined'],
         isAdmin: json['isAdmin'],
-        isUnderMonitoring: json['isUnderMonitoring']);
+        isUnderMonitoring: json['isUnderMonitoring'],
+        userID: json["uid"]);
   }
 
-  static List<User> fromJsonArray(String jsonData) {
+  static List<UserModel> fromJsonArray(String jsonData) {
     final Iterable<dynamic> data = jsonDecode(jsonData);
-    return data.map<User>((dynamic d) => User.fromJson(d)).toList();
+    return data.map<UserModel>((dynamic d) => UserModel.fromJson(d)).toList();
   }
 
-  Map<String, dynamic> toJson(User user) {
+  Map<String, dynamic> toJson(UserModel user) {
     return {
       'email': user.email,
       'name': user.name,
@@ -58,7 +61,8 @@ class User {
       'illnesses': user.illnessList,
       'isQuarantined': user.isQuarantined,
       'isAdmin': user.isAdmin,
-      'isUnderMonitoring': user.isUnderMonitoring
+      'isUnderMonitoring': user.isUnderMonitoring,
+      'uid': user.userID
     };
   }
 }

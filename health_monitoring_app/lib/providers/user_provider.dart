@@ -7,13 +7,35 @@ import '../models/user_model.dart';
 class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
   late Stream<QuerySnapshot> _userStream;
-  Stream<QuerySnapshot> get userStream => _userStream;
 
-  UserModel? user;
+  UserModel? user = UserModel();
+
+  static final Map<String, bool> _preExistingIllness = {
+    "Hypertension": false,
+    "Diabetes": false,
+    "Tuberculosis": false,
+    "Cancer": false,
+    "Kidney Disease": false,
+    "Cardiac Disease": false,
+    "Autoimmune Disease": false,
+    "Asthma": false,
+  };
+
+  static final Map<String, bool> _allergies = {
+    "Allergic Rhinitis": false,
+    "Allergic Conjunctivitis": false,
+    "Food": false,
+    "Skin": false,
+    "Others": false
+  };
 
   UserProvider() {
     firebaseService = FirebaseUserAPI();
+    fetchUser("");
   }
+  Map<String, bool> get preExistingIllness => _preExistingIllness;
+  Map<String, bool> get allergies => _allergies;
+  Stream<QuerySnapshot> get userStream => _userStream;
 
   UserModel? get getUser => user;
 
@@ -28,8 +50,9 @@ class UserProvider with ChangeNotifier {
     user?.stdnum = stdnum;
   }
 
-  void setUserInfo2(illnesses) {
+  void setUserInfo2(illnesses, allergies) {
     user?.illnessList = illnesses;
+    user?.allergiesList = allergies;
   }
 
   void setUserInfo3(email) {
@@ -38,6 +61,18 @@ class UserProvider with ChangeNotifier {
 
   void fetchUser(userID) {
     _userStream = firebaseService.getUser(userID);
+    notifyListeners();
+  }
+
+  void changeValueInPreexistingIllness(key) {
+    _preExistingIllness[key] = !_preExistingIllness[key]!;
+    print(_preExistingIllness);
+    notifyListeners();
+  }
+
+  void changeValueInAllergies(key) {
+    _allergies[key] = !_allergies[key]!;
+    print(_allergies);
     notifyListeners();
   }
 

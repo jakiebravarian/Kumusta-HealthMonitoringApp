@@ -112,7 +112,7 @@
 //         onPressed: () async {
 //           if (chosenCollege == "Select college") {}
 //           if (formKey.currentState!.validate()) {
-//             User temp = User(
+//             UserModel temp = UserModel(
 //               email: emailController.text,
 //               name: nameController.text,
 //               username: usernameController.text,

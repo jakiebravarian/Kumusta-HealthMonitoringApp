@@ -9,6 +9,7 @@ class Entry {
   bool? isExposed;
   bool? isUnderMonitoring;
   List<dynamic>? symptoms;
+
   String? userID;
 
   Entry({

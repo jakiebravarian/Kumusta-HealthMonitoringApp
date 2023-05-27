@@ -17,22 +17,6 @@ class HealthEntry extends StatefulWidget {
 }
 
 class HealthEntryState extends State<HealthEntry> {
-  // static final Map<String, bool> _illness = {
-  //   "Fever (37.8 C and above)": false,
-  //   "Feeling feverish": false,
-  //   "Muscle or joint pains": false,
-  //   "Cough": false,
-  //   "Colds": false,
-  //   "Sore throat": false,
-  //   "Difficulty of breathing": false,
-  //   "Diarrhea": false,
-  //   "Loss of taste": false,
-  //   "Loss of smell": false
-  // };
-
-  var underMonitoringGroupValue;
-  var exposedGroupValue;
-
   @override
   void initState() {
     super.initState();
@@ -42,62 +26,6 @@ class HealthEntryState extends State<HealthEntry> {
   Widget build(BuildContext context) {
     // var symptoms = context.watch<EntryProvider>().symptoms;
     final formKey = GlobalKey<FormState>();
-
-    // GridView.builder(
-    //   shrinkWrap: true,
-    //   padding: const EdgeInsets.symmetric(horizontal: 30),
-    //   itemCount: 4,
-    //   itemBuilder: (ctx, i) {
-    //     return Card(
-    //       child: Container(
-    //         height: 290,
-    //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-    //         margin: EdgeInsets.all(5),
-    //         padding: EdgeInsets.all(5),
-    //         child: Stack(
-    //           children: [
-    //             Column(
-    //               crossAxisAlignment: CrossAxisAlignment.stretch,
-    //               children: [
-    //                 Expanded(
-    //                   child: Image.network(
-    //                     'https://tech.pelmorex.com/wp-content/uploads/2020/10/flutter.png',
-    //                     fit: BoxFit.fill,
-    //                   ),
-    //                 ),
-    //                 const Text(
-    //                   'Title',
-    //                   style: TextStyle(
-    //                     fontSize: 18,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 Row(
-    //                   children: const [
-    //                     Text(
-    //                       'Subtitle',
-    //                       style: TextStyle(
-    //                         fontWeight: FontWeight.bold,
-    //                         fontSize: 15,
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 )
-    //               ],
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //     crossAxisCount: 2,
-    //     childAspectRatio: 1.0,
-    //     crossAxisSpacing: 0.0,
-    //     mainAxisSpacing: 5,
-    //     mainAxisExtent: 264,
-    //   ),
-    // );
 
     // Widget subheading(text) => Align(
     //       alignment: Alignment.topLeft,
@@ -127,10 +55,11 @@ class HealthEntryState extends State<HealthEntry> {
 
         symptoms.forEach((key, value) {
           Color color;
-          if (value)
+          if (value) {
             color = Colors.purple.shade200;
-          else
+          } else {
             color = Colors.purple.shade100;
+          }
           choices.add(outlineButtonBuilder(key, color));
         });
         return Column(
@@ -162,83 +91,6 @@ class HealthEntryState extends State<HealthEntry> {
         },
       );
     });
-
-    // Widget checkbox(key, value) => CheckboxListTile(
-    //       value: value,
-    //       onChanged: (bool? value) {
-    //         context.read<EntryProvider>().changeValueInSymptoms(key, value);
-    //         print(context.read<EntryProvider>().symptoms);
-    //       },
-    //       title: Text(key),
-    //     );
-
-    // checkboxBuilder() {
-    //   return Consumer<EntryProvider>(builder: (context, provider, child) {
-    //     List<Widget> checkboxes = [];
-    //     Map<String, bool> symptoms = provider.symptoms;
-    //     symptoms.forEach((key, value) {
-    //       checkboxes.add(checkbox(key, value));
-    //     });
-    //     return Column(
-    //       children: [
-    //         for (var checkbox in checkboxes) checkbox,
-    //       ],
-    //     );
-    //   });
-    // }
-
-    // underMonitoringRadioBuilder() {
-    //   return Consumer<EntryProvider>(builder: (context, provider, child) {
-    //     List radioList = [];
-    //     Map<String, bool> choices = provider.monitoring;
-    //     choices.forEach((key, val) {
-    //       radioList.add(RadioListTile(
-    //         activeColor: Colors.lightBlue,
-    //         title: Text(key),
-    //         value: key,
-    //         groupValue: underMonitoringGroupValue,
-    //         onChanged: (value) {
-    //           underMonitoringGroupValue = value!;
-    //           provider.toggleIsUnderMonitoring(underMonitoringGroupValue);
-
-    //           print(provider.monitoring);
-    //         },
-    //       ));
-    //     });
-    //     return Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         for (var r in radioList) r,
-    //       ],
-    //     );
-    //   });
-    // }
-
-    // exposureRadioBuilder() {
-    //   return Consumer<EntryProvider>(builder: (context, provider, child) {
-    //     List radioList = [];
-    //     Map<String, bool> choices = provider.exp;
-    //     choices.forEach((key, val) {
-    //       radioList.add(RadioListTile(
-    //         activeColor: Colors.lightBlue,
-    //         title: Text(key),
-    //         value: key,
-    //         groupValue: exposedGroupValue,
-    //         onChanged: (value) {
-    //           exposedGroupValue = value!;
-    //           provider.toggleIsExposed(exposedGroupValue);
-    //           print(provider.exp);
-    //         },
-    //       ));
-    //     });
-    //     return Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         for (var r in radioList) r,
-    //       ],
-    //     );
-    //   });
-    // }
 
     final submitButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),

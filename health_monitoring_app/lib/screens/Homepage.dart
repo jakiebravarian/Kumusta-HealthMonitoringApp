@@ -34,9 +34,6 @@ class HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    // Stream<QuerySnapshot> entryStream =
-    //     context.watch<EntryProvider>().entriesData;
-
     Stream<QuerySnapshot> entryStream =
         context.watch<EntryProvider>().entriesData;
     Stream<QuerySnapshot> userInfoStream =
@@ -81,8 +78,6 @@ class HomepageState extends State<Homepage> {
               Entry entry = Entry.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
-              // String formattedDate = DateFormat.yMMMEd().format(now);
-              // DateTime formattedDate = DateTime.parse(entry.date!);
               String formattedDate = DateFormat.yMMMEd().format(
                   DateTime.fromMicrosecondsSinceEpoch(entry.date! * 1000));
               entry.id = snapshot.data?.docs[index].id;
@@ -111,7 +106,9 @@ class HomepageState extends State<Homepage> {
                     IconButton(
                       onPressed: () {
                         print(entry.id);
+
                         context.read<EntryProvider>().setEntry(entry);
+                        context.read<EntryProvider>().resetSymptomsMap();
                         entry.symptoms?.forEach((element) {
                           context
                               .read<EntryProvider>()
@@ -234,6 +231,7 @@ class HomepageState extends State<Homepage> {
             body: userStreamBuilder,
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
+                  context.read<EntryProvider>().resetSymptomsMap();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const HealthEntry(),
@@ -245,61 +243,3 @@ class HomepageState extends State<Homepage> {
         });
   }
 }
-  // Scaffold displayScaffold(
-  //     BuildContext context, Stream<QuerySnapshot<Object?>> todosStream) {
-  //   return Scaffold(
-  //     drawer: Drawer(
-  //         child: ListView(padding: EdgeInsets.zero, children: [
-  //       ListTile(
-  //         title: const Text('Details'),
-  //         onTap: () {
-  //           // Navigator.push(
-  //           //     context,
-  //           //     MaterialPageRoute(
-  //           //         builder: (context) => const UserDetailsPage()));
-  //         },
-  //       ),
-  //       ListTile(
-  //         title: const Text('Logout'),
-  //         onTap: () {
-  //           context.read<AuthProvider>().signOut();
-  //           Navigator.pop(context);
-  //         },
-  //       ),
-  //     ])),
-  //     appBar: AppBar(
-  //       title: Text("Todo"),
-  //     ),
-  //     body: StreamBuilder(
-  //       stream: todosStream,
-  //       builder: (context, snapshot) {
-  //         if (snapshot.hasError) {
-  //           return Center(
-  //             child: Text("Error encountered! ${snapshot.error}"),
-  //           );
-  //         } else if (snapshot.connectionState == ConnectionState.waiting) {
-  //           return Center(
-  //             child: CircularProgressIndicator(),
-  //           );
-  //         } else if (!snapshot.hasData) {
-  //           return Center(
-  //             child: Text("No Todos Found"),
-  //           );
-  //         }
-
-  //         return entriesList
-  //       }),
-  //     floatingActionButton: FloatingActionButton(
-  //         onPressed: () {
-  //           Navigator.of(context).push(
-  //             MaterialPageRoute(
-  //               builder: (context) => const HealthEntry(),
-  //             ),
-  //           );
-  //         },
-  //         child: Icon(Icons.add)),
-
-
-      // SingleChildScrollView(
-      //   child: Column(children: [entriesListBuilder, addEntryButton]),
-      // );

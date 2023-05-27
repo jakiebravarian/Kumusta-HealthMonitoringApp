@@ -7,6 +7,7 @@ import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/Homepage.dart';
+import 'package:project_app/screens/signup_login.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:provider/provider.dart';
 import '../models/user_model.dart';

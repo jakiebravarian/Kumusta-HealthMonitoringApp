@@ -61,6 +61,8 @@ class EntryProvider with ChangeNotifier {
     symptomsMap.forEach((key, value) {
       symptomsMap[key] = false;
     });
+    _isExposed = false;
+    _isUnderMonitoring = false;
     notifyListeners();
   }
 

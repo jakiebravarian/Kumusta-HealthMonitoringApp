@@ -9,8 +9,9 @@ import '../api/firebase_entry_api.dart';
 class EntryProvider with ChangeNotifier {
   late FirebaseEntryAPI firebaseService;
   late FirebaseAuthAPI firebaseAuth;
+
   late Stream<QuerySnapshot> _entriesStream;
-  // Todo? _selectedTodo;
+  Stream<QuerySnapshot> get entriesData => _entriesStream;
 
   Map<String, bool> symptomsMap = {
     "Fever (37.8 C and above)": false,
@@ -24,12 +25,20 @@ class EntryProvider with ChangeNotifier {
     "Loss of taste": false,
     "Loss of smell": false
   };
+  Map<String, bool> get symptoms => symptomsMap;
+
   UserProvider userProvider = UserProvider();
-  Map<String, bool> isExposed = {"Yes": false, "No": false};
-  Map<String, bool> isUnderMonitoring = {"Yes": false, "No": false};
+
   String _uid = "";
   String get uid => _uid;
-  Entry? entry = Entry();
+
+  Entry? _entry = Entry();
+  Entry? get getEntry => _entry;
+
+  bool _isExposed = false;
+  bool _isUnderMonitoring = false;
+  bool get isExposed => _isExposed;
+  bool get isUnderMonitoring => _isUnderMonitoring;
 
   EntryProvider() {
     firebaseService = FirebaseEntryAPI();
@@ -37,13 +46,14 @@ class EntryProvider with ChangeNotifier {
     fetchData(uid);
   }
 
-  Entry? get getEntry => entry;
-  Map<String, bool> get symptoms => symptomsMap;
-  Map<String, bool> get exp => isExposed;
-  Map<String, bool> get monitoring => isUnderMonitoring;
+  void changeValueInSymptoms(key) {
+    symptomsMap[key] = !symptomsMap[key]!;
+    print(symptomsMap);
+    notifyListeners();
+  }
 
-  void changeValueInSymptoms(key, value) {
-    symptomsMap[key] = value;
+  void setEntry(entry) {
+    _entry = entry;
     notifyListeners();
   }
 
@@ -54,48 +64,21 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleIsExposed(value) {
-    if (value == "Yes") {
-      isExposed[value] = true;
-      isExposed["No"] = false;
-    } else {
-      isExposed[value] = true;
-      isExposed["Yes"] = false;
-    }
-
+  void toggleIsExposed() {
+    _isExposed = !_isExposed;
     notifyListeners();
   }
 
-  void toggleIsUnderMonitoring(value) {
-    if (value == "Yes") {
-      isUnderMonitoring[value] = true;
-      isUnderMonitoring["No"] = false;
-    } else {
-      isUnderMonitoring[value] = true;
-      isUnderMonitoring["Yes"] = false;
-    }
+  void toggleIsUnderMonitoring() {
+    _isUnderMonitoring = !_isUnderMonitoring;
     notifyListeners();
   }
-
-  Stream<QuerySnapshot> get entriesData => _entriesStream;
 
   fetchData(userID) {
     _entriesStream = firebaseService.getAllEntries(userID);
     _uid = userID;
     notifyListeners();
   }
-  // getter
-  // Stream<QuerySnapshot> get todos => _todosStream;
-  // Todo get selected => _selectedTodo!;
-
-  // changeSelectedTodo(Todo item) {
-  //   _selectedTodo = item;
-  // }
-
-  // void fetchTodos() {
-  //   _todosStream = firebaseService.getAllTodos();
-  //   notifyListeners();
-  // }
 
   void addEntry(Entry entry) async {
     String message = await firebaseService.addEntry(entry.toJson(entry));
@@ -103,17 +86,18 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void editTodo(int index, String newTitle) {
-  //   // _todoList[index].title = newTitle;
-  //   print("Edit");
-  //   notifyListeners();
-  // }
+  void editEntry(Entry entry) async {
+    String message = await firebaseService.editEntry(entry.toJson(entry));
+    print("Entry in provider stage: ${entry.toJson(entry)}");
+    print(message);
+    notifyListeners();
+  }
 
-  // void deleteTodo() async {
-  //   String message = await firebaseService.deleteTodo(_selectedTodo!.id);
-  //   print(message);
-  //   notifyListeners();
-  // }
+  void deleteEntry() async {
+    String message = await firebaseService.deleteEntry(_entry!.id);
+    print(message);
+    notifyListeners();
+  }
 
   // void toggleStatus(int index, bool status) {
   //   // _todoList[index].completed = status;

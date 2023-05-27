@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
 
 import 'package:project_app/providers/user_provider.dart';
+import 'package:project_app/screens/EditEntry.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
@@ -81,60 +83,65 @@ class HomepageState extends State<Homepage> {
 
               // String formattedDate = DateFormat.yMMMEd().format(now);
               // DateTime formattedDate = DateTime.parse(entry.date!);
-
+              String formattedDate = DateFormat.yMMMEd().format(
+                  DateTime.fromMicrosecondsSinceEpoch(entry.date! * 1000));
               entry.id = snapshot.data?.docs[index].id;
-              return Dismissible(
-                key: Key(entry.id.toString()),
-                background: Container(
-                  color: Colors.red,
-                  child: const Icon(Icons.delete),
+
+              return ListTile(
+                title: Text("${formattedDate}"),
+                subtitle: Wrap(
+                  children: [
+                    if (entry.symptoms!.isEmpty)
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.deepPurple.shade200,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text("No symptoms.")),
+                    for (var symptom in entry.symptoms!)
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.deepPurple.shade200,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(symptom))
+                  ],
                 ),
-                child: ListTile(
-                  title: Text("Entry: ${entry.date}"),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // FriendsDetails.friend = FriendsData(
-                          //     id: data.id,
-                          //     name: data.name,
-                          //     nickname: data.nickname,
-                          //     age: data.age,
-                          //     relstatus: data.relstatus,
-                          //     happinessLevel: data.happinessLevel,
-                          //     superpower: data.superpower,
-                          //     motto: data.motto);
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        print(entry.id);
+                        context.read<EntryProvider>().setEntry(entry);
+                        entry.symptoms?.forEach((element) {
+                          context
+                              .read<EntryProvider>()
+                              .changeValueInSymptoms(element);
+                        });
+                        if (entry.isExposed!) {
+                          context.read<EntryProvider>().toggleIsExposed();
+                        }
+                        if (entry.isUnderMonitoring!) {
+                          context
+                              .read<EntryProvider>()
+                              .toggleIsUnderMonitoring();
+                        }
 
-                          // Navigator.pushNamed(context, Details.routename);
-                        },
-                        icon: const Icon(Icons.info_outline_rounded),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // EditSlambookForms.friendsInitData = FriendsData(
-                          //     id: data.id,
-                          //     name: data.name,
-                          //     nickname: data.nickname,
-                          //     age: data.age,
-                          //     relstatus: data.relstatus,
-                          //     happinessLevel: data.happinessLevel,
-                          //     superpower: data.superpower,
-                          //     motto: data.motto);
-
-                          // Navigator.pushNamed(
-                          //     context, SlambookEdit.routename);
-                        },
-                        icon: const Icon(Icons.create_outlined),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // context.read<FriendsProvider>().deleteTodo(data.id);
-                        },
-                        icon: const Icon(Icons.delete_outlined),
-                      )
-                    ],
-                  ),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const EditHealthEntry(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.edit),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        context.read<EntryProvider>().setEntry(entry);
+                        context.read<EntryProvider>().deleteEntry();
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ],
                 ),
               );
             }),
@@ -163,6 +170,7 @@ class HomepageState extends State<Homepage> {
           return Column(
             children: <Widget>[
               Text("Hello ${user.name}"),
+              Text("Welcome Back!"),
               Expanded(
                 child: entriesListBuilder,
               )

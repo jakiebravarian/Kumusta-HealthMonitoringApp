@@ -17,18 +17,18 @@ class HealthEntry extends StatefulWidget {
 }
 
 class HealthEntryState extends State<HealthEntry> {
-  static final Map<String, bool> _illness = {
-    "Fever (37.8 C and above)": false,
-    "Feeling feverish": false,
-    "Muscle or joint pains": false,
-    "Cough": false,
-    "Colds": false,
-    "Sore throat": false,
-    "Difficulty of breathing": false,
-    "Diarrhea": false,
-    "Loss of taste": false,
-    "Loss of smell": false
-  };
+  // static final Map<String, bool> _illness = {
+  //   "Fever (37.8 C and above)": false,
+  //   "Feeling feverish": false,
+  //   "Muscle or joint pains": false,
+  //   "Cough": false,
+  //   "Colds": false,
+  //   "Sore throat": false,
+  //   "Difficulty of breathing": false,
+  //   "Diarrhea": false,
+  //   "Loss of taste": false,
+  //   "Loss of smell": false
+  // };
 
   var underMonitoringGroupValue;
   var exposedGroupValue;
@@ -40,155 +40,234 @@ class HealthEntryState extends State<HealthEntry> {
 
   @override
   Widget build(BuildContext context) {
+    // var symptoms = context.watch<EntryProvider>().symptoms;
     final formKey = GlobalKey<FormState>();
-    Widget subheading(text) => Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 18),
-            ),
-          ),
-        );
 
-    Widget checkbox(key, value) => CheckboxListTile(
-          value: value,
-          onChanged: (bool? value) {
-            context.read<EntryProvider>().changeValueInSymptoms(key, value);
-            print(context.read<EntryProvider>().symptoms);
-          },
-          title: Text(key),
-        );
+    // GridView.builder(
+    //   shrinkWrap: true,
+    //   padding: const EdgeInsets.symmetric(horizontal: 30),
+    //   itemCount: 4,
+    //   itemBuilder: (ctx, i) {
+    //     return Card(
+    //       child: Container(
+    //         height: 290,
+    //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+    //         margin: EdgeInsets.all(5),
+    //         padding: EdgeInsets.all(5),
+    //         child: Stack(
+    //           children: [
+    //             Column(
+    //               crossAxisAlignment: CrossAxisAlignment.stretch,
+    //               children: [
+    //                 Expanded(
+    //                   child: Image.network(
+    //                     'https://tech.pelmorex.com/wp-content/uploads/2020/10/flutter.png',
+    //                     fit: BoxFit.fill,
+    //                   ),
+    //                 ),
+    //                 const Text(
+    //                   'Title',
+    //                   style: TextStyle(
+    //                     fontSize: 18,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 Row(
+    //                   children: const [
+    //                     Text(
+    //                       'Subtitle',
+    //                       style: TextStyle(
+    //                         fontWeight: FontWeight.bold,
+    //                         fontSize: 15,
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 )
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     );
+    //   },
+    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    //     crossAxisCount: 2,
+    //     childAspectRatio: 1.0,
+    //     crossAxisSpacing: 0.0,
+    //     mainAxisSpacing: 5,
+    //     mainAxisExtent: 264,
+    //   ),
+    // );
 
-    checkboxBuilder() {
+    // Widget subheading(text) => Align(
+    //       alignment: Alignment.topLeft,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(15),
+    //         child: Text(
+    //           text,
+    //           style: const TextStyle(fontSize: 18),
+    //         ),
+    //       ),
+    //     );
+
+    OutlinedButton outlineButtonBuilder(key, color) => OutlinedButton(
+        onPressed: () {
+          context.read<EntryProvider>().changeValueInSymptoms(key);
+        },
+        child: Text(key),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: color,
+        ));
+
+    selectorBuilder() {
       return Consumer<EntryProvider>(builder: (context, provider, child) {
-        List<Widget> checkboxes = [];
+        List<Widget> choices = [];
+
         Map<String, bool> symptoms = provider.symptoms;
+
         symptoms.forEach((key, value) {
-          checkboxes.add(checkbox(key, value));
+          Color color;
+          if (value)
+            color = Colors.purple.shade200;
+          else
+            color = Colors.purple.shade100;
+          choices.add(outlineButtonBuilder(key, color));
         });
         return Column(
           children: [
-            for (var checkbox in checkboxes) checkbox,
+            for (var choice in choices) choice,
           ],
         );
       });
     }
 
-    underMonitoringRadioBuilder() {
-      return Consumer<EntryProvider>(builder: (context, provider, child) {
-        List radioList = [];
-        Map<String, bool> choices = provider.monitoring;
-        choices.forEach((key, val) {
-          radioList.add(RadioListTile(
-            activeColor: Colors.lightBlue,
-            title: Text(key),
-            value: key,
-            groupValue: underMonitoringGroupValue,
-            onChanged: (value) {
-              underMonitoringGroupValue = value!;
-              provider.toggleIsUnderMonitoring(underMonitoringGroupValue);
+    var exposeSwitch =
+        Consumer<EntryProvider>(builder: (context, provider, child) {
+      return Switch(
+        value: provider.isExposed,
+        activeColor: Color.fromARGB(255, 211, 147, 231),
+        onChanged: (bool value) {
+          provider.toggleIsExposed();
+        },
+      );
+    });
 
-              print(provider.monitoring);
-            },
-          ));
-        });
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (var r in radioList) r,
-          ],
-        );
-      });
-    }
+    var underMonitoringSwitch =
+        Consumer<EntryProvider>(builder: (context, provider, child) {
+      return Switch(
+        value: provider.isUnderMonitoring,
+        activeColor: Color.fromARGB(255, 211, 147, 231),
+        onChanged: (bool value) {
+          provider.toggleIsUnderMonitoring();
+        },
+      );
+    });
 
-    exposureRadioBuilder() {
-      return Consumer<EntryProvider>(builder: (context, provider, child) {
-        List radioList = [];
-        Map<String, bool> choices = provider.exp;
-        choices.forEach((key, val) {
-          radioList.add(RadioListTile(
-            activeColor: Colors.lightBlue,
-            title: Text(key),
-            value: key,
-            groupValue: exposedGroupValue,
-            onChanged: (value) {
-              exposedGroupValue = value!;
-              provider.toggleIsExposed(exposedGroupValue);
-              print(provider.exp);
-            },
-          ));
-        });
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (var r in radioList) r,
-          ],
-        );
-      });
-    }
+    // Widget checkbox(key, value) => CheckboxListTile(
+    //       value: value,
+    //       onChanged: (bool? value) {
+    //         context.read<EntryProvider>().changeValueInSymptoms(key, value);
+    //         print(context.read<EntryProvider>().symptoms);
+    //       },
+    //       title: Text(key),
+    //     );
+
+    // checkboxBuilder() {
+    //   return Consumer<EntryProvider>(builder: (context, provider, child) {
+    //     List<Widget> checkboxes = [];
+    //     Map<String, bool> symptoms = provider.symptoms;
+    //     symptoms.forEach((key, value) {
+    //       checkboxes.add(checkbox(key, value));
+    //     });
+    //     return Column(
+    //       children: [
+    //         for (var checkbox in checkboxes) checkbox,
+    //       ],
+    //     );
+    //   });
+    // }
+
+    // underMonitoringRadioBuilder() {
+    //   return Consumer<EntryProvider>(builder: (context, provider, child) {
+    //     List radioList = [];
+    //     Map<String, bool> choices = provider.monitoring;
+    //     choices.forEach((key, val) {
+    //       radioList.add(RadioListTile(
+    //         activeColor: Colors.lightBlue,
+    //         title: Text(key),
+    //         value: key,
+    //         groupValue: underMonitoringGroupValue,
+    //         onChanged: (value) {
+    //           underMonitoringGroupValue = value!;
+    //           provider.toggleIsUnderMonitoring(underMonitoringGroupValue);
+
+    //           print(provider.monitoring);
+    //         },
+    //       ));
+    //     });
+    //     return Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         for (var r in radioList) r,
+    //       ],
+    //     );
+    //   });
+    // }
+
+    // exposureRadioBuilder() {
+    //   return Consumer<EntryProvider>(builder: (context, provider, child) {
+    //     List radioList = [];
+    //     Map<String, bool> choices = provider.exp;
+    //     choices.forEach((key, val) {
+    //       radioList.add(RadioListTile(
+    //         activeColor: Colors.lightBlue,
+    //         title: Text(key),
+    //         value: key,
+    //         groupValue: exposedGroupValue,
+    //         onChanged: (value) {
+    //           exposedGroupValue = value!;
+    //           provider.toggleIsExposed(exposedGroupValue);
+    //           print(provider.exp);
+    //         },
+    //       ));
+    //     });
+    //     return Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         for (var r in radioList) r,
+    //       ],
+    //     );
+    //   });
+    // }
 
     final submitButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () async {
-          if (exposedGroupValue == null || underMonitoringGroupValue == null) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red.shade900,
-                content: Text('Fill out the required sections.')));
-          } else {
-            Entry? entry = context.read<EntryProvider>().getEntry;
-            entry?.userID = context.read<EntryProvider>().uid;
-            entry?.date = DateTime.now().toString();
-            entry?.isApproved = false;
-            if (context.read<EntryProvider>().monitoring["Yes"] == true) {
-              entry?.isUnderMonitoring = true;
-            } else {
-              entry?.isUnderMonitoring = false;
-            }
+          Entry? entry = context.read<EntryProvider>().getEntry;
+          entry?.userID = context.read<EntryProvider>().uid;
+          DateTime curDate = DateTime.now();
+          entry?.date = curDate.millisecondsSinceEpoch;
+          entry?.isApproved = false;
+          entry?.isExposed = context.read<EntryProvider>().isExposed;
+          entry?.isUnderMonitoring =
+              context.read<EntryProvider>().isUnderMonitoring;
 
-            if (context.read<EntryProvider>().exp["Yes"] == true) {
-              entry?.isExposed = true;
-            } else {
-              entry?.isExposed = false;
-            }
+          List<String> symptomsList = [];
+          Map<String, dynamic> symptomsMap =
+              context.read<EntryProvider>().symptoms;
+          symptomsMap.forEach((key, value) {
+            if (value == true) symptomsList.add(key);
+          });
 
-            List<String> symptomsList = [];
-            Map<String, dynamic> symptomsMap =
-                context.read<EntryProvider>().symptoms;
-            symptomsMap.forEach((key, value) {
-              if (value == true) symptomsList.add(key);
-            });
+          entry?.symptoms = symptomsList;
 
-            entry?.symptoms = symptomsList;
-
-            context.read<EntryProvider>().addEntry(entry!);
-            context.read<EntryProvider>().resetSymptomsMap();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                content: Text('New entry is added.')));
-            Navigator.pop(context);
-          }
-
-          // if (formKey.currentState!.validate()) {
-          //   context.read<UserProvider>().setUserInfo3(emailController.text);
-          //   User? temp = context.read<UserProvider>().getUser;
-          //   temp?.isAdmin = false;
-          //   temp?.isQuarantined = false;
-          //   temp?.isUnderMonitoring = false;
-          //   String uid = await context
-          //       .read<AuthProvider>()
-          //       .signUp(emailController.text, passwordController.text);
-          //   temp?.userID = uid;
-          //   context.read<UserProvider>().addUser(temp!);
-
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => const Homepage(),
-          //     ),
-          //   );
-          // }
+          context.read<EntryProvider>().addEntry(entry!);
+          context.read<EntryProvider>().resetSymptomsMap();
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Color.fromARGB(255, 126, 231, 45),
+              content: Text('New entry is added.')));
+          Navigator.pop(context);
         },
         child: const Text('Submit', style: TextStyle(color: Colors.white)),
       ),
@@ -206,20 +285,27 @@ class HealthEntryState extends State<HealthEntry> {
             child: SingleChildScrollView(
                 child: Column(
               children: [
-                const Text(
-                  "Coronavirus Symptom Monitoring Form",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
-                ),
-                subheading("Do you have any of the following symptoms?"),
-                checkboxBuilder(),
-                subheading(
-                    "Have you been in contact with anyone in the last 14 days who is experiencing these symptoms?"),
-                underMonitoringRadioBuilder(),
-                subheading(
-                    "Have you been in contact with anyone who tested positive for COVID-19?"),
-                exposureRadioBuilder(),
+                Text("How are you feeling today?"),
+                selectorBuilder(),
+                Text("Have you been exposed to any COVID-19 patients?"),
+                exposeSwitch,
+                Text("Are you waiting for RT-PCR results?"),
+                underMonitoringSwitch,
                 submitButton,
+                // const Text(
+                //   "Coronavirus Symptom Monitoring Form",
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(fontSize: 25),
+                // ),
+                // subheading("Do you have any of the following symptoms?"),
+                // checkboxBuilder(),
+                // subheading(
+                //     "Have you been in contact with anyone in the last 14 days who is experiencing these symptoms?"),
+                // underMonitoringRadioBuilder(),
+                // subheading(
+                //     "Have you been in contact with anyone who tested positive for COVID-19?"),
+                // exposureRadioBuilder(),
+                // submitButton,
               ],
             )),
           ),

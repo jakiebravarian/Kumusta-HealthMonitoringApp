@@ -7,16 +7,16 @@ import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
 
-class HealthEntry extends StatefulWidget {
+class EditHealthEntry extends StatefulWidget {
   static const routename = '/addEntry';
 
-  const HealthEntry({super.key});
+  const EditHealthEntry({super.key});
 
   @override
-  HealthEntryState createState() => HealthEntryState();
+  EditHealthEntryState createState() => EditHealthEntryState();
 }
 
-class HealthEntryState extends State<HealthEntry> {
+class EditHealthEntryState extends State<EditHealthEntry> {
   @override
   void initState() {
     super.initState();
@@ -26,17 +26,6 @@ class HealthEntryState extends State<HealthEntry> {
   Widget build(BuildContext context) {
     // var symptoms = context.watch<EntryProvider>().symptoms;
     final formKey = GlobalKey<FormState>();
-
-    // Widget subheading(text) => Align(
-    //       alignment: Alignment.topLeft,
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(15),
-    //         child: Text(
-    //           text,
-    //           style: const TextStyle(fontSize: 18),
-    //         ),
-    //       ),
-    //     );
 
     OutlinedButton outlineButtonBuilder(key, color) => OutlinedButton(
         onPressed: () {
@@ -55,11 +44,10 @@ class HealthEntryState extends State<HealthEntry> {
 
         symptoms.forEach((key, value) {
           Color color;
-          if (value) {
+          if (value)
             color = Colors.purple.shade200;
-          } else {
+          else
             color = Colors.purple.shade100;
-          }
           choices.add(outlineButtonBuilder(key, color));
         });
         return Column(
@@ -114,14 +102,14 @@ class HealthEntryState extends State<HealthEntry> {
 
           entry?.symptoms = symptomsList;
 
-          context.read<EntryProvider>().addEntry(entry!);
+          context.read<EntryProvider>().editEntry(entry!);
           context.read<EntryProvider>().resetSymptomsMap();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               backgroundColor: Color.fromARGB(255, 126, 231, 45),
-              content: Text('New entry is added.')));
+              content: Text('Entry is edited.')));
           Navigator.pop(context);
         },
-        child: const Text('Submit', style: TextStyle(color: Colors.white)),
+        child: const Text('Edit entry', style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -144,20 +132,6 @@ class HealthEntryState extends State<HealthEntry> {
                 Text("Are you waiting for RT-PCR results?"),
                 underMonitoringSwitch,
                 submitButton,
-                // const Text(
-                //   "Coronavirus Symptom Monitoring Form",
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(fontSize: 25),
-                // ),
-                // subheading("Do you have any of the following symptoms?"),
-                // checkboxBuilder(),
-                // subheading(
-                //     "Have you been in contact with anyone in the last 14 days who is experiencing these symptoms?"),
-                // underMonitoringRadioBuilder(),
-                // subheading(
-                //     "Have you been in contact with anyone who tested positive for COVID-19?"),
-                // exposureRadioBuilder(),
-                // submitButton,
               ],
             )),
           ),

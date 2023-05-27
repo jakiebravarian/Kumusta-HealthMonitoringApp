@@ -64,7 +64,7 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
             String uid = await context
                 .read<AuthProvider>()
                 .signUp(emailController.text, passwordController.text);
-            temp?.userID = uid;
+            temp?.uid = uid;
             context.read<UserProvider>().addUser(temp!);
 
             Navigator.of(context).push(

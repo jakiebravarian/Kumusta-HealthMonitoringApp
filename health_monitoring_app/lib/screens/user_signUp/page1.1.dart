@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class UserSignupPage11 extends StatefulWidget {
 
 class _UserSignupPageState11 extends State<UserSignupPage11> {
   List<String> collegeList = <String>[
-    'College of Arts and Sciences(CAS)',
+    'College of Arts and Sciences (CAS)',
     'College of Economics and Management (CEM)',
     'College of Engineering and Agro-Industrial Technology (CEAT)',
     'College of Forestry and Natural Resources (CFNR)',
@@ -39,12 +40,19 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
     TextEditingController stdNumController = TextEditingController();
     TextEditingController courseController = TextEditingController();
     final formKey = GlobalKey<FormState>();
+
     TextFormField formFieldBuilder(controller, hintText, placeholder) {
       return (TextFormField(
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
         ),
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                letterSpacing: -0.5)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your $placeholder.';
@@ -56,6 +64,13 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
     final nextButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF432C81),
+          minimumSize: const Size(327, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             context.read<UserProvider>().setUserInfo11(
@@ -71,37 +86,47 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
       ),
     );
 
-    final backButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.pop(context);
-        },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+    final backButton = IconButton(
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.arrow_back_rounded,
+        color: Color(0xFFA095C1),
       ),
     );
 
-    final dropDownCollege = DropdownButton<String>(
-      value: chosenCollege,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-      underline: Container(
-        height: 2,
-        color: Color.fromARGB(255, 0, 0, 0),
+    final dropDownCollege = InputDecorator(
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: Color(0xFFEDECF4)),
+              borderRadius: BorderRadius.circular(16))),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: chosenCollege,
+          icon: const Icon(Icons.arrow_drop_down, color: Color(0xFFA095C1)),
+          elevation: 16,
+          style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+          onChanged: (String? value) {
+            setState(() {
+              chosenCollege = value!;
+            });
+          },
+          isExpanded: true,
+          items: collegeList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value,
+                  style: GoogleFonts.raleway(
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.5))),
+            );
+          }).toList(),
+        ),
       ),
-      onChanged: (String? value) {
-        setState(() {
-          chosenCollege = value!;
-        });
-      },
-      isExpanded: true,
-      items: collegeList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
 
     return Scaffold(
@@ -113,20 +138,37 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
             shrinkWrap: true,
             padding: const EdgeInsets.only(left: 40.0, right: 40.0),
             children: <Widget>[
-              const Text(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [backButton],
+              ),
+              Text(
                 "Student Information",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
+                style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                        color: Color(0xFF432C81),
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -1)),
+              ),
+              const SizedBox(
+                height: 32,
               ),
               dropDownCollege,
+              const SizedBox(
+                height: 16,
+              ),
               formFieldBuilder(courseController,
                   "Course (ex. BS Computer Science)", "course"),
+              const SizedBox(
+                height: 16,
+              ),
               formFieldBuilder(
                   stdNumController, "Student Number", "student number"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [backButton, nextButton],
-              )
+              const SizedBox(
+                height: 16,
+              ),
+              nextButton
             ],
           ),
         ),

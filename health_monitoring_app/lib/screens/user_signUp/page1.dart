@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/screens/user_signUp/page1.1.dart';
 import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,12 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
         decoration: InputDecoration(
           hintText: hintText,
         ),
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                letterSpacing: -0.5)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your $placeholder.';
@@ -37,6 +44,13 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
     final nextButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF432C81),
+          minimumSize: const Size(327, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             context
@@ -54,40 +68,51 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
       ),
     );
 
-    final backButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.pop(context);
-        },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+    final backButton = IconButton(
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.arrow_back_rounded,
+        color: Color(0xFFA095C1),
       ),
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Form(
-        key: formKey,
-        child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-            children: <Widget>[
-              const Text(
-                "Basic Information",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-              formFieldBuilder(nameController, "Name", "name"),
-              formFieldBuilder(usernameController, "Username", "username"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [backButton, nextButton],
-              )
-            ],
+        backgroundColor: Colors.white,
+        body: Form(
+          key: formKey,
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [backButton],
+                ),
+                Text("Basic Information",
+                    style: GoogleFonts.raleway(
+                        textStyle: const TextStyle(
+                            color: Color(0xFF432C81),
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -1))),
+                const SizedBox(
+                  height: 32,
+                ),
+                formFieldBuilder(nameController, "Name", "name"),
+                const SizedBox(
+                  height: 16,
+                ),
+                formFieldBuilder(usernameController, "Username", "username"),
+                const SizedBox(
+                  height: 16,
+                ),
+                nextButton
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

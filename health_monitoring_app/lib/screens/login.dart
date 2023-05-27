@@ -101,7 +101,14 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
       },
-      child: const Text('Log In', style: TextStyle(color: Colors.white)),
+      child: Text(
+        "Login",
+        style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600)),
+      ),
     );
 
     final signUp = Row(
@@ -138,6 +145,16 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
 
+    final backButton = IconButton(
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.arrow_back_rounded,
+        color: Color(0xFFA095C1),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
@@ -147,6 +164,10 @@ class _LoginPageState extends State<LoginPage> {
             shrinkWrap: true,
             padding: const EdgeInsets.only(left: 40.0, right: 40.0),
             children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [backButton],
+              ),
               Text("Welcome Back!",
                   style: GoogleFonts.raleway(
                       textStyle: const TextStyle(

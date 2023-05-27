@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/models/admin_model.dart';
 import 'package:provider/provider.dart';
 
@@ -72,6 +73,13 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
     final signupButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF432C81),
+          minimumSize: const Size(327, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             Admin temp = Admin(
@@ -90,17 +98,24 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
             if (context.mounted) Navigator.pop(context);
           }
         },
-        child: const Text('Sign up', style: TextStyle(color: Colors.white)),
+        child: Text(
+          "Sign Up",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ),
       ),
     );
 
-    final backButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.pop(context);
-        },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+    final backButton = IconButton(
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.arrow_back_rounded,
+        color: Color(0xFFA095C1),
       ),
     );
 
@@ -113,20 +128,48 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
             shrinkWrap: true,
             padding: const EdgeInsets.only(left: 40.0, right: 40.0),
             children: <Widget>[
-              const Text(
-                "Sign Up",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [backButton],
               ),
-              formFieldBuilder(nameController, "Name", "name"),
+              Text(
+                "Create an Account",
+                style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                        color: Color(0xFF432C81),
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -1)),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              formFieldBuilder(nameController, "Full Name", "name"),
+              const SizedBox(
+                height: 16,
+              ),
               formFieldBuilder(
-                  empNoController, "Employee number", "employee number"),
+                  empNoController, "Employee No.", "employee number"),
+              const SizedBox(
+                height: 16,
+              ),
               formFieldBuilder(positionController, "Position", "position"),
+              const SizedBox(
+                height: 16,
+              ),
               formFieldBuilder(homeUnitController, "Home Unit", "home unit"),
+              const SizedBox(
+                height: 16,
+              ),
               email,
+              const SizedBox(
+                height: 16,
+              ),
               password,
+              const SizedBox(
+                height: 24,
+              ),
               signupButton,
-              backButton
             ],
           ),
         ),

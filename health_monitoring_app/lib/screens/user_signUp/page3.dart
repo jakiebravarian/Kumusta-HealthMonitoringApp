@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/Homepage.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,13 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
     final submitButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF432C81),
+          minimumSize: const Size(327, 42),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             context.read<UserProvider>().setUserInfo3(emailController.text);
@@ -78,13 +86,13 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
       ),
     );
 
-    final backButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.pop(context);
-        },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+    final backButton = IconButton(
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.arrow_back_rounded,
+        color: Color(0xFFA095C1),
       ),
     );
 
@@ -97,12 +105,29 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
             shrinkWrap: true,
             padding: const EdgeInsets.only(left: 40.0, right: 40.0),
             children: <Widget>[
-              email,
-              password,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [backButton, submitButton],
-              )
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [backButton],
+              ),
+              Text("Login Credentials",
+                  style: GoogleFonts.raleway(
+                      textStyle: const TextStyle(
+                          color: Color(0xFF432C81),
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -1))),
+              const SizedBox(
+                height: 32,
+              ),
+              email,
+              const SizedBox(
+                height: 16,
+              ),
+              password,
+              const SizedBox(
+                height: 16,
+              ),
+              submitButton,
             ],
           ),
         ),

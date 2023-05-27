@@ -25,36 +25,23 @@ class FirebaseEntryAPI {
   //   return db.collection("entries").snapshots().where(() => false);
   // }
 
-  // Future<String> deleteTodo(String? id) async {
-  //   try {
-  //     await db.collection("friends").doc(id).delete();
+  Future<String> deleteEntry(String? id) async {
+    try {
+      await db.collection("entries").doc(id).delete();
 
-  //     return "Successfully removed friend!";
-  //   } on FirebaseException catch (e) {
-  //     return "Failed with error '${e.code}: ${e.message}";
-  //   }
-  // }
+      return "Successfully removed friend!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
 
-  // Future<String> editDetails(
-  //     String? id,
-  //     String nickname,
-  //     int age,
-  //     bool relStatus,
-  //     double happinessLevel,
-  //     String superpower,
-  //     String motto) async {
-  //   try {
-  //     await db.collection("friends").doc(id).update({
-  //       "nickname": nickname,
-  //       "age": age,
-  //       "relstatus": relStatus,
-  //       "happinessLevel": happinessLevel,
-  //       "superpower": superpower,
-  //       "motto": motto
-  //     });
-  //     return "Successfully edited details!";
-  //   } on FirebaseException catch (e) {
-  //     return "Failed with error '${e.code}: ${e.message}";
-  //   }
-  // }
+  Future<String> editEntry(Map<String, dynamic> entry) async {
+    print(entry["id"]);
+    try {
+      await db.collection("entries").doc(entry["id"]).update(entry);
+      return "Successfully edited details!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
 }

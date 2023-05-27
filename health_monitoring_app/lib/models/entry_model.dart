@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Entry {
   String? id;
-  String? date;
+  int? date;
   bool? isApproved;
   bool? isExposed;
   bool? isUnderMonitoring;
   List<dynamic>? symptoms;
+
   String? userID;
 
   Entry({
@@ -39,6 +42,7 @@ class Entry {
 
   Map<String, dynamic> toJson(Entry entry) {
     return {
+      'id': entry.id,
       'date': entry.date,
       'isApproved': entry.isApproved,
       'isExposed': entry.isExposed,

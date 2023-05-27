@@ -18,56 +18,129 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
   @override
   void initState() {
     // TODO: implement initState
-    listOfIllnesses = [];
     super.initState();
   }
 
-  static final Map<String, bool> _preExistingIllness = {
-    "Fever (37.8 C and above)": false,
-    "Feeling feverish": false,
-    "Muscle or joint pains": false,
-    "Cough": false,
-    "Colds": false,
-    "Sore throat": false,
-    "Difficulty of breathing": false,
-    "Diarrhea": false,
-    "Loss of taste": false,
-    "Loss of smell": false
-  };
-
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    Widget checkbox(key, value) => CheckboxListTile(
-          value: value,
-          onChanged: (bool? value) {
-            setState(() {
-              value = value!;
-              _preExistingIllness[key] = value!;
-            });
-            print(_preExistingIllness);
-          },
-          title: Text(key),
-        );
+    // gridBuilder() {
+    //   return Consumer<UserProvider>(builder: (context, provider, child) {
+    //     var illnesses = provider.preExistingIllness;
+    //     return GridView.builder(
+    //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    //             crossAxisCount: 2),
+    //         itemCount: 8,
+    //         shrinkWrap: true,
+    //         itemBuilder: (BuildContext context, int index) {
+    //           return Card(
+    //             color: Colors.purple.shade100,
+    //             child: Text(illnesses.keys.first),
+    //           );
+    //         });
+    //   });
+    // }
 
-    List<Widget> checkboxBuilder() {
-      List<Widget> checkboxes = [];
-      _preExistingIllness.forEach((key, value) {
-        checkboxes.add(checkbox(key, value));
+    OutlinedButton outlineButtonBuilderForIllness(key, color) => OutlinedButton(
+        onPressed: () {
+          context.read<UserProvider>().changeValueInPreexistingIllness(key);
+        },
+        child: Text(key),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: color,
+        ));
+
+    OutlinedButton outlineButtonBuilderForAllergies(key, color) =>
+        OutlinedButton(
+            onPressed: () {
+              context.read<UserProvider>().changeValueInAllergies(key);
+            },
+            child: Text(key),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: color,
+            ));
+
+    preIllnessSelectorBuilder() {
+      return Consumer<UserProvider>(builder: (context, provider, child) {
+        List<Widget> choices = [];
+
+        Map<String, bool> preIllness = provider.preExistingIllness;
+
+        preIllness.forEach((key, value) {
+          Color color;
+          if (value) {
+            color = Colors.purple.shade200;
+          } else {
+            color = Colors.purple.shade100;
+          }
+          choices.add(outlineButtonBuilderForIllness(key, color));
+        });
+        return Container(
+          width: 400.0,
+          child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemCount: 8,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                    padding: EdgeInsets.all(5), child: choices[index]);
+              }),
+        );
       });
-      return checkboxes;
+    }
+
+    allergiesSelectorBuilder() {
+      return Consumer<UserProvider>(builder: (context, provider, child) {
+        List<Widget> choices = [];
+
+        Map<String, bool> allergies = provider.allergies;
+
+        allergies.forEach((key, value) {
+          Color color;
+          if (value) {
+            color = Colors.purple.shade200;
+          } else {
+            color = Colors.purple.shade100;
+          }
+          choices.add(outlineButtonBuilderForAllergies(key, color));
+        });
+        return Container(
+          width: 400.0,
+          child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4),
+              itemCount: 5,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                    padding: EdgeInsets.all(5), child: choices[index]);
+              }),
+        );
+      });
     }
 
     final nextButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
-          _preExistingIllness.forEach((key, value) {
+          var listOfPreexistingIllness = [];
+          var listOfAllergies = [];
+          var preIllness = context.read<UserProvider>().preExistingIllness;
+          var allergies = context.read<UserProvider>().allergies;
+          preIllness.forEach((key, value) {
             if (value == true) {
-              listOfIllnesses?.add(key);
+              listOfPreexistingIllness.add(key);
             }
           });
-          context.read<UserProvider>().setUserInfo2(listOfIllnesses);
+
+          preIllness.forEach((key, value) {
+            if (value == true) {
+              listOfAllergies.add(key);
+            }
+          });
+          context
+              .read<UserProvider>()
+              .setUserInfo2(listOfPreexistingIllness, listOfAllergies);
 
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -90,28 +163,19 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Form(
-        key: formKey,
-        child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-            children: <Widget>[
-              const Text(
-                "Do you have any medical issues?",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-              for (var checkbox in checkboxBuilder()) checkbox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [backButton, nextButton],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(
+          children: [
+            Text("Hi ${context.read<UserProvider>().getUser?.name}"),
+            Text("Kindly select preexisting illnesses."),
+            preIllnessSelectorBuilder(),
+            Text("Allergies"),
+            allergiesSelectorBuilder(),
+            backButton,
+            nextButton
+          ],
+        ))));
   }
 }

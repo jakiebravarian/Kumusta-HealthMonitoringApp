@@ -8,11 +8,12 @@ class UserModel {
   String? college;
   String? course;
   String? stdnum;
-  List<String>? illnessList;
+  List<dynamic>? illnessList;
+  List<dynamic>? allergiesList;
   bool? isQuarantined;
   bool? isAdmin;
   bool? isUnderMonitoring;
-  String? userID;
+  String? uid;
 
   UserModel(
       {this.email,
@@ -23,10 +24,11 @@ class UserModel {
       this.course,
       this.stdnum,
       this.illnessList,
+      this.allergiesList,
       this.isQuarantined,
       this.isAdmin,
       this.isUnderMonitoring,
-      this.userID});
+      this.uid});
 
   // Factory constructor to instantiate object from json format
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -39,10 +41,11 @@ class UserModel {
         course: json['course'],
         stdnum: json['studentNum'],
         illnessList: json["illnesses"],
+        allergiesList: json["allergiesList"],
         isQuarantined: json['isQuarantined'],
         isAdmin: json['isAdmin'],
         isUnderMonitoring: json['isUnderMonitoring'],
-        userID: json["uid"]);
+        uid: json["uid"]);
   }
 
   static List<UserModel> fromJsonArray(String jsonData) {
@@ -52,6 +55,7 @@ class UserModel {
 
   Map<String, dynamic> toJson(UserModel user) {
     return {
+      'id': user.id,
       'email': user.email,
       'name': user.name,
       'username': user.username,
@@ -59,10 +63,11 @@ class UserModel {
       'course': user.course,
       'studentNum': user.stdnum,
       'illnesses': user.illnessList,
+      'allergiesList': user.allergiesList,
       'isQuarantined': user.isQuarantined,
       'isAdmin': user.isAdmin,
       'isUnderMonitoring': user.isUnderMonitoring,
-      'uid': user.userID
+      'uid': user.uid
     };
   }
 }

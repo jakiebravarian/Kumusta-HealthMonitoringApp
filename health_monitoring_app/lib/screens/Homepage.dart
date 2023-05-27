@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
 
 import 'package:project_app/providers/user_provider.dart';
+import 'package:project_app/screens/EditEntry.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
@@ -32,11 +34,10 @@ class HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    // Stream<QuerySnapshot> entryStream =
-    //     context.watch<EntryProvider>().entriesData;
-
     Stream<QuerySnapshot> entryStream =
         context.watch<EntryProvider>().entriesData;
+    Stream<QuerySnapshot> userInfoStream =
+        context.watch<UserProvider>().userStream;
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
 
     final addEntryButton = Padding(
@@ -71,70 +72,106 @@ class HomepageState extends State<Homepage> {
           }
 
           return ListView.builder(
+            shrinkWrap: true,
             itemCount: snapshot.data?.docs.length,
             itemBuilder: ((context, index) {
               Entry entry = Entry.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
-              // String formattedDate = DateFormat.yMMMEd().format(now);
-              // DateTime formattedDate = DateTime.parse(entry.date!);
-
+              String formattedDate = DateFormat.yMMMEd().format(
+                  DateTime.fromMicrosecondsSinceEpoch(entry.date! * 1000));
               entry.id = snapshot.data?.docs[index].id;
-              return Dismissible(
-                key: Key(entry.id.toString()),
-                background: Container(
-                  color: Colors.red,
-                  child: const Icon(Icons.delete),
+
+              return ListTile(
+                title: Text("${formattedDate}"),
+                subtitle: Wrap(
+                  children: [
+                    if (entry.symptoms!.isEmpty)
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.deepPurple.shade200,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text("No symptoms.")),
+                    for (var symptom in entry.symptoms!)
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.deepPurple.shade200,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(symptom))
+                  ],
                 ),
-                child: ListTile(
-                  title: Text("Entry: ${entry.date}"),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // FriendsDetails.friend = FriendsData(
-                          //     id: data.id,
-                          //     name: data.name,
-                          //     nickname: data.nickname,
-                          //     age: data.age,
-                          //     relstatus: data.relstatus,
-                          //     happinessLevel: data.happinessLevel,
-                          //     superpower: data.superpower,
-                          //     motto: data.motto);
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        print(entry.id);
 
-                          // Navigator.pushNamed(context, Details.routename);
-                        },
-                        icon: const Icon(Icons.info_outline_rounded),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // EditSlambookForms.friendsInitData = FriendsData(
-                          //     id: data.id,
-                          //     name: data.name,
-                          //     nickname: data.nickname,
-                          //     age: data.age,
-                          //     relstatus: data.relstatus,
-                          //     happinessLevel: data.happinessLevel,
-                          //     superpower: data.superpower,
-                          //     motto: data.motto);
+                        context.read<EntryProvider>().setEntry(entry);
+                        context.read<EntryProvider>().resetSymptomsMap();
+                        entry.symptoms?.forEach((element) {
+                          context
+                              .read<EntryProvider>()
+                              .changeValueInSymptoms(element);
+                        });
+                        if (entry.isExposed!) {
+                          context.read<EntryProvider>().toggleIsExposed();
+                        }
+                        if (entry.isUnderMonitoring!) {
+                          context
+                              .read<EntryProvider>()
+                              .toggleIsUnderMonitoring();
+                        }
 
-                          // Navigator.pushNamed(
-                          //     context, SlambookEdit.routename);
-                        },
-                        icon: const Icon(Icons.create_outlined),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // context.read<FriendsProvider>().deleteTodo(data.id);
-                        },
-                        icon: const Icon(Icons.delete_outlined),
-                      )
-                    ],
-                  ),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const EditHealthEntry(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.edit),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        context.read<EntryProvider>().setEntry(entry);
+                        context.read<EntryProvider>().deleteEntry();
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ],
                 ),
               );
             }),
+          );
+        });
+
+    StreamBuilder userStreamBuilder = StreamBuilder(
+        stream: userInfoStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error encountered! ${snapshot.error}"),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (!snapshot.hasData) {
+            return const Center(
+              child: Text("No Entries Found"),
+            );
+          }
+
+          UserModel user = UserModel.fromJson(
+              snapshot.data?.docs[0].data() as Map<String, dynamic>);
+          return Column(
+            children: <Widget>[
+              Text("Hello ${user.name}"),
+              Text("Welcome Back!"),
+              Expanded(
+                child: entriesListBuilder,
+              )
+            ],
           );
         });
 
@@ -191,9 +228,10 @@ class HomepageState extends State<Homepage> {
                 ],
               ),
             ),
-            body: entriesListBuilder,
+            body: userStreamBuilder,
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
+                  context.read<EntryProvider>().resetSymptomsMap();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const HealthEntry(),
@@ -205,61 +243,3 @@ class HomepageState extends State<Homepage> {
         });
   }
 }
-  // Scaffold displayScaffold(
-  //     BuildContext context, Stream<QuerySnapshot<Object?>> todosStream) {
-  //   return Scaffold(
-  //     drawer: Drawer(
-  //         child: ListView(padding: EdgeInsets.zero, children: [
-  //       ListTile(
-  //         title: const Text('Details'),
-  //         onTap: () {
-  //           // Navigator.push(
-  //           //     context,
-  //           //     MaterialPageRoute(
-  //           //         builder: (context) => const UserDetailsPage()));
-  //         },
-  //       ),
-  //       ListTile(
-  //         title: const Text('Logout'),
-  //         onTap: () {
-  //           context.read<AuthProvider>().signOut();
-  //           Navigator.pop(context);
-  //         },
-  //       ),
-  //     ])),
-  //     appBar: AppBar(
-  //       title: Text("Todo"),
-  //     ),
-  //     body: StreamBuilder(
-  //       stream: todosStream,
-  //       builder: (context, snapshot) {
-  //         if (snapshot.hasError) {
-  //           return Center(
-  //             child: Text("Error encountered! ${snapshot.error}"),
-  //           );
-  //         } else if (snapshot.connectionState == ConnectionState.waiting) {
-  //           return Center(
-  //             child: CircularProgressIndicator(),
-  //           );
-  //         } else if (!snapshot.hasData) {
-  //           return Center(
-  //             child: Text("No Todos Found"),
-  //           );
-  //         }
-
-  //         return entriesList
-  //       }),
-  //     floatingActionButton: FloatingActionButton(
-  //         onPressed: () {
-  //           Navigator.of(context).push(
-  //             MaterialPageRoute(
-  //               builder: (context) => const HealthEntry(),
-  //             ),
-  //           );
-  //         },
-  //         child: Icon(Icons.add)),
-
-
-      // SingleChildScrollView(
-      //   child: Column(children: [entriesListBuilder, addEntryButton]),
-      // );

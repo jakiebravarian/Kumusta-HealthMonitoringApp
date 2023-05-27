@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/providers/entry_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/Homepage.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
@@ -92,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
             // if (context.mounted) Navigator.pop(context);
             context.read<AuthProvider>().fetchAuthentication();
             context.read<EntryProvider>().fetchData(errorCode);
+            context.read<UserProvider>().fetchUser(errorCode);
 
             Navigator.of(context).push(
               MaterialPageRoute(

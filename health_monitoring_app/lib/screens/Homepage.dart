@@ -37,6 +37,8 @@ class HomepageState extends State<Homepage> {
 
     Stream<QuerySnapshot> entryStream =
         context.watch<EntryProvider>().entriesData;
+    Stream<QuerySnapshot> userInfoStream =
+        context.watch<UserProvider>().userStream;
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
 
     final addEntryButton = Padding(
@@ -71,6 +73,7 @@ class HomepageState extends State<Homepage> {
           }
 
           return ListView.builder(
+            shrinkWrap: true,
             itemCount: snapshot.data?.docs.length,
             itemBuilder: ((context, index) {
               Entry entry = Entry.fromJson(
@@ -138,6 +141,35 @@ class HomepageState extends State<Homepage> {
           );
         });
 
+    StreamBuilder userStreamBuilder = StreamBuilder(
+        stream: userInfoStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error encountered! ${snapshot.error}"),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (!snapshot.hasData) {
+            return const Center(
+              child: Text("No Entries Found"),
+            );
+          }
+
+          UserModel user = UserModel.fromJson(
+              snapshot.data?.docs[0].data() as Map<String, dynamic>);
+          return Column(
+            children: <Widget>[
+              Text("Hello ${user.name}"),
+              Expanded(
+                child: entriesListBuilder,
+              )
+            ],
+          );
+        });
+
     return StreamBuilder(
         stream: userStream,
         builder: (context, snapshot) {
@@ -191,7 +223,7 @@ class HomepageState extends State<Homepage> {
                 ],
               ),
             ),
-            body: entriesListBuilder,
+            body: userStreamBuilder,
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).push(

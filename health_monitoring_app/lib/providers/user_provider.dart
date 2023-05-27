@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../api/firebase_user_api.dart';
@@ -5,9 +6,10 @@ import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
-  // late Stream<QuerySnapshot> _todosStream;
+  late Stream<QuerySnapshot> _userStream;
+  Stream<QuerySnapshot> get userStream => _userStream;
 
-  UserModel? user = UserModel();
+  UserModel? user;
 
   UserProvider() {
     firebaseService = FirebaseUserAPI();
@@ -34,10 +36,10 @@ class UserProvider with ChangeNotifier {
     user?.email = email;
   }
 
-  // void fetchTodos() {
-  //   _todosStream = firebaseService.getAllTodos();
-  //   notifyListeners();
-  // }
+  void fetchUser(userID) {
+    _userStream = firebaseService.getUser(userID);
+    notifyListeners();
+  }
 
   void addUser(UserModel user) async {
     String returnValue = await firebaseService.addUser(user.toJson(user));

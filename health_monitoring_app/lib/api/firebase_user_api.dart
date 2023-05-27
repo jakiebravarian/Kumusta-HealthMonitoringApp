@@ -13,4 +13,8 @@ class FirebaseUserAPI {
       return "Failed with error '${e.code}: ${e.message}";
     }
   }
+
+  Stream<QuerySnapshot> getUser(userID) {
+    return db.collection("users").where("uid", isEqualTo: userID).snapshots();
+  }
 }

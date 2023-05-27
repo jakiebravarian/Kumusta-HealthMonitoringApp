@@ -8,7 +8,7 @@ class UserModel {
   String? college;
   String? course;
   String? stdnum;
-  List<String>? illnessList;
+  List<dynamic>? illnessList;
   bool? isQuarantined;
   bool? isAdmin;
   bool? isUnderMonitoring;

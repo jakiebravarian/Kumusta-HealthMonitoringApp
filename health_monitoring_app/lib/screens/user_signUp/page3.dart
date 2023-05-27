@@ -1,14 +1,15 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/screens/Entry.dart';
-import 'package:project_app/screens/Homepage.dart';
+import 'package:project_app/screens/done_signup.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/entry_model.dart';
-import '../../models/user_model.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/user_provider.dart';
+import 'package:project_app/models/user_model.dart';
+
+import 'package:project_app/providers/auth_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
+
+import 'package:project_app/screens/Homepage.dart';
 
 class UserSignupPage3 extends StatefulWidget {
   const UserSignupPage3({super.key});
@@ -77,7 +78,7 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
 
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const Homepage(),
+                builder: (context) => const DoneSignup(),
               ),
             );
           }

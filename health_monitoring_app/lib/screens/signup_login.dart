@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/screens/admin_signup.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
-import 'package:project_app/screens/user_signup.dart';
 
 class SignUpLogin extends StatefulWidget {
   static const routename = '/signup-login2';

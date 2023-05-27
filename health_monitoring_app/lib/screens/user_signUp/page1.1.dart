@@ -1,11 +1,9 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/user_model.dart';
-import '../../providers/user_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
+import 'package:project_app/screens/user_signUp/page2.dart';
 
 class UserSignupPage11 extends StatefulWidget {
   const UserSignupPage11({super.key});
@@ -83,7 +81,12 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
             );
           }
         },
-        child: const Text('Next', style: TextStyle(color: Colors.white)),
+        child: Text('Next',
+            style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600))),
       ),
     );
 

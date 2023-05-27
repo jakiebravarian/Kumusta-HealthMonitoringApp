@@ -1,23 +1,24 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:project_app/providers/auth_provider.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/Entry.dart';
+
 import 'package:project_app/screens/Homepage.dart';
-import 'package:project_app/screens/signup_login.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
-import 'package:provider/provider.dart';
-import '../models/user_model.dart';
-import '../providers/auth_provider.dart';
-import 'admin_signup.dart';
+import 'package:project_app/screens/admin_signup.dart';
 
 class LoginPage extends StatefulWidget {
   static const routename = '/login2';
   final String? userType;
+
   const LoginPage({super.key, this.userType});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }

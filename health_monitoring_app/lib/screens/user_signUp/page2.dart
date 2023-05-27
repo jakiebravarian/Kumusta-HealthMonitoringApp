@@ -1,10 +1,10 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:project_app/screens/user_signUp/page3.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/user_model.dart';
-import '../../providers/user_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
+
+import 'package:project_app/screens/user_signUp/page3.dart';
 
 class UserSignupPage2 extends StatefulWidget {
   const UserSignupPage2({super.key});
@@ -23,41 +23,77 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
 
   @override
   Widget build(BuildContext context) {
-    // gridBuilder() {
-    //   return Consumer<UserProvider>(builder: (context, provider, child) {
-    //     var illnesses = provider.preExistingIllness;
-    //     return GridView.builder(
-    //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //             crossAxisCount: 2),
-    //         itemCount: 8,
-    //         shrinkWrap: true,
-    //         itemBuilder: (BuildContext context, int index) {
-    //           return Card(
-    //             color: Colors.purple.shade100,
-    //             child: Text(illnesses.keys.first),
-    //           );
-    //         });
-    //   });
-    // }
+    String illnessChecker(key) {
+      if (key == "Hypertension") {
+        return ('assets/images/The Lifesavers Blood bag.png');
+      } else if (key == "Diabetes") {
+        return ('assets/images/The Lifesavers Vaccine.png');
+      } else if (key == "Tuberculosis") {
+        return ('assets/images/The Lifesavers Lungs.png');
+      } else if (key == "Cancer") {
+        return ('assets/images/The Lifesavers Medication.png');
+      } else if (key == "Kidney Disease") {
+        return ('assets/images/Lifesavers Kidneys.png');
+      } else if (key == "Cardiac Disease") {
+        return ('assets/images/Lifesavers Heart.png');
+      } else if (key == "Autoimmune Disease") {
+        return ('assets/images/The Lifesavers Virus 1.png');
+      } else {
+        return ('assets/images/The Lifesavers Pills.png');
+      }
+    }
 
-    OutlinedButton outlineButtonBuilderForIllness(key, color) => OutlinedButton(
-        onPressed: () {
-          context.read<UserProvider>().changeValueInPreexistingIllness(key);
-        },
-        child: Text(key),
-        style: OutlinedButton.styleFrom(
-          backgroundColor: color,
-        ));
+    OutlinedButton outlineButtonBuilderForIllness(key, color, textColor) =>
+        OutlinedButton(
+            onPressed: () {
+              context.read<UserProvider>().changeValueInPreexistingIllness(key);
+            },
+            style: OutlinedButton.styleFrom(
+                shadowColor: Colors.black87,
+                elevation: 4,
+                backgroundColor: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                side: BorderSide(color: color, width: 1)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(key,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.raleway(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -.5))),
+                SizedBox(
+                    width: 55,
+                    child: Image.asset(
+                      illnessChecker(key),
+                      fit: BoxFit.fitWidth,
+                    ))
+              ],
+            ));
 
-    OutlinedButton outlineButtonBuilderForAllergies(key, color) =>
+    OutlinedButton outlineButtonBuilderForAllergies(key, color, textColor) =>
         OutlinedButton(
             onPressed: () {
               context.read<UserProvider>().changeValueInAllergies(key);
             },
-            child: Text(key),
             style: OutlinedButton.styleFrom(
-              backgroundColor: color,
-            ));
+                backgroundColor: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+            child: Text(key,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600))));
 
     preIllnessSelectorBuilder() {
       return Consumer<UserProvider>(builder: (context, provider, child) {
@@ -67,25 +103,32 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
 
         preIllness.forEach((key, value) {
           Color color;
+          Color textColor;
           if (value) {
-            color = Colors.purple.shade200;
+            color = const Color(0xFF432C81);
+            textColor = Colors.white;
           } else {
-            color = Colors.purple.shade100;
+            color = Colors.white;
+            textColor = const Color(0xFF432C81);
           }
-          choices.add(outlineButtonBuilderForIllness(key, color));
+          choices.add(outlineButtonBuilderForIllness(key, color, textColor));
         });
-        return Container(
-          width: 400.0,
-          child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
-              itemCount: 8,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                    padding: EdgeInsets.all(5), child: choices[index]);
-              }),
-        );
+        return GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 11,
+              crossAxisCount: 2,
+              childAspectRatio: (1 / .55),
+            ),
+            itemCount: 8,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
+                  child: choices[index]);
+            });
       });
     }
 
@@ -97,31 +140,39 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
 
         allergies.forEach((key, value) {
           Color color;
+          Color textColor;
           if (value) {
-            color = Colors.purple.shade200;
+            color = const Color(0xFF432C81);
+            textColor = Colors.white;
           } else {
-            color = Colors.purple.shade100;
+            color = Colors.white;
+            textColor = const Color(0xFF432C81);
           }
-          choices.add(outlineButtonBuilderForAllergies(key, color));
+          choices.add(outlineButtonBuilderForAllergies(key, color, textColor));
         });
-        return Container(
-          width: 400.0,
-          child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4),
-              itemCount: 5,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                    padding: EdgeInsets.all(5), child: choices[index]);
-              }),
-        );
+        return GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: (1 / .4),
+            ),
+            itemCount: 5,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                  padding: const EdgeInsets.all(5), child: choices[index]);
+            });
       });
     }
 
     final nextButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF432C81),
+            minimumSize: const Size(150, 42),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15))),
         onPressed: () {
           var listOfPreexistingIllness = [];
           var listOfAllergies = [];
@@ -148,17 +199,32 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
             ),
           );
         },
-        child: const Text('Next', style: TextStyle(color: Colors.white)),
+        child: Text("Next",
+            style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600))),
       ),
     );
 
     final backButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            minimumSize: const Size(150, 42),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            side: const BorderSide(color: Color(0xFF432C81), width: 1)),
         onPressed: () async {
           Navigator.pop(context);
         },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+        child: Text('Back',
+            style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFF432C81),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600))),
       ),
     );
 
@@ -168,13 +234,60 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
             child: Center(
                 child: Column(
           children: [
-            Text("Hi ${context.read<UserProvider>().getUser?.name}"),
-            Text("Kindly select preexisting illnesses."),
-            preIllnessSelectorBuilder(),
-            Text("Allergies"),
-            allergiesSelectorBuilder(),
-            backButton,
-            nextButton
+            Padding(
+                padding: const EdgeInsets.fromLTRB(16, 56, 16, 16),
+                child: Column(
+                  children: [
+                    Text("👋 Hi ${context.read<UserProvider>().getUser?.name}!",
+                        style: GoogleFonts.raleway(
+                            textStyle: const TextStyle(
+                                color: Color(0xFF432C81),
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: -0.5))),
+                    Text("Kindly select any pre existing illness you have",
+                        style: GoogleFonts.raleway(
+                            textStyle: const TextStyle(
+                                color: Color(0xFF82799D),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: -0.11))),
+                  ],
+                )),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: const Color(0xFFEDECF4),
+              ),
+              child: Column(
+                children: [
+                  preIllnessSelectorBuilder(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      elevation: 4,
+                      shadowColor: Colors.black87,
+                      child: Column(children: [
+                        const SizedBox(height: 14),
+                        Text("Allergies",
+                            style: GoogleFonts.raleway(
+                                textStyle: const TextStyle(
+                                    color: Color(0xFF432C81),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: -0.11))),
+                        allergiesSelectorBuilder(),
+                      ]),
+                    ),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [backButton, nextButton])
+                ],
+              ),
+            )
           ],
         ))));
   }

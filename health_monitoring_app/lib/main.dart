@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:project_app/models/entry_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_app/screens/done_signup.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/Entry.dart';
-import 'package:project_app/screens/Homepage.dart';
 import 'package:project_app/providers/auth_provider.dart';
 
+import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/signup_login.dart';
 import 'package:project_app/screens/splash_screen.dart';
 import 'package:project_app/screens/welcome.dart';
 import 'package:project_app/screens/login.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'models/user_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +42,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Kumusta',
         initialRoute: '/',
         theme: ThemeData(
@@ -89,6 +87,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => const SplashScreen(),
           '/welcome': (context) => const Welcome(),
           '/signup-login': (context) => const SignUpLogin(),
+          '/done-signup': (context) => const DoneSignup(),
           '/addEntry': (context) => const HealthEntry(),
           '/login': (context) => const LoginPage(),
           '/todo': (context) => const LoginPage(),

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
@@ -91,7 +92,7 @@ class HomepageState extends State<Homepage> {
                           decoration: BoxDecoration(
                               color: Colors.deepPurple.shade200,
                               borderRadius: BorderRadius.circular(10)),
-                          child: Text("No symptoms.")),
+                          child: const Text("No symptoms.")),
                     for (var symptom in entry.symptoms!)
                       Container(
                           decoration: BoxDecoration(
@@ -166,8 +167,20 @@ class HomepageState extends State<Homepage> {
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
           return Column(
             children: <Widget>[
-              Text("Hello ${user.name}"),
-              Text("Welcome Back!"),
+              Text("Hello ${user.name}",
+                  style: GoogleFonts.raleway(
+                      textStyle: const TextStyle(
+                          color: Color(0xFF432C81),
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -1))),
+              Text("Welcome Back!",
+                  style: GoogleFonts.raleway(
+                      textStyle: const TextStyle(
+                          color: Color(0xFF82799D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.11))),
               Expanded(
                 child: entriesListBuilder,
               )
@@ -220,7 +233,7 @@ class HomepageState extends State<Homepage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginPage(),
+                            builder: (context) => const LoginPage(),
                           ));
                       context.read<AuthProvider>().signOut();
                     },
@@ -230,6 +243,7 @@ class HomepageState extends State<Homepage> {
             ),
             body: userStreamBuilder,
             floatingActionButton: FloatingActionButton(
+                backgroundColor: const Color(0xFFFEC62F),
                 onPressed: () {
                   context.read<EntryProvider>().resetSymptomsMap();
                   Navigator.of(context).push(
@@ -238,7 +252,10 @@ class HomepageState extends State<Homepage> {
                     ),
                   );
                 },
-                child: Icon(Icons.add)),
+                child: const Icon(
+                  Icons.add,
+                  color: Color(0xFF432C81),
+                )),
           );
         });
   }

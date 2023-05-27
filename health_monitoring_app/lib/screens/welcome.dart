@@ -84,7 +84,7 @@ class WelcomeState extends State<Welcome> {
           "Admin",
           style: GoogleFonts.raleway(
               textStyle: const TextStyle(
-                  color: Color(0xFF2635B7),
+                  color: Color(0xFF432C81),
                   fontSize: 16,
                   fontWeight: FontWeight.w600)),
         ));
@@ -106,7 +106,7 @@ class WelcomeState extends State<Welcome> {
           "Employee",
           style: GoogleFonts.raleway(
               textStyle: const TextStyle(
-                  color: Color(0xFF2635B7),
+                  color: Color(0xFF432C81),
                   fontSize: 16,
                   fontWeight: FontWeight.w600)),
         ));

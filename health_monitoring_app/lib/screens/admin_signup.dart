@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/models/admin_model.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/admin_provider.dart';
-import '../providers/auth_provider.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:project_app/models/admin_model.dart';
+
+import 'package:project_app/providers/admin_provider.dart';
+import 'package:project_app/providers/auth_provider.dart';
 
 class AdminSignupPage extends StatefulWidget {
   const AdminSignupPage({super.key});

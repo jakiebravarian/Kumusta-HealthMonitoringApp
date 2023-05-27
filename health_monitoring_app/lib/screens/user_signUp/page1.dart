@@ -1,12 +1,10 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/screens/user_signUp/page1.1.dart';
-import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../../models/user_model.dart';
-import '../../providers/user_provider.dart';
+import 'package:project_app/providers/user_provider.dart';
+
+import 'package:project_app/screens/user_signUp/page1.1.dart';
 
 class UserSignupPage1 extends StatefulWidget {
   const UserSignupPage1({super.key});
@@ -64,7 +62,12 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
             );
           }
         },
-        child: const Text('Next', style: TextStyle(color: Colors.white)),
+        child: Text('Next',
+            style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600))),
       ),
     );
 

@@ -82,6 +82,17 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+    _preExistingIllness.forEach((key, value) {
+      _preExistingIllness[key] = false;
+    });
+    _allergies.forEach((key, value) {
+      _allergies[key] = false;
+    });
+
+    notifyListeners();
+  }
+
   // void editTodo(int index, String newTitle) {
   //   // _todoList[index].title = newTitle;
   //   print("Edit");

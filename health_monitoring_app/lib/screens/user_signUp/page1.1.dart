@@ -60,6 +60,7 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
           if (formKey.currentState!.validate()) {
             context.read<UserProvider>().setUserInfo11(
                 chosenCollege, courseController.text, stdNumController.text);
+            context.read<UserProvider>().reset();
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const UserSignupPage2(),

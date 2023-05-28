@@ -14,6 +14,9 @@
     health and well-being. This app is your reliable companion, providing essential features to help you monitor, 
     track, and manage your health during these challenging times.
 
+## App Features:
+Figma Layout: https://www.figma.com/file/llJ1yhEslLIpgVJJCwugpG/KUMUSTA-APP?type=design&node-id=0%3A1&t=ZNDXqeinXd7PDORx-1
+
 ## Things done in the code: 
    1. User-type authentication
    2. Admin-type authentication

@@ -196,15 +196,16 @@ class AdminHomepageState extends State<AdminHomepage> {
           }
           // if user is logged in, display the scaffold containing the streambuilder for the todos
 
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+          return SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 56, 0, 0),
-                      child: Text("🔍 UPLB's Stat",
+                      child: Text("🔍  UPLB's Stat",
                           style: GoogleFonts.raleway(
                               textStyle: const TextStyle(
                                   color: Color(0xFF432C81),
@@ -249,13 +250,13 @@ class AdminHomepageState extends State<AdminHomepage> {
                                 outlinedButtonBuilder(
                                     "Quarantined Students\n", "quarantined"),
                                 outlinedButtonBuilder(
-                                    "Under Monitoring Students\n", "monitoring")
+                                    "Under Monitored Students\n", "monitoring")
                               ]),
                           const SizedBox(
                             height: 24,
                           ),
                         ]))
-              ]);
+              ]));
           // floatingActionButton: FloatingActionButton(
           //     backgroundColor: const Color(0xFFFEC62F),
           //     onPressed: () {

@@ -64,27 +64,74 @@ class UnderMonitoringStudentsPageState
 
               user.id = snapshot.data?.docs[index].id;
 
-              return ListTile(
-                title: Text("${user.name}"),
-                subtitle: Wrap(
+              return Container(
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF432C81), width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    OutlinedButton(
-                        onPressed: () {
-                          context
-                              .read<UserProvider>()
-                              .editUnderMonitoringStatus(user.id, false);
-                        },
-                        child: Text("End Monitoring")),
-                    OutlinedButton(
-                        onPressed: () {
-                          context
-                              .read<UserProvider>()
-                              .editUnderMonitoringStatus(user.id, false);
-                          context
-                              .read<UserProvider>()
-                              .editQuarantineStatus(user.id, true);
-                        },
-                        child: Text("Quarantine"))
+                    SizedBox(
+                        width: 73,
+                        child: Image.asset(
+                          'assets/images/Lifesavers Avatar.png',
+                          fit: BoxFit.fitWidth,
+                        )),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Wrap(spacing: -8, direction: Axis.vertical, children: [
+                      Text("${user.name}"),
+                      Wrap(spacing: 4, children: [
+                        OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor: Color(0xFF89CB87),
+                                minimumSize: const Size(90, 24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                side: const BorderSide(
+                                    color: Color(0xFF432C81), width: 1)),
+                            onPressed: () {
+                              context
+                                  .read<UserProvider>()
+                                  .editUnderMonitoringStatus(user.id, false);
+                            },
+                            child: Text("End Monitoring",
+                                style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                        color: Color(0xFF432C81),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400)))),
+                        OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor: Color(0xFFEB5858),
+                                minimumSize: const Size(90, 24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                side: const BorderSide(
+                                    color: Color(0xFF432C81), width: 1)),
+                            onPressed: () {
+                              context
+                                  .read<UserProvider>()
+                                  .editUnderMonitoringStatus(user.id, false);
+                              context
+                                  .read<UserProvider>()
+                                  .editQuarantineStatus(user.id, true);
+                            },
+                            child: Text("Quarantine",
+                                style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                        color: Color(0xFF432C81),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400))))
+                      ])
+                    ])
                   ],
                 ),
               );
@@ -93,13 +140,45 @@ class UnderMonitoringStudentsPageState
         });
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Under Monitoring Students"),
-        ),
-        body: Column(
-          children: [
-            quarantinedListBuilder,
-          ],
-        ));
+        body: SingleChildScrollView(
+            physics: const ScrollPhysics(),
+            child: Column(
+              children: [
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 54, 0, 0),
+                      child: IconButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFFA095C1),
+                        ),
+                      ))
+                ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
+                        child: Text("🏠  Under Monitored Students",
+                            style: GoogleFonts.raleway(
+                                textStyle: const TextStyle(
+                                    color: Color(0xFF432C81),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: -0.5)))),
+                  ],
+                ),
+                SizedBox(
+                    width: 198,
+                    child: Image.asset(
+                      'assets/images/Lifesavers Waiting.png',
+                      fit: BoxFit.fitWidth,
+                    )),
+                quarantinedListBuilder,
+              ],
+            )));
   }
 }

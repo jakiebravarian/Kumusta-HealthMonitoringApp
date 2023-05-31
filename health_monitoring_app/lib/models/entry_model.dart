@@ -13,30 +13,21 @@ class Entry {
   bool? editRequest;
   bool? deleteRequest;
   List<dynamic>? symptoms;
-  String? editReason;
-  String? deleteReason;
-  String? submittedBy;
-  String? stdnum;
 
   String? userID;
 
-  Entry({
-    this.id,
-    this.date,
-    this.isApproved,
-    this.isExposed,
-    this.isUnderMonitoring,
-    this.symptoms,
-    this.userID,
-    this.isEditApproved,
-    this.isDeleteApproved,
-    this.editRequest,
-    this.deleteRequest,
-    this.editReason,
-    this.deleteReason,
-    this.submittedBy,
-    this.stdnum,
-  });
+  Entry(
+      {this.id,
+      this.date,
+      this.isApproved,
+      this.isExposed,
+      this.isUnderMonitoring,
+      this.symptoms,
+      this.userID,
+      this.isEditApproved,
+      this.isDeleteApproved,
+      this.editRequest,
+      this.deleteRequest});
 
   // Factory constructor to instantiate object from json format
   factory Entry.fromJson(Map<String, dynamic> json) {
@@ -52,10 +43,6 @@ class Entry {
       isDeleteApproved: json["isDeleteApproved"],
       editRequest: json["editRequest"],
       deleteRequest: json["deleteRequest"],
-      editReason: json["editReason"],
-      deleteReason: json["deleteReason"],
-      submittedBy: json["submittedBy"],
-      stdnum: json["stdnum"],
     );
   }
 
@@ -77,10 +64,6 @@ class Entry {
       'isDeleteApproved': entry.isDeleteApproved,
       'editRequest': entry.editRequest,
       'deleteRequest': entry.deleteRequest,
-      'editReason': entry.editReason,
-      'deleteReason': entry.deleteReason,
-      'submittedBy': entry.submittedBy,
-      'stdnum': entry.stdnum,
     };
   }
 }

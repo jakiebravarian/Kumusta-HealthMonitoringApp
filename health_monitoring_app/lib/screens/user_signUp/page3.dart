@@ -66,29 +66,21 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             context.read<UserProvider>().setUserInfo3(emailController.text);
-            UserModel? user = context.read<UserProvider>().getUser;
-            user?.isAdmin = false;
-            user?.isQuarantined = false;
-            user?.isUnderMonitoring = false;
-
+            UserModel? temp = context.read<UserProvider>().getUser;
+            temp?.isAdmin = false;
+            temp?.isQuarantined = false;
+            temp?.isUnderMonitoring = false;
             String uid = await context
                 .read<AuthProvider>()
                 .signUp(emailController.text, passwordController.text);
-            if (uid == "email-already-in-use") {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                  content: Text('The account already exists for that email.')));
-            } else {
-              user?.uid = uid;
+            temp?.uid = uid;
+            context.read<UserProvider>().addUser(temp!);
 
-              context.read<UserProvider>().addUser(user!);
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const DoneSignup(),
-                ),
-              );
-            }
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const DoneSignup(),
+              ),
+            );
           }
         },
         child: const Text('Submit', style: TextStyle(color: Colors.white)),

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +10,6 @@ class UserProvider with ChangeNotifier {
   late Stream<QuerySnapshot> _allUserStream;
 
   UserModel? user = UserModel();
-  UserModel? admin = UserModel();
 
   static final Map<String, bool> _preExistingIllness = {
     "Hypertension": false,
@@ -46,7 +43,6 @@ class UserProvider with ChangeNotifier {
   Stream<QuerySnapshot> get allUserStream => _allUserStream;
 
   UserModel? get getUser => user;
-  UserModel? get getAdminUser => admin;
 
   void setUserInfo1(name, username) {
     user?.name = name;

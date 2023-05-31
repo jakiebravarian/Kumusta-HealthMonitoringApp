@@ -1,14 +1,20 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
 
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/AllStudentsPage.dart';
+import 'package:project_app/screens/EditEntry.dart';
+import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/UnderMonitoringStudentsPage.dart';
+import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user_model.dart';
@@ -36,7 +42,6 @@ class AdminHomepageState extends State<AdminHomepage> {
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
-
     StreamBuilder allUsersListBuilder = StreamBuilder(
         stream: allUserStream,
         builder: (context, snapshot) {
@@ -175,64 +180,97 @@ class AdminHomepageState extends State<AdminHomepage> {
               ))));
     }
 
-    return SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 56, 0, 0),
-                child: Text("🔍  UPLB's Stat",
-                    style: GoogleFonts.raleway(
-                        textStyle: const TextStyle(
-                            color: Color(0xFF432C81),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: -0.5))),
-              )
-            ],
-          ),
-          SizedBox(
-              width: 198,
-              child: Image.asset(
-                'assets/images/Lifesavers Organs.png',
-                fit: BoxFit.fitWidth,
-              )),
-          Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                color: Color(0xFFEDECF4),
-              ),
+    return StreamBuilder(
+        stream: userStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error encountered! ${snapshot.error}"),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (!snapshot.hasData) {
+            return const LoginPage();
+          }
+          // if user is logged in, display the scaffold containing the streambuilder for the todos
+
+          return SingleChildScrollView(
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      height: 24,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 56, 0, 0),
+                      child: Text("🔍  UPLB's Stat",
+                          style: GoogleFonts.raleway(
+                              textStyle: const TextStyle(
+                                  color: Color(0xFF432C81),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.5))),
+                    )
+                  ],
+                ),
+                SizedBox(
+                    width: 198,
+                    child: Image.asset(
+                      'assets/images/Lifesavers Organs.png',
+                      fit: BoxFit.fitWidth,
+                    )),
+                Container(
+                    decoration: const BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30)),
+                      color: Color(0xFFEDECF4),
                     ),
-                    Row(
+                    child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          outlinedButtonBuilder("View All\nStudents\n", "all"),
-                          outlinedButtonBuilder(
-                              "Students' Requests\n", "request"),
-                        ]),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          outlinedButtonBuilder(
-                              "Quarantined Students\n", "quarantined"),
-                          outlinedButtonBuilder(
-                              "Under Monitored Students\n", "monitoring")
-                        ]),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                  ]))
-        ]));
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                outlinedButtonBuilder(
+                                    "View All\nStudents\n", "all"),
+                                outlinedButtonBuilder(
+                                    "Students' Requests\n", "request"),
+                              ]),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                outlinedButtonBuilder(
+                                    "Quarantined Students\n", "quarantined"),
+                                outlinedButtonBuilder(
+                                    "Under Monitored Students\n", "monitoring")
+                              ]),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                        ]))
+              ]));
+          // floatingActionButton: FloatingActionButton(
+          //     backgroundColor: const Color(0xFFFEC62F),
+          //     onPressed: () {
+          //       context.read<EntryProvider>().resetSymptomsMap();
+          //       Navigator.of(context).push(
+          //         MaterialPageRoute(
+          //           builder: (context) => const HealthEntry(),
+          //         ),
+          //       );
+          //     },
+          //     child: const Icon(
+          //       Icons.add,
+          //       color: Color(0xFF432C81),
+          //     )),
+        });
   }
 }

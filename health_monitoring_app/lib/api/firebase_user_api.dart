@@ -33,10 +33,7 @@ class FirebaseUserAPI {
   }
 
   Stream<QuerySnapshot> getAllUsers() {
-    return db
-        .collection("users")
-        .where("usertype", isEqualTo: "Student")
-        .snapshots();
+    return db.collection("users").snapshots();
   }
 
   Future<String> editUnderMonitoringStatus(id, bool status) async {

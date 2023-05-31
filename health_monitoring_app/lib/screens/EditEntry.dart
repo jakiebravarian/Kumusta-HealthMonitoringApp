@@ -105,7 +105,6 @@ class EditHealthEntryState extends State<EditHealthEntry> {
           context.read<EntryProvider>().editEntry(entry!);
 
           context.read<EntryProvider>().resetSymptomsMap();
-          context.read<EntryProvider>().toggleIsEditApproved(entry.id, false);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               backgroundColor: Color.fromARGB(255, 126, 231, 45),
               content: Text('Entry is edited.')));

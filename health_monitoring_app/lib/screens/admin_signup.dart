@@ -2,9 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:project_app/models/user_model.dart';
-import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -74,50 +71,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
           }
         });
 
-    // final signupButton = Padding(
-    //   padding: const EdgeInsets.symmetric(vertical: 16.0),
-    //   child: ElevatedButton(
-    //     style: ElevatedButton.styleFrom(
-    //       backgroundColor: const Color(0xFF432C81),
-    //       minimumSize: const Size(327, 42),
-    //       shape: RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.circular(15),
-    //       ),
-    //     ),
-    //     onPressed: () async {
-    //       if (formKey.currentState!.validate()) {
-    //         UserModel temp = UserModel(
-    //           email: emailController.text,
-    //           name: nameController.text,
-    //           empno: empNoController.text,
-    //           position: positionController.text,
-    //           homeUnit: homeUnitController.text,
-    //           usertype: "Admin",
-    //           isAdmin: true,
-    //           isQuarantined: false,
-    //           isUnderMonitoring: false,
-    //         );
-
-    //         String uid = await context
-    //             .read<AuthProvider>()
-    //             .signUp(emailController.text, passwordController.text);
-    //         temp.uid = uid;
-    //         context.read<UserProvider>().addUser(temp);
-    //         if (context.mounted) Navigator.pop(context);
-    //       }
-    //     },
-    //     child: Text(
-    //       "Sign Up",
-    //       style: GoogleFonts.raleway(
-    //           textStyle: const TextStyle(
-    //               color: Color(0xFFFFFFFF),
-    //               fontSize: 16,
-    //               fontWeight: FontWeight.w600)),
-    //     ),
-    //   ),
-    // );
-
-    final nextButton = Padding(
+    final signupButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -129,30 +83,30 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
         ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
-            UserModel? admin = context.read<UserProvider>().getUser;
-            admin?.email = emailController.text;
-            admin?.name = nameController.text;
-            admin?.empno = empNoController.text;
-            admin?.position = positionController.text;
-            admin?.homeUnit = homeUnitController.text;
-            admin?.usertype = "Admin";
-            admin?.isAdmin = true;
-            admin?.isQuarantined = false;
-            admin?.isUnderMonitoring = false;
-
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const UserSignupPage2(),
-              ),
+            Admin temp = Admin(
+              email: emailController.text,
+              name: nameController.text,
+              empNo: int.parse(empNoController.text),
+              position: positionController.text,
+              homeUnit: homeUnitController.text,
             );
+
+            String uid = await context
+                .read<AuthProvider>()
+                .signUp(emailController.text, passwordController.text);
+            temp?.uid = uid;
+            context.read<AdminProvider>().addAdmin(temp);
+            if (context.mounted) Navigator.pop(context);
           }
         },
-        child: Text('Next',
-            style: GoogleFonts.raleway(
-                textStyle: const TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600))),
+        child: Text(
+          "Sign Up",
+          style: GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600)),
+        ),
       ),
     );
 
@@ -208,16 +162,15 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
               const SizedBox(
                 height: 16,
               ),
-              nextButton,
-              // email,
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              // password,
-              // const SizedBox(
-              //   height: 24,
-              // ),
-              // signupButton,
+              email,
+              const SizedBox(
+                height: 16,
+              ),
+              password,
+              const SizedBox(
+                height: 24,
+              ),
+              signupButton,
             ],
           ),
         ),

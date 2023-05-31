@@ -158,18 +158,6 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void editApprovalReason(id, reason) async {
-    String message = await firebaseService.editApprovalReason(id, reason);
-    print(message);
-    notifyListeners();
-  }
-
-  void deleteApprovalReason(id, reason) async {
-    String message = await firebaseService.deleteApprovalReason(id, reason);
-    print(message);
-    notifyListeners();
-  }
-
   // void isEditApprovedListenable(id) {
   //   _specificEntryStream = firebaseService.getOneEntry(id);
   //   notifyListeners();

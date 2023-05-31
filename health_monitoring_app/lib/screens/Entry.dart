@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/models/entry_model.dart';
-import 'package:project_app/models/user_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/screens/Homepage.dart';
 import 'package:provider/provider.dart';
@@ -97,12 +96,8 @@ class HealthEntryState extends State<HealthEntry> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () async {
-          UserModel? user = context.read<UserProvider>().getUser;
-
           Entry? entry = context.read<EntryProvider>().getEntry;
           entry?.userID = context.read<EntryProvider>().uid;
-          entry?.submittedBy = user?.name;
-          entry?.stdnum = user?.stdnum;
           DateTime curDate = DateTime.now();
           entry?.date = curDate.millisecondsSinceEpoch;
           entry?.isApproved = false;

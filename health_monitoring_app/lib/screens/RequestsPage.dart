@@ -53,74 +53,32 @@ class RequestsPageState extends State<RequestsPage> {
               entry.id = snapshot.data?.docs[index].id;
 
               return ListTile(
-                title: Text("${entry.submittedBy}"),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                title: Text("${entry.id}"),
+                subtitle: Wrap(
                   children: [
-                    Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Student Number: ${entry.stdnum}"),
-                          Text("Entry id: ${entry.id}"),
-                          Text("Reason: ${entry.editReason}"),
-                        ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OutlinedButton(
-                            onPressed: () {
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleIsEditApproved(entry.id, true);
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleforEditApproval(entry.id, false);
-                            },
-                            child: Text("Approve")),
-                        OutlinedButton(
-                            onPressed: () {
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleIsEditApproved(entry.id, false);
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleforEditApproval(entry.id, false);
-                            },
-                            child: Text("Reject"))
-                      ],
-                    )
+                    OutlinedButton(
+                        onPressed: () {
+                          context
+                              .read<EntryProvider>()
+                              .toggleIsEditApproved(entry.id, true);
+                          context
+                              .read<EntryProvider>()
+                              .toggleforEditApproval(entry.id, false);
+                        },
+                        child: Text("Approve")),
+                    OutlinedButton(
+                        onPressed: () {
+                          context
+                              .read<EntryProvider>()
+                              .toggleIsEditApproved(entry.id, false);
+                          context
+                              .read<EntryProvider>()
+                              .toggleforEditApproval(entry.id, false);
+                        },
+                        child: Text("Reject"))
                   ],
                 ),
               );
-              // return ListTile(
-              //   title: Text("${entry.id}"),
-              //   subtitle: Row(
-              //     children: [
-              //       Text(entry.editReason!),
-              //       OutlinedButton(
-              //           onPressed: () {
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleIsEditApproved(entry.id, true);
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleforEditApproval(entry.id, false);
-              //           },
-              //           child: Text("Approve")),
-              //       OutlinedButton(
-              //           onPressed: () {
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleIsEditApproved(entry.id, false);
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleforEditApproval(entry.id, false);
-              //           },
-              //           child: Text("Reject"))
-              //     ],
-              //   ),
-              // );
             }),
           );
         });
@@ -152,43 +110,29 @@ class RequestsPageState extends State<RequestsPage> {
               entry.id = snapshot.data?.docs[index].id;
 
               return ListTile(
-                title: Text("${entry.submittedBy}"),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                title: Text("${entry.id}"),
+                subtitle: Wrap(
                   children: [
-                    Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Student Number: ${entry.stdnum}"),
-                          Text("Entry id: ${entry.id}"),
-                          Text("Reason: ${entry.deleteReason}"),
-                        ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OutlinedButton(
-                            onPressed: () {
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleIsDeleteApproved(entry.id, true);
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleforDeleteApproval(entry.id, false);
-                            },
-                            child: Text("Approve")),
-                        OutlinedButton(
-                            onPressed: () {
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleIsDeleteApproved(entry.id, false);
-                              context
-                                  .read<EntryProvider>()
-                                  .toggleforDeleteApproval(entry.id, false);
-                            },
-                            child: Text("Reject"))
-                      ],
-                    )
+                    OutlinedButton(
+                        onPressed: () {
+                          context
+                              .read<EntryProvider>()
+                              .toggleIsDeleteApproved(entry.id, true);
+                          context
+                              .read<EntryProvider>()
+                              .toggleforDeleteApproval(entry.id, false);
+                        },
+                        child: Text("Approve")),
+                    OutlinedButton(
+                        onPressed: () {
+                          context
+                              .read<EntryProvider>()
+                              .toggleIsDeleteApproved(entry.id, false);
+                          context
+                              .read<EntryProvider>()
+                              .toggleforDeleteApproval(entry.id, false);
+                        },
+                        child: Text("Reject"))
                   ],
                 ),
               );

@@ -96,6 +96,8 @@ class HealthEntryState extends State<HealthEntry> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () async {
+          print(context.read<UserProvider>().getUser!.name);
+
           Entry? entry = context.read<EntryProvider>().getEntry;
           entry?.userID = context.read<EntryProvider>().uid;
           DateTime curDate = DateTime.now();

@@ -42,6 +42,7 @@ class AdminHomepageState extends State<AdminHomepage> {
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
+
     StreamBuilder allUsersListBuilder = StreamBuilder(
         stream: allUserStream,
         builder: (context, snapshot) {
@@ -161,81 +162,88 @@ class AdminHomepageState extends State<AdminHomepage> {
           )));
     }
 
-    return StreamBuilder(
-        stream: userStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error encountered! ${snapshot.error}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (!snapshot.hasData) {
-            return const LoginPage();
-          }
-          // if user is logged in, display the scaffold containing the streambuilder for the todos
+    return Column(children: [
+      outlinedButtonBuilder("View All Students", "all"),
+      outlinedButtonBuilder("View Quarantined Students", "quarantined"),
+      outlinedButtonBuilder("View Under Monitoring Students", "monitoring"),
+      outlinedButtonBuilder("View Students Requests", "request"),
+    ]);
 
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("UPLB's stat"),
-            ),
-            drawer: Drawer(
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                    ),
-                    child: const Text('Profile'),
-                  ),
-                  ListTile(
-                      //tileColor: Colors.white,
-                      leading: const Icon(
-                        Icons.book_outlined,
-                      ),
-                      title: const Text('Profile'),
-                      onTap: () {}),
-                  ListTile(
-                    leading: const Icon(Icons.person_rounded),
-                    title: const Text('Sign out'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ));
-                      context.read<AuthProvider>().signOut();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            body: Column(children: [
-              outlinedButtonBuilder("View All Students", "all"),
-              outlinedButtonBuilder("View Quarantined Students", "quarantined"),
-              outlinedButtonBuilder(
-                  "View Under Monitoring Students", "monitoring"),
-              outlinedButtonBuilder("View Students Requests", "request"),
-            ]),
-            // floatingActionButton: FloatingActionButton(
-            //     backgroundColor: const Color(0xFFFEC62F),
-            //     onPressed: () {
-            //       context.read<EntryProvider>().resetSymptomsMap();
-            //       Navigator.of(context).push(
-            //         MaterialPageRoute(
-            //           builder: (context) => const HealthEntry(),
-            //         ),
-            //       );
-            //     },
-            //     child: const Icon(
-            //       Icons.add,
-            //       color: Color(0xFF432C81),
-            //     )),
-          );
-        });
+    // StreamBuilder(
+    //     stream: userStream,
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Center(
+    //           child: Text("Error encountered! ${snapshot.error}"),
+    //         );
+    //       } else if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return const Center(
+    //           child: CircularProgressIndicator(),
+    //         );
+    //       } else if (!snapshot.hasData) {
+    //         return const LoginPage();
+    //       }
+    //       // if user is logged in, display the scaffold containing the streambuilder for the todos
+
+    //       return Scaffold(
+    //         appBar: AppBar(
+    //           title: const Text("UPLB's stat"),
+    //         ),
+    //         drawer: Drawer(
+    //           child: ListView(
+    //             // Important: Remove any padding from the ListView.
+    //             padding: EdgeInsets.zero,
+    //             children: [
+    //               DrawerHeader(
+    //                 decoration: BoxDecoration(
+    //                   color: Colors.green.shade100,
+    //                 ),
+    //                 child: const Text('Profile'),
+    //               ),
+    //               ListTile(
+    //                   //tileColor: Colors.white,
+    //                   leading: const Icon(
+    //                     Icons.book_outlined,
+    //                   ),
+    //                   title: const Text('Profile'),
+    //                   onTap: () {}),
+    //               ListTile(
+    //                 leading: const Icon(Icons.person_rounded),
+    //                 title: const Text('Sign out'),
+    //                 onTap: () {
+    //                   Navigator.push(
+    //                       context,
+    //                       MaterialPageRoute(
+    //                         builder: (context) => const LoginPage(),
+    //                       ));
+    //                   context.read<AuthProvider>().signOut();
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         body: Column(children: [
+    //           outlinedButtonBuilder("View All Students", "all"),
+    //           outlinedButtonBuilder("View Quarantined Students", "quarantined"),
+    //           outlinedButtonBuilder(
+    //               "View Under Monitoring Students", "monitoring"),
+    //           outlinedButtonBuilder("View Students Requests", "request"),
+    //         ]),
+    //         // floatingActionButton: FloatingActionButton(
+    //         //     backgroundColor: const Color(0xFFFEC62F),
+    //         //     onPressed: () {
+    //         //       context.read<EntryProvider>().resetSymptomsMap();
+    //         //       Navigator.of(context).push(
+    //         //         MaterialPageRoute(
+    //         //           builder: (context) => const HealthEntry(),
+    //         //         ),
+    //         //       );
+    //         //     },
+    //         //     child: const Icon(
+    //         //       Icons.add,
+    //         //       color: Color(0xFF432C81),
+    //         //     )),
+    //       );
+    //     });
   }
 }

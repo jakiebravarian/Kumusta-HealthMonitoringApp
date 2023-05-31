@@ -107,20 +107,11 @@ class _LoginPageState extends State<LoginPage> {
             // UserModel user = UserModel.fromJson(
             //     snapshot.data?.docs[0].data() as Map<String, dynamic>);
 
-            if (user == "Admin") {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const AdminHomepage(),
-                ),
-              );
-            } else if (user == "Employee") {
-            } else {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const Homepage(),
-                ),
-              );
-            }
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const Homepage(),
+              ),
+            );
           }
         }
       },

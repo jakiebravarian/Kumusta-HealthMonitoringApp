@@ -1,23 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:project_app/models/entry_model.dart';
-import 'package:project_app/providers/entry_provider.dart';
-
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/EditEntry.dart';
-import 'package:project_app/screens/Entry.dart';
-import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
-
 import '../models/user_model.dart';
-
-import '../providers/auth_provider.dart';
 
 class AllStudentsPage extends StatefulWidget {
   const AllStudentsPage({super.key});

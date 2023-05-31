@@ -118,6 +118,32 @@ class FirebaseEntryAPI {
     }
   }
 
+  Future<String> editApprovalReason(entryID, String reason) async {
+    print(entryID);
+    try {
+      await db
+          .collection("entries")
+          .doc(entryID)
+          .update({"editReason": reason});
+      return "Successfully sent reason for edit";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
+  Future<String> deleteApprovalReason(entryID, String reason) async {
+    print(entryID);
+    try {
+      await db
+          .collection("entries")
+          .doc(entryID)
+          .update({"deleteReason": reason});
+      return "Successfully sent reason for delete";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
   // Future<String> isEditApprovedListenable(id) async {
   //   print(id);
   //   try {

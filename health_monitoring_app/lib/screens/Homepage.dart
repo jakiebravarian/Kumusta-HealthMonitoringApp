@@ -41,6 +41,7 @@ class HomepageState extends State<Homepage> {
     Stream<QuerySnapshot> userInfoStream =
         context.watch<UserProvider>().userStream;
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
+    TextEditingController messageContoller = TextEditingController();
 
     final addEntryButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -55,6 +56,57 @@ class HomepageState extends State<Homepage> {
         child: const Text('Add Entry', style: TextStyle(color: Colors.white)),
       ),
     );
+
+    void showInputDialog(entry, reason) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          String userInput = '';
+
+          return AlertDialog(
+            title: Text('Reason for ${reason}'),
+            content: TextField(
+              controller: messageContoller,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Perform the action with the user input
+                  // For example, you can print it to the console
+                  if (reason == "editing") {
+                    context
+                        .read<EntryProvider>()
+                        .toggleforEditApproval(entry.id, true);
+                    context
+                        .read<EntryProvider>()
+                        .editApprovalReason(entry.id, messageContoller.text);
+                  } else if (reason == "deleting") {
+                    context
+                        .read<EntryProvider>()
+                        .toggleforDeleteApproval(entry.id, true);
+                    context
+                        .read<EntryProvider>()
+                        .deleteApprovalReason(entry.id, messageContoller.text);
+                  }
+
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      backgroundColor: Color.fromARGB(255, 126, 231, 45),
+                      content: Text('Request sent.'))); // Close the dialog
+                },
+                child: Text('Send Request'),
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     trailingEditButton(entry) {
       if (entry.isEditApproved) {
@@ -85,10 +137,7 @@ class HomepageState extends State<Homepage> {
       } else {
         return OutlinedButton(
           onPressed: () {
-            context.read<EntryProvider>().toggleforEditApproval(entry.id, true);
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                content: Text('Edit request sent.')));
+            showInputDialog(entry, "editing");
           },
           child: const Text("Request Edit"),
         );
@@ -107,9 +156,7 @@ class HomepageState extends State<Homepage> {
       } else {
         return OutlinedButton(
           onPressed: () {
-            context
-                .read<EntryProvider>()
-                .toggleforDeleteApproval(entry.id, true);
+            showInputDialog(entry, "deleting");
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Color.fromARGB(255, 126, 231, 45),
                 content: Text('Delete request sent.')));

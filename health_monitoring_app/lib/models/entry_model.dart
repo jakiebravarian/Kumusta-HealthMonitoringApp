@@ -15,6 +15,8 @@ class Entry {
   List<dynamic>? symptoms;
   String? editReason;
   String? deleteReason;
+  String? submittedBy;
+  String? stdnum;
 
   String? userID;
 
@@ -32,24 +34,29 @@ class Entry {
     this.deleteRequest,
     this.editReason,
     this.deleteReason,
+    this.submittedBy,
+    this.stdnum,
   });
 
   // Factory constructor to instantiate object from json format
   factory Entry.fromJson(Map<String, dynamic> json) {
     return Entry(
-        id: json['id'],
-        date: json['date'],
-        isApproved: json['isApporved'],
-        isExposed: json['isExposed'],
-        isUnderMonitoring: json['isUnderMonitoring'],
-        symptoms: json['symptoms'],
-        userID: json['userID'],
-        isEditApproved: json["isEditApproved"],
-        isDeleteApproved: json["isDeleteApproved"],
-        editRequest: json["editRequest"],
-        deleteRequest: json["deleteRequest"],
-        editReason: json["editReason"],
-        deleteReason: json["deleteReason"]);
+      id: json['id'],
+      date: json['date'],
+      isApproved: json['isApporved'],
+      isExposed: json['isExposed'],
+      isUnderMonitoring: json['isUnderMonitoring'],
+      symptoms: json['symptoms'],
+      userID: json['userID'],
+      isEditApproved: json["isEditApproved"],
+      isDeleteApproved: json["isDeleteApproved"],
+      editRequest: json["editRequest"],
+      deleteRequest: json["deleteRequest"],
+      editReason: json["editReason"],
+      deleteReason: json["deleteReason"],
+      submittedBy: json["submittedBy"],
+      stdnum: json["stdnum"],
+    );
   }
 
   static List<Entry> fromJsonArray(String jsonData) {
@@ -72,6 +79,8 @@ class Entry {
       'deleteRequest': entry.deleteRequest,
       'editReason': entry.editReason,
       'deleteReason': entry.deleteReason,
+      'submittedBy': entry.submittedBy,
+      'stdnum': entry.stdnum,
     };
   }
 }

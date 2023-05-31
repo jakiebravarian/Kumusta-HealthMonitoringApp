@@ -1,9 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:project_app/models/admin_model.dart';
-import 'package:project_app/providers/admin_provider.dart';
-import 'package:project_app/screens/Admin_Homepage.dart';
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (!EmailValidator.validate(value)) {
             return 'Invalid email address.';
           }
+          return null;
         });
 
     final password = TextFormField(
@@ -72,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (value.toString().length < 6) {
             return 'Invalid password';
           }
+          return null;
         });
 
     final loginButton = ElevatedButton(
@@ -100,8 +99,10 @@ class _LoginPageState extends State<LoginPage> {
             // if (context.mounted) Navigator.pop(context);
 
             context.read<AuthProvider>().fetchAuthentication();
+            context.read<UserProvider>().fetchUser(errorCode);
+            context.read<EntryProvider>().fetchData(errorCode);
+
             if (user == "Admin") {
-              context.read<AdminProvider>().fetchAdmin(errorCode);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const AdminNav(),
@@ -109,9 +110,6 @@ class _LoginPageState extends State<LoginPage> {
               );
             } else if (user == "Employee") {
             } else {
-              context.read<EntryProvider>().fetchData(errorCode);
-              context.read<UserProvider>().fetchUser(errorCode);
-
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const Homepage(),

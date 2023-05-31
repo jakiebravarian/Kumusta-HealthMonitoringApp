@@ -6,6 +6,8 @@ import 'package:project_app/providers/user_provider.dart';
 
 import 'package:project_app/screens/user_signUp/page3.dart';
 
+import '../../models/user_model.dart';
+
 class UserSignupPage2 extends StatefulWidget {
   const UserSignupPage2({super.key});
   @override
@@ -189,6 +191,7 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
               listOfAllergies.add(key);
             }
           });
+
           context
               .read<UserProvider>()
               .setUserInfo2(listOfPreexistingIllness, listOfAllergies);

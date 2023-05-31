@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../models/user_model.dart';
 
 import '../providers/auth_provider.dart';
+import 'Admin_Homepage.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -195,6 +196,11 @@ class HomepageState extends State<Homepage> {
           UserModel user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
 
+          if (user.usertype == "Admin") {
+            return const AdminHomepage();
+          } else if (user.usertype == "Employee") {
+            return const AdminHomepage();
+          }
           return Column(
             children: <Widget>[
               Text("Hello ${user.name}",

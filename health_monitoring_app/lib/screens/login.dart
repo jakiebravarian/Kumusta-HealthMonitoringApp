@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/screens/Admin_Homepage.dart';
@@ -14,6 +15,8 @@ import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/Homepage.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:project_app/screens/admin_signup.dart';
+
+import '../models/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   static const routename = '/login2';
@@ -97,8 +100,14 @@ class _LoginPageState extends State<LoginPage> {
             // if (context.mounted) Navigator.pop(context);
 
             context.read<AuthProvider>().fetchAuthentication();
+            context.read<UserProvider>().fetchUser(errorCode);
+            context.read<EntryProvider>().fetchData(errorCode);
+            // Stream<QuerySnapshot> userInfoStream =
+            //     context.watch<UserProvider>().userStream;
+            // UserModel user = UserModel.fromJson(
+            //     snapshot.data?.docs[0].data() as Map<String, dynamic>);
+
             if (user == "Admin") {
-              context.read<AdminProvider>().fetchAdmin(errorCode);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const AdminHomepage(),
@@ -106,9 +115,6 @@ class _LoginPageState extends State<LoginPage> {
               );
             } else if (user == "Employee") {
             } else {
-              context.read<EntryProvider>().fetchData(errorCode);
-              context.read<UserProvider>().fetchUser(errorCode);
-
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const Homepage(),

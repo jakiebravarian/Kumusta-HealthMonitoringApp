@@ -184,7 +184,7 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
             }
           });
 
-          preIllness.forEach((key, value) {
+          allergies.forEach((key, value) {
             if (value == true) {
               listOfAllergies.add(key);
             }

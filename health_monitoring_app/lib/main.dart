@@ -47,6 +47,18 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            backgroundColor: Color(0xFFEDECF4),
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            unselectedIconTheme: IconThemeData(
+              color: Color(0xFFA095C1),
+            ),
+            selectedIconTheme: IconThemeData(
+              color: Color(0xFF432C81),
+            ),
+          ),
           inputDecorationTheme: InputDecorationTheme(
             fillColor: Colors.white,
             filled: true,

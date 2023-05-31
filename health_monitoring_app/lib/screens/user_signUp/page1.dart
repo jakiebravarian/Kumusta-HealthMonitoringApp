@@ -104,7 +104,7 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
                 const SizedBox(
                   height: 32,
                 ),
-                formFieldBuilder(nameController, "Name", "name"),
+                formFieldBuilder(nameController, "Full Name", "name"),
                 const SizedBox(
                   height: 16,
                 ),

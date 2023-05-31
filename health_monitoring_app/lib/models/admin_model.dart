@@ -7,6 +7,7 @@ class Admin {
   int empNo;
   String position;
   String homeUnit;
+  String? uid;
 
   Admin({
     required this.email,
@@ -15,18 +16,19 @@ class Admin {
     required this.empNo,
     required this.position,
     required this.homeUnit,
+    this.uid,
   });
 
   // Factory constructor to instantiate object from json format
   factory Admin.fromJson(Map<String, dynamic> json) {
     return Admin(
-      email: json['email'],
-      id: json['id'],
-      name: json['name'],
-      empNo: json['empNo'],
-      position: json['position'],
-      homeUnit: json['homeUnit'],
-    );
+        email: json['email'],
+        id: json['id'],
+        name: json['name'],
+        empNo: json['empNo'],
+        position: json['position'],
+        homeUnit: json['homeUnit'],
+        uid: json["uid"]);
   }
 
   static List<Admin> fromJsonArray(String jsonData) {
@@ -41,6 +43,7 @@ class Admin {
       'empNo': admin.empNo,
       'position': admin.position,
       'homeUnit': admin.homeUnit,
+      'uid': admin.uid
     };
   }
 }

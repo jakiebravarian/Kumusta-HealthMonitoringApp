@@ -113,7 +113,8 @@ class HealthEntryState extends State<HealthEntry> {
           });
 
           entry?.symptoms = symptomsList;
-
+          entry?.isEditApproved = false;
+          entry?.isDeleteApproved = false;
           context.read<EntryProvider>().addEntry(entry!);
           context.read<EntryProvider>().resetSymptomsMap();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

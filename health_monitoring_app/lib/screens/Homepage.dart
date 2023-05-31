@@ -55,6 +55,69 @@ class HomepageState extends State<Homepage> {
       ),
     );
 
+    trailingEditButton(entry) {
+      if (entry.isEditApproved) {
+        return OutlinedButton(
+          onPressed: () {
+            print(entry.id);
+
+            context.read<EntryProvider>().setEntry(entry);
+            context.read<EntryProvider>().resetSymptomsMap();
+            entry.symptoms?.forEach((element) {
+              context.read<EntryProvider>().changeValueInSymptoms(element);
+            });
+            if (entry.isExposed!) {
+              context.read<EntryProvider>().toggleIsExposed();
+            }
+            if (entry.isUnderMonitoring!) {
+              context.read<EntryProvider>().toggleIsUnderMonitoring();
+            }
+
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const EditHealthEntry(),
+              ),
+            );
+          },
+          child: const Text("Edit"),
+        );
+      } else {
+        return OutlinedButton(
+          onPressed: () {
+            context.read<EntryProvider>().toggleforEditApproval(entry.id, true);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Color.fromARGB(255, 126, 231, 45),
+                content: Text('Edit request sent.')));
+          },
+          child: const Text("Request Edit"),
+        );
+      }
+    }
+
+    trailingDeleteButton(entry) {
+      if (entry.isDeleteApproved) {
+        return OutlinedButton(
+          onPressed: () {
+            context.read<EntryProvider>().setEntry(entry);
+            context.read<EntryProvider>().deleteEntry();
+          },
+          child: const Text("Delete"),
+        );
+      } else {
+        return OutlinedButton(
+          onPressed: () {
+            context
+                .read<EntryProvider>()
+                .toggleforDeleteApproval(entry.id, true);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Color.fromARGB(255, 126, 231, 45),
+                content: Text('Delete request sent.')));
+          },
+          child: const Text("Request Delete"),
+        );
+      }
+    }
+
     StreamBuilder entriesListBuilder = StreamBuilder(
         stream: entryStream,
         builder: (context, snapshot) {
@@ -84,64 +147,30 @@ class HomepageState extends State<Homepage> {
               entry.id = snapshot.data?.docs[index].id;
 
               return ListTile(
-                title: Text("${formattedDate}"),
-                subtitle: Wrap(
-                  children: [
-                    if (entry.symptoms!.isEmpty)
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.deepPurple.shade200,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Text("No symptoms.")),
-                    for (var symptom in entry.symptoms!)
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.deepPurple.shade200,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(symptom))
-                  ],
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        print(entry.id);
-
-                        context.read<EntryProvider>().setEntry(entry);
-                        context.read<EntryProvider>().resetSymptomsMap();
-                        entry.symptoms?.forEach((element) {
-                          context
-                              .read<EntryProvider>()
-                              .changeValueInSymptoms(element);
-                        });
-                        if (entry.isExposed!) {
-                          context.read<EntryProvider>().toggleIsExposed();
-                        }
-                        if (entry.isUnderMonitoring!) {
-                          context
-                              .read<EntryProvider>()
-                              .toggleIsUnderMonitoring();
-                        }
-
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const EditHealthEntry(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.edit),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        context.read<EntryProvider>().setEntry(entry);
-                        context.read<EntryProvider>().deleteEntry();
-                      },
-                      icon: const Icon(Icons.delete),
-                    ),
-                  ],
-                ),
-              );
+                  title: Text("${formattedDate}"),
+                  subtitle: Wrap(
+                    children: [
+                      if (entry.symptoms!.isEmpty)
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.deepPurple.shade200,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Text("No symptoms.")),
+                      for (var symptom in entry.symptoms!)
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.deepPurple.shade200,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(symptom))
+                    ],
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      trailingEditButton(entry),
+                      trailingDeleteButton(entry)
+                    ],
+                  ));
             }),
           );
         });
@@ -165,6 +194,7 @@ class HomepageState extends State<Homepage> {
 
           UserModel user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
+
           return Column(
             children: <Widget>[
               Text("Hello ${user.name}",

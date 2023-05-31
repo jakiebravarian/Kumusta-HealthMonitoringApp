@@ -8,19 +8,26 @@ class Entry {
   bool? isApproved;
   bool? isExposed;
   bool? isUnderMonitoring;
+  bool? isEditApproved;
+  bool? isDeleteApproved;
+  bool? editRequest;
+  bool? deleteRequest;
   List<dynamic>? symptoms;
 
   String? userID;
 
-  Entry({
-    this.id,
-    this.date,
-    this.isApproved,
-    this.isExposed,
-    this.isUnderMonitoring,
-    this.symptoms,
-    this.userID,
-  });
+  Entry(
+      {this.id,
+      this.date,
+      this.isApproved,
+      this.isExposed,
+      this.isUnderMonitoring,
+      this.symptoms,
+      this.userID,
+      this.isEditApproved,
+      this.isDeleteApproved,
+      this.editRequest,
+      this.deleteRequest});
 
   // Factory constructor to instantiate object from json format
   factory Entry.fromJson(Map<String, dynamic> json) {
@@ -32,6 +39,10 @@ class Entry {
       isUnderMonitoring: json['isUnderMonitoring'],
       symptoms: json['symptoms'],
       userID: json['userID'],
+      isEditApproved: json["isEditApproved"],
+      isDeleteApproved: json["isDeleteApproved"],
+      editRequest: json["editRequest"],
+      deleteRequest: json["deleteRequest"],
     );
   }
 
@@ -49,6 +60,10 @@ class Entry {
       'isUnderMonitoring': entry.isUnderMonitoring,
       'symptoms': entry.symptoms,
       'userID': entry.userID,
+      'isEditApproved': entry.isEditApproved,
+      'isDeleteApproved': entry.isDeleteApproved,
+      'editRequest': entry.editRequest,
+      'deleteRequest': entry.deleteRequest,
     };
   }
 }

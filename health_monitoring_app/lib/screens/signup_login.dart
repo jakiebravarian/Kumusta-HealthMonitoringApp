@@ -122,6 +122,7 @@ class SignUpLoginState extends State<SignUpLogin> {
   @override
   Widget build(BuildContext context) {
     String user = widget.userType.toString();
+    print(user);
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(

@@ -13,6 +13,20 @@ class EntryProvider with ChangeNotifier {
   late Stream<QuerySnapshot> _entriesStream;
   Stream<QuerySnapshot> get entriesData => _entriesStream;
 
+  late Stream<QuerySnapshot> _allEntriesStream;
+  Stream<QuerySnapshot> get allEntriesStream => _allEntriesStream;
+
+  late Stream<QuerySnapshot> _streamOfEntriesRequestingForEdit;
+  Stream<QuerySnapshot> get streamOfEntriesRequestingForEdit =>
+      _streamOfEntriesRequestingForEdit;
+
+  late Stream<QuerySnapshot> _streamOfEntriesRequestingForDelete;
+  Stream<QuerySnapshot> get streamOfEntriesRequestingForDelete =>
+      _streamOfEntriesRequestingForDelete;
+
+  // late Stream<QuerySnapshot> _specificEntryStream;
+  // Stream<QuerySnapshot> get specificEntryStream => _specificEntryStream;
+
   Map<String, bool> symptomsMap = {
     "Fever (37.8 C and above)": false,
     "Feeling feverish": false,
@@ -44,6 +58,8 @@ class EntryProvider with ChangeNotifier {
     firebaseService = FirebaseEntryAPI();
     firebaseAuth = FirebaseAuthAPI();
     fetchData(uid);
+    fetchEntriesRequestingForDelete();
+    fetchEntriesRequestingForEdit();
   }
 
   void changeValueInSymptoms(key) {
@@ -77,8 +93,25 @@ class EntryProvider with ChangeNotifier {
   }
 
   fetchData(userID) {
-    _entriesStream = firebaseService.getAllEntries(userID);
+    _entriesStream = firebaseService.getEntries(userID);
     _uid = userID;
+    notifyListeners();
+  }
+
+  fetchAllData() {
+    _allEntriesStream = firebaseService.getAllEntries();
+    notifyListeners();
+  }
+
+  fetchEntriesRequestingForEdit() {
+    _streamOfEntriesRequestingForEdit =
+        firebaseService.getEntriesRequestingForEdit();
+    notifyListeners();
+  }
+
+  fetchEntriesRequestingForDelete() {
+    _streamOfEntriesRequestingForDelete =
+        firebaseService.getEntriesRequestingForDelete();
     notifyListeners();
   }
 
@@ -100,6 +133,35 @@ class EntryProvider with ChangeNotifier {
     print(message);
     notifyListeners();
   }
+
+  void toggleIsEditApproved(id, status) async {
+    String message = await firebaseService.toggleIsEditApproved(id, status);
+    print(message);
+    notifyListeners();
+  }
+
+  void toggleIsDeleteApproved(id, status) async {
+    String message = await firebaseService.toggleIsDeleteApproved(id, status);
+    print(message);
+    notifyListeners();
+  }
+
+  void toggleforEditApproval(id, status) async {
+    String message = await firebaseService.toggleforEditApproval(id, status);
+    print(message);
+    notifyListeners();
+  }
+
+  void toggleforDeleteApproval(id, status) async {
+    String message = await firebaseService.toggleforDeleteApproval(id, status);
+    print(message);
+    notifyListeners();
+  }
+
+  // void isEditApprovedListenable(id) {
+  //   _specificEntryStream = firebaseService.getOneEntry(id);
+  //   notifyListeners();
+  // }
 
   // void toggleStatus(int index, bool status) {
   //   // _todoList[index].completed = status;

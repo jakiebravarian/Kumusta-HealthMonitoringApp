@@ -103,6 +103,7 @@ class EditHealthEntryState extends State<EditHealthEntry> {
           entry?.symptoms = symptomsList;
 
           context.read<EntryProvider>().editEntry(entry!);
+
           context.read<EntryProvider>().resetSymptomsMap();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               backgroundColor: Color.fromARGB(255, 126, 231, 45),

@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:project_app/providers/admin_provider.dart';
+import 'package:project_app/screens/Admin_Homepage.dart';
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,15 +95,26 @@ class _LoginPageState extends State<LoginPage> {
                 content: const Text('Email and password does not match.')));
           } else {
             // if (context.mounted) Navigator.pop(context);
-            context.read<AuthProvider>().fetchAuthentication();
-            context.read<EntryProvider>().fetchData(errorCode);
-            context.read<UserProvider>().fetchUser(errorCode);
 
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const Homepage(),
-              ),
-            );
+            context.read<AuthProvider>().fetchAuthentication();
+            if (user == "Admin") {
+              context.read<AdminProvider>().fetchAdmin(errorCode);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AdminHomepage(),
+                ),
+              );
+            } else if (user == "Employee") {
+            } else {
+              context.read<EntryProvider>().fetchData(errorCode);
+              context.read<UserProvider>().fetchUser(errorCode);
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
+            }
           }
         }
       },

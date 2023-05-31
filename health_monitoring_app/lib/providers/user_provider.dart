@@ -7,6 +7,7 @@ import '../models/user_model.dart';
 class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
   late Stream<QuerySnapshot> _userStream;
+  late Stream<QuerySnapshot> _allUserStream;
 
   UserModel? user = UserModel();
 
@@ -32,10 +33,14 @@ class UserProvider with ChangeNotifier {
   UserProvider() {
     firebaseService = FirebaseUserAPI();
     fetchUser("");
+    fetchAllUsers();
+    fetchQuarantinedUsers();
+    fetchUnderMonitoringUsers();
   }
   Map<String, bool> get preExistingIllness => _preExistingIllness;
   Map<String, bool> get allergies => _allergies;
   Stream<QuerySnapshot> get userStream => _userStream;
+  Stream<QuerySnapshot> get allUserStream => _allUserStream;
 
   UserModel? get getUser => user;
 
@@ -61,6 +66,21 @@ class UserProvider with ChangeNotifier {
 
   void fetchUser(userID) {
     _userStream = firebaseService.getUser(userID);
+    notifyListeners();
+  }
+
+  void fetchAllUsers() {
+    _allUserStream = firebaseService.getAllUsers();
+    notifyListeners();
+  }
+
+  void fetchQuarantinedUsers() {
+    _allUserStream = firebaseService.getQuarantinedUsers();
+    notifyListeners();
+  }
+
+  void fetchUnderMonitoringUsers() {
+    _allUserStream = firebaseService.getUnderMonitoringUsers();
     notifyListeners();
   }
 
@@ -90,6 +110,19 @@ class UserProvider with ChangeNotifier {
       _allergies[key] = false;
     });
 
+    notifyListeners();
+  }
+
+  void editUnderMonitoringStatus(id, status) async {
+    String message =
+        await firebaseService.editUnderMonitoringStatus(id, status);
+    print(message);
+    notifyListeners();
+  }
+
+  void editQuarantineStatus(id, status) async {
+    String message = await firebaseService.editQuarantineStatus(id, status);
+    print(message);
     notifyListeners();
   }
 

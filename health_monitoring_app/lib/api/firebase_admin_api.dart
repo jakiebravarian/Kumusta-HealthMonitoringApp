@@ -13,4 +13,8 @@ class FirebaseAdminAPI {
       return "Failed with error '${e.code}: ${e.message}";
     }
   }
+
+  Stream<QuerySnapshot> getAdmin(userID) {
+    return db.collection("admin").where("uid", isEqualTo: userID).snapshots();
+  }
 }

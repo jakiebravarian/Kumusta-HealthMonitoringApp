@@ -90,12 +90,12 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
               position: positionController.text,
               homeUnit: homeUnitController.text,
             );
-            context.read<AdminProvider>().addAdmin(temp);
 
-            await context
+            String uid = await context
                 .read<AuthProvider>()
                 .signUp(emailController.text, passwordController.text);
-
+            temp?.uid = uid;
+            context.read<AdminProvider>().addAdmin(temp);
             if (context.mounted) Navigator.pop(context);
           }
         },

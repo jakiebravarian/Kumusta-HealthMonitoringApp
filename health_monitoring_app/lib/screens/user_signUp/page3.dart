@@ -118,7 +118,7 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [backButton],
               ),
-              Text("Login Credentials",
+              Text("SignUp Credentials",
                   style: GoogleFonts.raleway(
                       textStyle: const TextStyle(
                           color: Color(0xFF432C81),

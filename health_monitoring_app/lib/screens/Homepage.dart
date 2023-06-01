@@ -15,7 +15,7 @@ import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/ProfiePage.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
-
+import 'Employee_Homepage.dart';
 import '../models/user_model.dart';
 
 import '../providers/auth_provider.dart';
@@ -250,7 +250,7 @@ class HomepageState extends State<Homepage> {
           if (user?.usertype == "Admin") {
             return const AdminHomepage();
           } else if (user?.usertype == "Employee") {
-            return const AdminHomepage();
+            return const EmployeeHomepage();
           }
           return Column(
             children: <Widget>[

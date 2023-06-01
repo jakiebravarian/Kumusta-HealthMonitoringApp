@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+
+//pass 
 class QRCodeGenerator extends StatelessWidget {
   UserModel user;
 

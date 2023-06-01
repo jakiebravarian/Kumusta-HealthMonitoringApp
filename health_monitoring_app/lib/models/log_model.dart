@@ -13,14 +13,13 @@ class Log {
 
   static List<Log> fromJsonArray(String jsonData) {
     final Iterable<dynamic> data = jsonDecode(jsonData);
-    return data.map<Log>((dynamic d) => UserModel.fromJson(d)).toList();
+    return data.map<Log>((dynamic d) => Log.fromJson(d)).toList();
   }
 
-  Map<String, dynamic> toJson(Log user) {
+  Map<String, dynamic> toJson(Log log) {
     return {
-      '': user.id,
-  
-      'uid': user.uid,
-
+      'date': log.date,
+      'uid': log.uid,
+    };
   }
 }

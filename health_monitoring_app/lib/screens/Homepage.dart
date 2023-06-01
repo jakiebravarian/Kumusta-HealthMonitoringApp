@@ -12,6 +12,7 @@ import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/EditEntry.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/ProfiePage.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class Homepage extends StatefulWidget {
 }
 
 class HomepageState extends State<Homepage> {
+  UserModel? user;
   @override
   void initState() {
     // TODO: implement initState
@@ -42,6 +44,8 @@ class HomepageState extends State<Homepage> {
         context.watch<UserProvider>().userStream;
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
     TextEditingController messageContoller = TextEditingController();
+
+    UserModel? user;
 
     final addEntryButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -240,17 +244,17 @@ class HomepageState extends State<Homepage> {
             );
           }
 
-          UserModel user = UserModel.fromJson(
+          user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
 
-          if (user.usertype == "Admin") {
+          if (user?.usertype == "Admin") {
             return const AdminHomepage();
-          } else if (user.usertype == "Employee") {
+          } else if (user?.usertype == "Employee") {
             return const AdminHomepage();
           }
           return Column(
             children: <Widget>[
-              Text("Hello ${user.name}",
+              Text("Hello ${user?.name}",
                   style: GoogleFonts.raleway(
                       textStyle: const TextStyle(
                           color: Color(0xFF432C81),
@@ -308,7 +312,13 @@ class HomepageState extends State<Homepage> {
                         Icons.book_outlined,
                       ),
                       title: const Text('Profile'),
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(user: user!),
+                            ));
+                      }),
                   ListTile(
                     leading: const Icon(Icons.person_rounded),
                     title: const Text('Sign out'),

@@ -33,6 +33,8 @@ class UserProvider with ChangeNotifier {
     "Others": false
   };
 
+
+
   UserProvider() {
     firebaseService = FirebaseUserAPI();
     fetchUser("");
@@ -40,6 +42,12 @@ class UserProvider with ChangeNotifier {
     fetchQuarantinedUsers();
     fetchUnderMonitoringUsers();
   }
+
+
+
+
+
+
   Map<String, bool> get preExistingIllness => _preExistingIllness;
   Map<String, bool> get allergies => _allergies;
   Stream<QuerySnapshot> get userStream => _userStream;

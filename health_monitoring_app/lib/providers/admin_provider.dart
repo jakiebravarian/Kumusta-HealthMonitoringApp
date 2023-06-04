@@ -1,16 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../api/firebase_admin_api.dart';
 import '../models/admin_model.dart';
 
 class AdminProvider with ChangeNotifier {
   late FirebaseAdminAPI firebaseService;
+  late Stream<QuerySnapshot> _adminStream;
+
   // late Stream<QuerySnapshot> _todosStream;
   // Todo? _selectedTodo;
 
   AdminProvider() {
     firebaseService = FirebaseAdminAPI();
+    fetchAdmin("");
   }
 
+  Stream<QuerySnapshot> get adminStream => _adminStream;
   // getter
   // Stream<QuerySnapshot> get todos => _todosStream;
   // Todo get selected => _selectedTodo!;
@@ -27,6 +32,11 @@ class AdminProvider with ChangeNotifier {
   void addAdmin(Admin admin) async {
     String message = await firebaseService.addAdmin(admin.toJson(admin));
     print(message);
+    notifyListeners();
+  }
+
+  void fetchAdmin(userID) {
+    _adminStream = firebaseService.getAdmin(userID);
     notifyListeners();
   }
 

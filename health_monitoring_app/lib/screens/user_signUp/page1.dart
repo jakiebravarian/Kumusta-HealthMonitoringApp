@@ -6,6 +6,8 @@ import 'package:project_app/providers/user_provider.dart';
 
 import 'package:project_app/screens/user_signUp/page1.1.dart';
 
+import '../../models/user_model.dart';
+
 class UserSignupPage1 extends StatefulWidget {
   const UserSignupPage1({super.key});
   @override
@@ -51,9 +53,13 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
         ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
-            context
-                .read<UserProvider>()
-                .setUserInfo1(nameController.text, usernameController.text);
+            UserModel? user = context.read<UserProvider>().getUser;
+            user?.name = nameController.text;
+            user?.username = usernameController.text;
+
+            // context
+            //     .read<UserProvider>()
+            //     .setUserInfo1(nameController.text, usernameController.text);
 
             Navigator.of(context).push(
               MaterialPageRoute(

@@ -8,18 +8,13 @@ import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:project_app/models/admin_model.dart';
-
-import 'package:project_app/providers/admin_provider.dart';
-import 'package:project_app/providers/auth_provider.dart';
-
-class AdminSignupPage extends StatefulWidget {
-  const AdminSignupPage({super.key});
+class EmployeeSignupPage extends StatefulWidget {
+  const EmployeeSignupPage({super.key});
   @override
-  _AdminSignupPageState createState() => _AdminSignupPageState();
+  _EmployeePageState createState() => _EmployeePageState();
 }
 
-class _AdminSignupPageState extends State<AdminSignupPage> {
+class _EmployeePageState extends State<EmployeeSignupPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -135,8 +130,8 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
             admin?.empno = empNoController.text;
             admin?.position = positionController.text;
             admin?.homeUnit = homeUnitController.text;
-            admin?.usertype = "Admin";
-            admin?.isAdmin = true;
+            admin?.usertype = "Employee";
+            admin?.isAdmin = false;
             admin?.isQuarantined = false;
             admin?.isUnderMonitoring = false;
 

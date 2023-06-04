@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/screens/admin_signup.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
+import 'Employee_Homepage.dart';
+import 'Employee_SignupPage.dart';
 
 class SignUpLogin extends StatefulWidget {
   static const routename = '/signup-login2';
@@ -67,10 +69,17 @@ class SignUpLoginState extends State<SignUpLogin> {
   signUpButton(context, user) {
     return TextButton(
         onPressed: () {
-          if (user == "Admin" || user == "Employee") {
+          if (user == "Admin") {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const AdminSignupPage(),
+              ),
+            );
+          }
+          if (user == "Employee") {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const EmployeeSignupPage(),
               ),
             );
           } else {
@@ -122,6 +131,7 @@ class SignUpLoginState extends State<SignUpLogin> {
   @override
   Widget build(BuildContext context) {
     String user = widget.userType.toString();
+    print(user);
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(

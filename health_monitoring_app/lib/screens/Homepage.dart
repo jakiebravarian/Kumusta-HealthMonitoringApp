@@ -101,7 +101,7 @@ class HomepageState extends State<Homepage> {
 
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Color.fromARGB(255, 126, 231, 45),
+                      backgroundColor: Color.fromARGB(255, 218, 185, 237),
                       content: Text('Request sent.'))); // Close the dialog
                 },
                 child: Text('Send Request'),
@@ -165,9 +165,6 @@ class HomepageState extends State<Homepage> {
         return IconButton(
           onPressed: () {
             showInputDialog(entry, "deleting");
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                content: Text('Delete request sent.')));
           },
           icon: Icon(Icons.delete, color: Colors.grey.shade600, size: 20),
         );

@@ -2,20 +2,19 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project_app/models/log_model.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/user_model.dart';
 
-class AllStudentsLogs extends StatefulWidget {
-  const AllStudentsLogs({super.key});
+class AllStudentsPage extends StatefulWidget {
+  const AllStudentsPage({super.key});
   @override
-  AllStudentsLogsPageState createState() => AllStudentsLogsPageState();
+  AllStudentsPageState createState() => AllStudentsPageState();
 }
 
-class AllStudentsLogsPageState extends State<AllStudentsLogs> {
+class AllStudentsPageState extends State<AllStudentsPage> {
   TextEditingController searchController = TextEditingController();
-  List<Log> users = [];
+  List<UserModel> users = [];
   List<UserModel> filteredUsers = [];
 
   @override
@@ -28,14 +27,12 @@ class AllStudentsLogsPageState extends State<AllStudentsLogs> {
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
 
-/// get list of all students
-
     allUserStream.listen((QuerySnapshot snapshot) {
-      List<Log> updatedUsers = [];
+      List<UserModel> updatedUsers = [];
 
       // Iterate over the documents in the snapshot and convert them to UserModels
       for (var doc in snapshot.docs) {
-        Log user = Log.fromJson(doc.data() as Map<String, dynamic>);
+        UserModel user = UserModel.fromJson(doc.data() as Map<String, dynamic>);
 
         updatedUsers.add(user);
       }
@@ -43,78 +40,22 @@ class AllStudentsLogsPageState extends State<AllStudentsLogs> {
       // Update the users list and filteredUsers list
       setState(() {
         users = updatedUsers;
+        filteredUsers = updatedUsers;
       });
     });
 
-    // void filterUsers(String query) {
-    //   setState(() {
-    //     filteredUsers = users
-    //         .where((user) =>
-    //             user.name!.toLowerCase().contains(query.toLowerCase()) ||
-    //             user.stdnum!.contains(query) ||
-    //             user.college!.toLowerCase().contains(query.toLowerCase()) ||
-    //             user.course!.toLowerCase().contains(query.toLowerCase()) ||
-    //             user.email!.toLowerCase().contains(query.toLowerCase()))
-    //         .toList();
-    //   });
-    // }
-
-    StreamBuilder allUsersListBuilder = StreamBuilder(
-        stream: allUserStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error encountered! ${snapshot.error}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (!snapshot.hasData) {
-            return const Center(
-              child: Text("No Entries Found"),
-            );
-          }
-
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data?.docs.length,
-            itemBuilder: ((context, index) {
-              UserModel user = UserModel.fromJson(
-                  snapshot.data?.docs[index].data() as Map<String, dynamic>);
-
-              user.id = snapshot.data?.docs[index].id;
-
-              return ListTile(
-                title: Text("${user.name}"),
-                subtitle: Wrap(
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.college}")),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.course}")),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.email}")),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.stdnum}"))
-                  ],
-                ),
-              );
-            }),
-          );
-        });
+    void filterUsers(String query) {
+      setState(() {
+        filteredUsers = users
+            .where((user) =>
+                user.name!.toLowerCase().contains(query.toLowerCase()) ||
+                user.stdnum!.contains(query) ||
+                user.college!.toLowerCase().contains(query.toLowerCase()) ||
+                user.course!.toLowerCase().contains(query.toLowerCase()) ||
+                user.email!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
 
     searchEngine() {
       return Column(
@@ -184,7 +125,7 @@ class AllStudentsLogsPageState extends State<AllStudentsLogs> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // searchEngine(),
+              searchEngine(),
             ],
           ),
         ));

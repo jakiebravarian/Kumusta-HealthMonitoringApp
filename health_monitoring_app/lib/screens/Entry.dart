@@ -65,18 +65,29 @@ class HealthEntryState extends State<HealthEntry> {
           }
           choices.add(outlineButtonBuilderForSymptoms(key, color, textColor));
         });
-        return GridView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: (4 / 1),
-            ),
-            itemCount: symptoms.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: const EdgeInsets.all(3), child: choices[index]);
-            });
+
+        return Wrap(
+          children: [
+            for (var choice in choices)
+              Padding(
+                padding: const EdgeInsets.only(right: 4, top: 5),
+                child: choice,
+              )
+          ],
+        );
+
+        // return GridView.builder(
+        //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //       crossAxisCount: 3,
+        //       childAspectRatio: (4 / 1),
+        //     ),
+        //     itemCount: symptoms.length,
+        //     shrinkWrap: true,
+        //     itemBuilder: (BuildContext context, int index) {
+        //       return Padding(
+        //           padding: const EdgeInsets.all(3), child: choices[index]);
+        //     });
       });
     }
 
@@ -168,7 +179,7 @@ class HealthEntryState extends State<HealthEntry> {
           key: formKey,
           child: SingleChildScrollView(
               child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -205,7 +216,10 @@ class HealthEntryState extends State<HealthEntry> {
                     elevation: 4,
                     shadowColor: Colors.black87,
                     child: Column(children: [
-                      const SizedBox(height: 14),
+                      SizedBox(
+                        height: 14,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                       Text("How are you feeling today?",
                           style: GoogleFonts.raleway(
                               textStyle: const TextStyle(
@@ -213,7 +227,10 @@ class HealthEntryState extends State<HealthEntry> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: -0.11))),
-                      symptomsSelectorBuilder(),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: symptomsSelectorBuilder(),
+                      ),
                     ]),
                   ),
                 ),

@@ -114,7 +114,7 @@ class HomepageState extends State<Homepage> {
 
     trailingEditButton(entry) {
       if (entry.isEditApproved) {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             print(entry.id);
 
@@ -136,39 +136,59 @@ class HomepageState extends State<Homepage> {
               ),
             );
           },
-          child: const Text("Edit"),
+          icon: Icon(Icons.edit_note, color: Colors.green.shade600),
         );
       } else {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             showInputDialog(entry, "editing");
           },
-          child: const Text("Request Edit"),
+          icon: Icon(Icons.edit_note, color: Colors.grey.shade600),
         );
       }
     }
 
     trailingDeleteButton(entry) {
       if (entry.isDeleteApproved) {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             context.read<EntryProvider>().setEntry(entry);
             context.read<EntryProvider>().deleteEntry();
           },
-          child: const Text("Delete"),
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red.shade600,
+            size: 20,
+          ),
         );
       } else {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             showInputDialog(entry, "deleting");
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Color.fromARGB(255, 126, 231, 45),
                 content: Text('Delete request sent.')));
           },
-          child: const Text("Request Delete"),
+          icon: Icon(Icons.delete, color: Colors.grey.shade600, size: 20),
         );
       }
     }
+
+    OutlinedButton outlineButtonBuilderForSymptoms(key) => OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+            ),
+            side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+        child: Text(key,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFF432C81),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600))));
 
     StreamBuilder entriesListBuilder = StreamBuilder(
         stream: entryStream,
@@ -198,34 +218,59 @@ class HomepageState extends State<Homepage> {
                   DateTime.fromMicrosecondsSinceEpoch(entry.date! * 1000));
               entry.id = snapshot.data?.docs[index].id;
 
-              return ListTile(
-                  title: Text("${formattedDate}"),
-                  subtitle: Wrap(
-                    children: [
-                      if (entry.symptoms!.isEmpty)
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.deepPurple.shade200,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Text("No symptoms.")),
-                      for (var symptom in entry.symptoms!)
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.deepPurple.shade200,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Text(symptom))
-                    ],
+              return Container(
+                height: 125,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                        title: Text(formattedDate,
+                            style: GoogleFonts.raleway(
+                                textStyle: const TextStyle(
+                                    color: Color(0xFF432C81),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: -0.11))),
+                        subtitle: Wrap(
+                          children: [
+                            if (entry.symptoms!.isEmpty)
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: outlineButtonBuilderForSymptoms(
+                                    "No Symptoms"),
+                              ),
+                            for (var symptom in entry.symptoms!)
+                              Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child:
+                                      outlineButtonBuilderForSymptoms(symptom)),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            trailingEditButton(entry),
+                            trailingDeleteButton(entry)
+                          ],
+                        )),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      trailingEditButton(entry),
-                      trailingDeleteButton(entry)
-                    ],
-                  ));
+                ),
+              );
             }),
           );
         });
+
+    displayImage() {
+      return SizedBox(
+          width: 285,
+          child: Image.asset(
+            'assets/images/The Lifesavers Front Desk.png',
+            fit: BoxFit.fitWidth,
+          ));
+    }
 
     StreamBuilder userStreamBuilder = StreamBuilder(
         stream: userInfoStream,
@@ -268,8 +313,16 @@ class HomepageState extends State<Homepage> {
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           letterSpacing: -0.11))),
+              displayImage(),
               Expanded(
-                child: entriesListBuilder,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurple.shade50,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: entriesListBuilder,
+                    )),
               )
             ],
           );
@@ -292,9 +345,6 @@ class HomepageState extends State<Homepage> {
           // if user is logged in, display the scaffold containing the streambuilder for the todos
 
           return Scaffold(
-            appBar: AppBar(
-              title: const Text("Homepage"),
-            ),
             drawer: Drawer(
               child: ListView(
                 // Important: Remove any padding from the ListView.

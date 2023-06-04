@@ -299,7 +299,7 @@ class HomepageState extends State<Homepage> {
           }
           return Column(
             children: <Widget>[
-              Text("Hello ${user?.name}",
+              Text("Hello, ${user?.name}",
                   style: GoogleFonts.raleway(
                       textStyle: const TextStyle(
                           color: Color(0xFF432C81),

@@ -29,6 +29,26 @@ class Homepage extends StatefulWidget {
 
 class HomepageState extends State<Homepage> {
   UserModel? user;
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -171,7 +191,7 @@ class HomepageState extends State<Homepage> {
       }
     }
 
-    OutlinedButton outlineButtonBuilderForSymptoms(key) => OutlinedButton(
+    OutlinedButton outlineButtonBuilder(key) => OutlinedButton(
         onPressed: () {},
         style: OutlinedButton.styleFrom(
             backgroundColor: Colors.white,
@@ -236,14 +256,12 @@ class HomepageState extends State<Homepage> {
                             if (entry.symptoms!.isEmpty)
                               Padding(
                                 padding: const EdgeInsets.all(1.0),
-                                child: outlineButtonBuilderForSymptoms(
-                                    "No Symptoms"),
+                                child: outlineButtonBuilder("No Symptoms"),
                               ),
                             for (var symptom in entry.symptoms!)
                               Padding(
                                   padding: const EdgeInsets.all(1.0),
-                                  child:
-                                      outlineButtonBuilderForSymptoms(symptom)),
+                                  child: outlineButtonBuilder(symptom)),
                           ],
                         ),
                         trailing: Row(
@@ -267,6 +285,43 @@ class HomepageState extends State<Homepage> {
             'assets/images/The Lifesavers Front Desk.png',
             fit: BoxFit.fitWidth,
           ));
+    }
+
+    listOfEntriesView() {
+      return Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
+          Text("Hello, ${user?.name}",
+              style: GoogleFonts.raleway(
+                  textStyle: const TextStyle(
+                      color: Color(0xFF432C81),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -1))),
+          Text("Welcome Back!",
+              style: GoogleFonts.raleway(
+                  textStyle: const TextStyle(
+                      color: Color(0xFF82799D),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.11))),
+          displayImage(),
+          Expanded(
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.deepPurple.shade50,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                  child: entriesListBuilder,
+                )),
+          )
+        ],
+      );
     }
 
     StreamBuilder userStreamBuilder = StreamBuilder(
@@ -294,34 +349,41 @@ class HomepageState extends State<Homepage> {
           } else if (user?.usertype == "Employee") {
             return const EmployeeHomepage();
           }
-          return Column(
-            children: <Widget>[
-              Text("Hello, ${user?.name}",
-                  style: GoogleFonts.raleway(
-                      textStyle: const TextStyle(
-                          color: Color(0xFF432C81),
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -1))),
-              Text("Welcome Back!",
-                  style: GoogleFonts.raleway(
-                      textStyle: const TextStyle(
-                          color: Color(0xFF82799D),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -0.11))),
-              displayImage(),
-              Expanded(
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade50,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: entriesListBuilder,
-                    )),
-              )
-            ],
+
+          return Scaffold(
+            body: (_selectedIndex == 1)
+                ? ProfilePage(user: user!)
+                : listOfEntriesView(),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.deepPurple.shade50,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: "",
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Color(0xFF82799D),
+              onTap: _onItemTapped,
+            ),
+            floatingActionButton: FloatingActionButton(
+                backgroundColor: const Color(0xFFFEC62F),
+                onPressed: () {
+                  context.read<EntryProvider>().resetSymptomsMap();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const HealthEntry(),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.add,
+                  color: Color(0xFF432C81),
+                )),
           );
         });
 
@@ -341,62 +403,7 @@ class HomepageState extends State<Homepage> {
           }
           // if user is logged in, display the scaffold containing the streambuilder for the todos
 
-          return Scaffold(
-            drawer: Drawer(
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                    ),
-                    child: const Text('Profile'),
-                  ),
-                  ListTile(
-                      //tileColor: Colors.white,
-                      leading: const Icon(
-                        Icons.book_outlined,
-                      ),
-                      title: const Text('Profile'),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfilePage(user: user!),
-                            ));
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.person_rounded),
-                    title: const Text('Sign out'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ));
-                      context.read<AuthProvider>().signOut();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            body: userStreamBuilder,
-            floatingActionButton: FloatingActionButton(
-                backgroundColor: const Color(0xFFFEC62F),
-                onPressed: () {
-                  context.read<EntryProvider>().resetSymptomsMap();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const HealthEntry(),
-                    ),
-                  );
-                },
-                child: const Icon(
-                  Icons.add,
-                  color: Color(0xFF432C81),
-                )),
-          );
+          return userStreamBuilder;
         });
   }
 }

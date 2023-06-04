@@ -26,15 +26,16 @@ class FirebaseAuthAPI {
       print(credential.user?.uid);
       return credential.user!.uid;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        //possible to return something more useful
-        //than just print an error message to improve UI/UX
-        print('No user found for that email.');
-        return e.code;
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-        return e.code;
-      }
+      return "unknown";
+      // if (e.code == 'user-not-found') {
+      //   //possible to return something more useful
+      //   //than just print an error message to improve UI/UX
+      //   print('No user found for that email.');
+      //   return e.code;
+      // } else if (e.code == 'wrong-password') {
+      //   print('Wrong password provided for that user.');
+      //   return e.code;
+      // }
     }
     return "";
   }

@@ -16,10 +16,12 @@ import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/UnderMonitoringStudentsPage.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
-
+import '../models/log_model.dart';
 import '../models/user_model.dart';
+import '../providers/log_provider.dart';
 
 import '../providers/auth_provider.dart';
+import 'AllStudentLogs.dart';
 import 'QuarantinedStudentsPage.dart';
 import 'RequestsPage.dart';
 
@@ -33,7 +35,6 @@ class EmployeepageState extends State<EmployeeHomepage> {
   @override
   void initState() {
     // TODO: implement initState
-
     super.initState();
   }
 
@@ -105,9 +106,10 @@ class EmployeepageState extends State<EmployeeHomepage> {
           onPressed: () {
             if (purpose == "all") {
               Navigator.push(
+                  //get all students here
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AllStudentsPage(),
+                    builder: (context) => const AllStudentsLogs(),
                   ));
               context.read<UserProvider>().fetchAllUsers();
             } else if (purpose == "quarantined") {
@@ -163,88 +165,10 @@ class EmployeepageState extends State<EmployeeHomepage> {
     }
 
     return Column(children: [
-      const Text("WELCOME EMPLOYEE"),
-      outlinedButtonBuilder("View All Students", "all"),
+      outlinedButtonBuilder("View All Logs", "all"),
       outlinedButtonBuilder("View Quarantined Students", "quarantined"),
       outlinedButtonBuilder("View Under Monitoring Students", "monitoring"),
       outlinedButtonBuilder("View Students Requests", "request"),
     ]);
-
-    // StreamBuilder(
-    //     stream: userStream,
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasError) {
-    //         return Center(
-    //           child: Text("Error encountered! ${snapshot.error}"),
-    //         );
-    //       } else if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       } else if (!snapshot.hasData) {
-    //         return const LoginPage();
-    //       }
-    //       // if user is logged in, display the scaffold containing the streambuilder for the todos
-
-    //       return Scaffold(
-    //         appBar: AppBar(
-    //           title: const Text("UPLB's stat"),
-    //         ),
-    //         drawer: Drawer(
-    //           child: ListView(
-    //             // Important: Remove any padding from the ListView.
-    //             padding: EdgeInsets.zero,
-    //             children: [
-    //               DrawerHeader(
-    //                 decoration: BoxDecoration(
-    //                   color: Colors.green.shade100,
-    //                 ),
-    //                 child: const Text('Profile'),
-    //               ),
-    //               ListTile(
-    //                   //tileColor: Colors.white,
-    //                   leading: const Icon(
-    //                     Icons.book_outlined,
-    //                   ),
-    //                   title: const Text('Profile'),
-    //                   onTap: () {}),
-    //               ListTile(
-    //                 leading: const Icon(Icons.person_rounded),
-    //                 title: const Text('Sign out'),
-    //                 onTap: () {
-    //                   Navigator.push(
-    //                       context,
-    //                       MaterialPageRoute(
-    //                         builder: (context) => const LoginPage(),
-    //                       ));
-    //                   context.read<AuthProvider>().signOut();
-    //                 },
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         body: Column(children: [
-    //           outlinedButtonBuilder("View All Students", "all"),
-    //           outlinedButtonBuilder("View Quarantined Students", "quarantined"),
-    //           outlinedButtonBuilder(
-    //               "View Under Monitoring Students", "monitoring"),
-    //           outlinedButtonBuilder("View Students Requests", "request"),
-    //         ]),
-    //         // floatingActionButton: FloatingActionButton(
-    //         //     backgroundColor: const Color(0xFFFEC62F),
-    //         //     onPressed: () {
-    //         //       context.read<EntryProvider>().resetSymptomsMap();
-    //         //       Navigator.of(context).push(
-    //         //         MaterialPageRoute(
-    //         //           builder: (context) => const HealthEntry(),
-    //         //         ),
-    //         //       );
-    //         //     },
-    //         //     child: const Icon(
-    //         //       Icons.add,
-    //         //       color: Color(0xFF432C81),
-    //         //     )),
-    //       );
-    //     });
   }
 }

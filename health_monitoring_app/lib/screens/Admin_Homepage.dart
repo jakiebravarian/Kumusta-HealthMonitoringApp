@@ -37,6 +37,9 @@ class AdminHomepageState extends State<AdminHomepage> {
     super.initState();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
@@ -105,6 +108,10 @@ class AdminHomepageState extends State<AdminHomepage> {
           onPressed: () {
             if (purpose == "all") {
               Navigator.push(
+
+
+
+                //get all students here 
                   context,
                   MaterialPageRoute(
                     builder: (context) => const AllStudentsPage(),

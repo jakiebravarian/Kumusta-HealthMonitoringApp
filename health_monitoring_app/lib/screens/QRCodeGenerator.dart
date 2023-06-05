@@ -3,8 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-
-//pass 
+//pass
 class QRCodeGenerator extends StatelessWidget {
   UserModel user;
 
@@ -32,7 +31,7 @@ class QRCodeGenerator extends StatelessWidget {
           backButton,
           Container(
               child: QrImageView(
-            data: user!.toJson(user).toString(),
+            data: user.toJson(user).toString(),
             version: QrVersions.auto,
             size: 200.0,
           )),

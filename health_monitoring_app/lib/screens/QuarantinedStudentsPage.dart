@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../models/user_model.dart';
 
 import '../providers/auth_provider.dart';
+import '../providers/log_provider.dart';
 
 class QuarantinedStudentsPage extends StatefulWidget {
   const QuarantinedStudentsPage({super.key});
@@ -37,6 +38,8 @@ class QuarantinedStudentsPageState extends State<QuarantinedStudentsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot> aallUserStream =
+        context.watch<LogsProvider>().allUserStream;
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
 

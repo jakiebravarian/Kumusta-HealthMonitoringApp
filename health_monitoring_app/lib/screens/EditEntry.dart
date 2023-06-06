@@ -264,20 +264,6 @@ class EditHealthEntryState extends State<EditHealthEntry> {
                 ),
 
                 submitButton,
-                // const Text(
-                //   "Coronavirus Symptom Monitoring Form",
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(fontSize: 25),
-                // ),
-                // subheading("Do you have any of the following symptoms?"),
-                // checkboxBuilder(),
-                // subheading(
-                //     "Have you been in contact with anyone in the last 14 days who is experiencing these symptoms?"),
-                // underMonitoringRadioBuilder(),
-                // subheading(
-                //     "Have you been in contact with anyone who tested positive for COVID-19?"),
-                // exposureRadioBuilder(),
-                // submitButton,
               ],
             ),
           )),
@@ -286,66 +272,3 @@ class EditHealthEntryState extends State<EditHealthEntry> {
     );
   }
 }
-
-//     final submitButton = Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 16.0),
-//       child: ElevatedButton(
-//         onPressed: () async {
-//           Entry? entry = context.read<EntryProvider>().getEntry;
-//           entry?.userID = context.read<EntryProvider>().uid;
-//           DateTime curDate = DateTime.now();
-//           entry?.date = curDate.millisecondsSinceEpoch;
-//           entry?.isApproved = false;
-//           entry?.isExposed = context.read<EntryProvider>().isExposed;
-//           entry?.isUnderMonitoring =
-//               context.read<EntryProvider>().isUnderMonitoring;
-
-//           List<String> symptomsList = [];
-//           Map<String, dynamic> symptomsMap =
-//               context.read<EntryProvider>().symptoms;
-//           symptomsMap.forEach((key, value) {
-//             if (value == true) symptomsList.add(key);
-//           });
-
-//           entry?.symptoms = symptomsList;
-
-//           context.read<EntryProvider>().editEntry(entry!);
-
-//           context.read<EntryProvider>().resetSymptomsMap();
-//           context.read<EntryProvider>().toggleIsEditApproved(entry.id, false);
-//           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-//               backgroundColor: Color.fromARGB(255, 126, 231, 45),
-//               content: Text('Entry is edited.')));
-//           Navigator.pop(context);
-//         },
-//         child: const Text('Edit entry', style: TextStyle(color: Colors.white)),
-//       ),
-//     );
-
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: const Text("Health Entry"),
-//         ),
-//         body: Form(
-//           key: formKey,
-//           child: Center(
-//             child: SingleChildScrollView(
-//                 child: Column(
-//               children: [
-//                 Text("How are you feeling today?"),
-//                 selectorBuilder(),
-//                 Text("Have you been exposed to any COVID-19 patients?"),
-//                 exposeSwitch,
-//                 Text("Are you waiting for RT-PCR results?"),
-//                 underMonitoringSwitch,
-//                 submitButton,
-//               ],
-//             )),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

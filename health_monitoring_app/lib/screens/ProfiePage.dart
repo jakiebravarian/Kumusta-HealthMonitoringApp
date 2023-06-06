@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/models/user_model.dart';
-import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/QRCodeGenerator.dart';
-
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
+import 'QRCodeScanner.dart';
 
 class ProfilePage extends StatefulWidget {
   final UserModel user;
@@ -91,8 +86,8 @@ class ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                QRCodeGenerator(user: widget.user),
+                            // builder: (context) => QRCodeGenerator(user: widget.user),
+                            builder: (context) => const QRViewExample(),
                           ));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

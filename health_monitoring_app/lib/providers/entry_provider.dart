@@ -24,6 +24,9 @@ class EntryProvider with ChangeNotifier {
   Stream<QuerySnapshot> get streamOfEntriesRequestingForDelete =>
       _streamOfEntriesRequestingForDelete;
 
+  int _currentIndex = 0;
+  int get currentIndex => _currentIndex;
+
   // late Stream<QuerySnapshot> _specificEntryStream;
   // Stream<QuerySnapshot> get specificEntryStream => _specificEntryStream;
 
@@ -65,6 +68,11 @@ class EntryProvider with ChangeNotifier {
   void changeValueInSymptoms(key) {
     symptomsMap[key] = !symptomsMap[key]!;
     print(symptomsMap);
+    notifyListeners();
+  }
+
+  void setIndex(index) {
+    _currentIndex = index;
     notifyListeners();
   }
 

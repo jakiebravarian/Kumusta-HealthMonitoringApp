@@ -89,9 +89,23 @@ class _LoginPageState extends State<LoginPage> {
                 passwordController.text.trim(),
               );
           if (errorCode == 'unknown') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red.shade900,
-                content: const Text('User does not exist')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor:
+                    Color(0xFFFFB9B9), // Set the background color to FFB9B9
+                content: Text(
+                  'User does not exist',
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      color: Color(0xFFEB5858), // Set the text color to EB5858
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
+              ),
+            );
           } else {
             // if (context.mounted) Navigator.pop(context);
 

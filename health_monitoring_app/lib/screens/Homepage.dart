@@ -145,9 +145,24 @@ class HomepageState extends State<Homepage> {
                   }
 
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Color.fromARGB(255, 218, 185, 237),
-                      content: Text('Request sent.'))); // Close the dialog
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Color(
+                          0xFF432C81), // Set the background color to EDECF4
+                      content: Text(
+                        'Request sent.',
+                        style: GoogleFonts.raleway(
+                          textStyle: TextStyle(
+                            color: Color(
+                                0xFFEDECF4), // Set the text color to 432C81
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 child: Text(
                   'Send Request',

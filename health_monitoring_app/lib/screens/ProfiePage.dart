@@ -46,6 +46,20 @@ class ProfilePageState extends State<ProfilePage> {
     return Center(
       child: Column(
         children: [
+          Container(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Color(0xFFA095C1), // Set arrow color to A095C1
+              ),
+              onPressed: () {
+                // Handle back button action here
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          SizedBox(height: 6),
           const SizedBox(
             height: 100,
           ),
@@ -95,10 +109,24 @@ class ProfilePageState extends State<ProfilePage> {
                                 QRCodeGenerator(user: widget.user),
                           ));
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: Color.fromARGB(255, 212, 27, 27),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Color(
+                              0xFFFFB9B9), // Set the background color to FFB9B9
                           content: Text(
-                              'Invalid credentials. Cannot generate QR Code')));
+                            'Invalid credentials. Cannot generate QR Code',
+                            style: GoogleFonts.raleway(
+                              textStyle: TextStyle(
+                                color: Color(
+                                    0xFFEB5858), // Set the text color to EB5858
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     }
                   },
                   child: ListTile(

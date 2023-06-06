@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_app/providers/log_provider.dart';
 import 'package:project_app/screens/done_signup.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,10 +22,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
 
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: ((context) => LogsProvider())),
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
         ChangeNotifierProvider(create: ((context) => AdminProvider())),
         ChangeNotifierProvider(create: ((context) => UserProvider())),

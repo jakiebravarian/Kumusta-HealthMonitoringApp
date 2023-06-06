@@ -7,6 +7,10 @@ import 'package:project_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/user_model.dart';
 
+import '../providers/auth_provider.dart';
+import '../providers/log_provider.dart';
+
+
 class QuarantinedStudentsPage extends StatefulWidget {
   const QuarantinedStudentsPage({super.key});
   @override
@@ -22,6 +26,7 @@ class QuarantinedStudentsPageState extends State<QuarantinedStudentsPage> {
   void initState() {
     super.initState();
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +124,29 @@ class QuarantinedStudentsPageState extends State<QuarantinedStudentsPage> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               final user = filteredUsers[index];
+
+//               return ListTile(
+//                 title: Text("${user.name}"),
+//                 subtitle: Wrap(
+//                   children: [
+//                     OutlinedButton(
+//                         onPressed: () {
+//                           context
+//                               .read<UserProvider>()
+//                               .editQuarantineStatus(user.id, false);
+//                         },
+//                         child: Text("Remove"))
+//                   ],
+//                 ),
+//               );
+
+//               // ListTile(
+//               //   title: Text(user.name!),
+//               //   subtitle: Text(user.stdnum!),
+//               //   onTap: () {
+//               //     print("User's ");
+//               //   },
+//               // );
               return Container(
                   height: 120,
                   padding:

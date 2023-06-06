@@ -31,7 +31,7 @@ class QRCodeGenerator extends StatelessWidget {
           backButton,
           Container(
               child: QrImageView(
-            data: user!.toJson(user).toString(),
+            data: user.toJson(user).toString(),
             version: QrVersions.auto,
             size: 200.0,
           )),

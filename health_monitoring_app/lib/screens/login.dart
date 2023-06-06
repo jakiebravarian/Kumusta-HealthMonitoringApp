@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
             context.read<AuthProvider>().fetchAuthentication();
             context.read<UserProvider>().fetchUser(errorCode);
             context.read<EntryProvider>().fetchData(errorCode);
+            context.read<EntryProvider>().setIndex(0);
             // Stream<QuerySnapshot> userInfoStream =
             //     context.watch<UserProvider>().userStream;
             // UserModel user = UserModel.fromJson(

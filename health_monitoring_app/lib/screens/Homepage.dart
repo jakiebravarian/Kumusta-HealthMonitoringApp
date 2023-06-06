@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/EditEntry.dart';
@@ -29,6 +30,7 @@ class Homepage extends StatefulWidget {
 
 class HomepageState extends State<Homepage> {
   UserModel? user;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -68,7 +70,21 @@ class HomepageState extends State<Homepage> {
           String userInput = '';
 
           return AlertDialog(
-            title: Text('Reason for ${reason}'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  20), // Set the border radius for rounded corners
+            ),
+            title: Text(
+              'Reason for ${reason}',
+              style: GoogleFonts.raleway(
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF432C81),
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
             content: TextField(
               controller: messageContoller,
             ),
@@ -77,7 +93,17 @@ class HomepageState extends State<Homepage> {
                 onPressed: () {
                   Navigator.pop(context); // Close the dialog
                 },
-                child: Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF432C81),
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -100,11 +126,36 @@ class HomepageState extends State<Homepage> {
                   }
 
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                      content: Text('Request sent.'))); // Close the dialog
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Color(
+                          0xFF432C81), // Set the background color to EDECF4
+                      content: Text(
+                        'Request sent.',
+                        style: GoogleFonts.raleway(
+                          textStyle: TextStyle(
+                            color: Color(
+                                0xFFEDECF4), // Set the text color to 432C81
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Text('Send Request'),
+                child: Text(
+                  'Send Request',
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF432C81),
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
               ),
             ],
           );
@@ -114,10 +165,8 @@ class HomepageState extends State<Homepage> {
 
     trailingEditButton(entry) {
       if (entry.isEditApproved) {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
-            print(entry.id);
-
             context.read<EntryProvider>().setEntry(entry);
             context.read<EntryProvider>().resetSymptomsMap();
             entry.symptoms?.forEach((element) {
@@ -136,39 +185,56 @@ class HomepageState extends State<Homepage> {
               ),
             );
           },
-          child: const Text("Edit"),
+          icon: Icon(Icons.edit_note, color: Colors.green.shade600),
         );
       } else {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             showInputDialog(entry, "editing");
           },
-          child: const Text("Request Edit"),
+          icon: Icon(Icons.edit_note, color: Colors.grey.shade600),
         );
       }
     }
 
     trailingDeleteButton(entry) {
       if (entry.isDeleteApproved) {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             context.read<EntryProvider>().setEntry(entry);
             context.read<EntryProvider>().deleteEntry();
           },
-          child: const Text("Delete"),
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red.shade600,
+            size: 20,
+          ),
         );
       } else {
-        return OutlinedButton(
+        return IconButton(
           onPressed: () {
             showInputDialog(entry, "deleting");
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                content: Text('Delete request sent.')));
           },
-          child: const Text("Request Delete"),
+          icon: Icon(Icons.delete, color: Colors.grey.shade600, size: 20),
         );
       }
     }
+
+    OutlinedButton outlineButtonBuilder(key) => OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+            ),
+            side: const BorderSide(color: Color(0xFF432C81), width: 1)),
+        child: Text(key,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                    color: Color(0xFF432C81),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600))));
 
     StreamBuilder entriesListBuilder = StreamBuilder(
         stream: entryStream,
@@ -198,34 +264,57 @@ class HomepageState extends State<Homepage> {
                   DateTime.fromMicrosecondsSinceEpoch(entry.date! * 1000));
               entry.id = snapshot.data?.docs[index].id;
 
-              return ListTile(
-                  title: Text("${formattedDate}"),
-                  subtitle: Wrap(
-                    children: [
-                      if (entry.symptoms!.isEmpty)
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.deepPurple.shade200,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Text("No symptoms.")),
-                      for (var symptom in entry.symptoms!)
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.deepPurple.shade200,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Text(symptom))
-                    ],
+              return Container(
+                height: 125,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                        title: Text(formattedDate,
+                            style: GoogleFonts.raleway(
+                                textStyle: const TextStyle(
+                                    color: Color(0xFF432C81),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: -0.11))),
+                        subtitle: Wrap(
+                          children: [
+                            if (entry.symptoms!.isEmpty)
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: outlineButtonBuilder("No Symptoms"),
+                              ),
+                            for (var symptom in entry.symptoms!)
+                              Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: outlineButtonBuilder(symptom)),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            trailingEditButton(entry),
+                            trailingDeleteButton(entry)
+                          ],
+                        )),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      trailingEditButton(entry),
-                      trailingDeleteButton(entry)
-                    ],
-                  ));
+                ),
+              );
             }),
           );
         });
+
+    displayImage() {
+      return SizedBox(
+          width: 285,
+          child: Image.asset(
+            'assets/images/The Lifesavers Front Desk.png',
+            fit: BoxFit.fitWidth,
+          ));
+    }
 
     StreamBuilder userStreamBuilder = StreamBuilder(
         stream: userInfoStream,
@@ -250,28 +339,157 @@ class HomepageState extends State<Homepage> {
           if (user?.usertype == "Admin") {
             return const AdminHomepage();
           } else if (user?.usertype == "Employee") {
-            return const EmployeeHomepage();
+            // context.read<EntryProvider>().fetchData(user?.uid);
+            int selectedIndex = context.watch<EntryProvider>().currentIndex;
+            return Scaffold(
+              body: (selectedIndex == 2)
+                  ? ProfilePage(user: user!)
+                  : (selectedIndex == 1)
+                      ? Column(
+                          children: <Widget>[
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text("Hello, ${user?.name}",
+                                style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                        color: Color(0xFF432C81),
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: -1))),
+                            Text("Welcome Back!",
+                                style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                        color: Color(0xFF82799D),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: -0.11))),
+                            displayImage(),
+                            Expanded(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.deepPurple.shade50,
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20, top: 20),
+                                    child: entriesListBuilder,
+                                  )),
+                            )
+                          ],
+                        )
+                      : Column(),
+              bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: Colors.deepPurple.shade50,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.list_alt),
+                    label: "",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: "",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: "",
+                  ),
+                ],
+                currentIndex: context.read<EntryProvider>().currentIndex,
+                selectedItemColor: Color(0xFF82799D),
+                onTap: (index) {
+                  context.read<EntryProvider>().setIndex(index);
+                },
+              ),
+              floatingActionButton: FloatingActionButton(
+                  backgroundColor: const Color(0xFFFEC62F),
+                  onPressed: () {
+                    context.read<EntryProvider>().resetSymptomsMap();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const HealthEntry(),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color: Color(0xFF432C81),
+                  )),
+            );
           }
-          return Column(
-            children: <Widget>[
-              Text("Hello ${user?.name}",
-                  style: GoogleFonts.raleway(
-                      textStyle: const TextStyle(
-                          color: Color(0xFF432C81),
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -1))),
-              Text("Welcome Back!",
-                  style: GoogleFonts.raleway(
-                      textStyle: const TextStyle(
-                          color: Color(0xFF82799D),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -0.11))),
-              Expanded(
-                child: entriesListBuilder,
-              )
-            ],
+          int selectedIndex = context.watch<EntryProvider>().currentIndex;
+          return Scaffold(
+            body: (selectedIndex == 1)
+                ? ProfilePage(user: user!)
+                : Column(
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text("Hello, ${user?.name}",
+                          style: GoogleFonts.raleway(
+                              textStyle: const TextStyle(
+                                  color: Color(0xFF432C81),
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -1))),
+                      Text("Welcome Back!",
+                          style: GoogleFonts.raleway(
+                              textStyle: const TextStyle(
+                                  color: Color(0xFF82799D),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: -0.11))),
+                      displayImage(),
+                      Expanded(
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.deepPurple.shade50,
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15))),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 20),
+                              child: entriesListBuilder,
+                            )),
+                      )
+                    ],
+                  ),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.deepPurple.shade50,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: "",
+                ),
+              ],
+              currentIndex: context.read<EntryProvider>().currentIndex,
+              selectedItemColor: Color(0xFF82799D),
+              onTap: (index) {
+                context.read<EntryProvider>().setIndex(index);
+              },
+            ),
+            floatingActionButton: FloatingActionButton(
+                backgroundColor: const Color(0xFFFEC62F),
+                onPressed: () {
+                  context.read<EntryProvider>().resetSymptomsMap();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const HealthEntry(),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.add,
+                  color: Color(0xFF432C81),
+                )),
           );
         });
 
@@ -291,65 +509,7 @@ class HomepageState extends State<Homepage> {
           }
           // if user is logged in, display the scaffold containing the streambuilder for the todos
 
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Homepage"),
-            ),
-            drawer: Drawer(
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                    ),
-                    child: const Text('Profile'),
-                  ),
-                  ListTile(
-                      //tileColor: Colors.white,
-                      leading: const Icon(
-                        Icons.book_outlined,
-                      ),
-                      title: const Text('Profile'),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfilePage(user: user!),
-                            ));
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.person_rounded),
-                    title: const Text('Sign out'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ));
-                      context.read<AuthProvider>().signOut();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            body: userStreamBuilder,
-            floatingActionButton: FloatingActionButton(
-                backgroundColor: const Color(0xFFFEC62F),
-                onPressed: () {
-                  context.read<EntryProvider>().resetSymptomsMap();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const HealthEntry(),
-                    ),
-                  );
-                },
-                child: const Icon(
-                  Icons.add,
-                  color: Color(0xFF432C81),
-                )),
-          );
+          return userStreamBuilder;
         });
   }
 }

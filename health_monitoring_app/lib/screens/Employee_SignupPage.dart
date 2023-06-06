@@ -8,11 +8,6 @@ import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:project_app/models/admin_model.dart';
-
-import 'package:project_app/providers/admin_provider.dart';
-import 'package:project_app/providers/auth_provider.dart';
-
 class EmployeeSignupPage extends StatefulWidget {
   const EmployeeSignupPage({super.key});
   @override

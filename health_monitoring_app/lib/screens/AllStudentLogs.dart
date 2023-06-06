@@ -11,6 +11,7 @@ import '../models/log_model.dart';
 import '../models/user_model.dart';
 import '../providers/log_provider.dart';
 
+
 class AllStudentsLogs extends StatefulWidget {
   const AllStudentsLogs({Key? key}) : super(key: key);
 
@@ -23,6 +24,7 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
   List<UserModel> users = [];
   List<Log> filteredUsers = [];
 
+
   @override
   void initState() {
     super.initState();
@@ -30,11 +32,12 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> allUserStream =
-        context.watch<UserProvider>().allUserStream;
+//     Stream<QuerySnapshot> allUserStream =
+//         context.watch<UserProvider>().allUserStream;
 
     Stream<QuerySnapshot> allUsers =
         context.watch<LogsProvider>().allUserStream;
+
 
     allUserStream.listen((QuerySnapshot snapshot) {
       List<UserModel> updatedUsers = [];
@@ -110,6 +113,45 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
                       height: 5,
                       fontSize: 10),
                 ),
+//         filteredUsers = updatedUsers;
+//       });
+//     });
+
+//     void filterUsers(String query) {
+//       setState(() {
+//         filteredUsers = users
+//             .where((user) =>
+//                 user.name!.toLowerCase().contains(query.toLowerCase()) ||
+//                 user.stdnum!.contains(query) ||
+//                 user.college!.toLowerCase().contains(query.toLowerCase()) ||
+//                 user.course!.toLowerCase().contains(query.toLowerCase()) ||
+//                 user.email!.toLowerCase().contains(query.toLowerCase()))
+//             .toList();
+//       });
+//     }
+
+//     searchEngine() {
+//       return Column(
+//         children: [
+//           Padding(
+//             padding: EdgeInsets.all(16.0),
+//             child: TextField(
+//               controller: searchController,
+//               onChanged: (value) {
+//                 filterUsers(value);
+//               },
+//               decoration: const InputDecoration(
+//                 labelText: 'Search',
+//               ),
+//             ),
+//           ),
+//           ListView.builder(
+//             itemCount: filteredUsers.length,
+//             shrinkWrap: true,
+//             itemBuilder: (context, index) {
+//               final user = filteredUsers[index];
+//               return ListTile(
+//                 title: Text("${user.name}"),
                 subtitle: Wrap(
                   children: [
                     Container(

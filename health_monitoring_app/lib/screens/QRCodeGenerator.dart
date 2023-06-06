@@ -38,7 +38,7 @@ class QRCodeGenerator extends StatelessWidget {
           const SizedBox(height: 10.0),
           Text(
             'Generated on $currentDate',
-            style: const TextStyle(fontSize: 16.0),
+            style: const TextStyle(fontFamily: 'Raleway', fontSize: 16.0),
           ),
         ],
       ),

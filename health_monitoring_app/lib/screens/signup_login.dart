@@ -45,6 +45,20 @@ class SignUpLoginState extends State<SignUpLogin> {
   appName(user) {
     return Column(
       children: [
+        Container(
+          alignment: Alignment.topLeft,
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Color(0xFFA095C1), // Set arrow color to A095C1
+            ),
+            onPressed: () {
+              // Handle back button action here
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        SizedBox(height: 8),
         Text("Kumusta",
             style: GoogleFonts.raleway(
                 textStyle: const TextStyle(

@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/models/user_model.dart';
-import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/QRCodeGenerator.dart';
-
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
+import 'QRCodeScanner.dart';
 
 class ProfilePage extends StatefulWidget {
   final UserModel user;
@@ -46,6 +41,20 @@ class ProfilePageState extends State<ProfilePage> {
     return Center(
       child: Column(
         children: [
+          Container(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Color(0xFFA095C1), // Set arrow color to A095C1
+              ),
+              onPressed: () {
+                // Handle back button action here
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          SizedBox(height: 6),
           const SizedBox(
             height: 100,
           ),
@@ -91,14 +100,28 @@ class ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                QRCodeGenerator(user: widget.user),
+                            // builder: (context) => QRCodeGenerator(user: widget.user),
+                            builder: (context) => const QRViewExample(),
                           ));
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: Color.fromARGB(255, 212, 27, 27),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Color(
+                              0xFFFFB9B9), // Set the background color to FFB9B9
                           content: Text(
-                              'Invalid credentials. Cannot generate QR Code')));
+                            'Invalid credentials. Cannot generate QR Code',
+                            style: GoogleFonts.raleway(
+                              textStyle: TextStyle(
+                                color: Color(
+                                    0xFFEB5858), // Set the text color to EB5858
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     }
                   },
                   child: ListTile(

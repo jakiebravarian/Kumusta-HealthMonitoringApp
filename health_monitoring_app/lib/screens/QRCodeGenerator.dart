@@ -3,8 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-
-//pass 
+//pass
 class QRCodeGenerator extends StatelessWidget {
   UserModel user;
 
@@ -39,7 +38,7 @@ class QRCodeGenerator extends StatelessWidget {
           const SizedBox(height: 10.0),
           Text(
             'Generated on $currentDate',
-            style: const TextStyle(fontSize: 16.0),
+            style: const TextStyle(fontFamily: 'Raleway', fontSize: 16.0),
           ),
         ],
       ),

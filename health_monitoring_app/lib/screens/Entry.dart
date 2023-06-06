@@ -148,9 +148,23 @@ class HealthEntryState extends State<HealthEntry> {
               entry?.isDeleteApproved = false;
               context.read<EntryProvider>().addEntry(entry!);
               context.read<EntryProvider>().resetSymptomsMap();
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                  content: Text('New entry is added.')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor:
+                      Color(0xFF89CB87), // Set the background color to 89CB87
+                  content: Text(
+                    'New entry is added.',
+                    style: GoogleFonts.raleway(
+                      textStyle: TextStyle(
+                        color: Color(0xFF347C32),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ),
+                ),
+              );
               Navigator.pop(context);
             },
             child: Text(
@@ -191,7 +205,7 @@ class HealthEntryState extends State<HealthEntry> {
                   ),
                 ),
                 ListTile(
-                  title: Text("<👋> Today",
+                  title: Text("👋 Today",
                       style: GoogleFonts.raleway(
                           textStyle: const TextStyle(
                               color: Color(0xFF432C81),

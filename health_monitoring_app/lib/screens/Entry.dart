@@ -205,7 +205,7 @@ class HealthEntryState extends State<HealthEntry> {
                   ),
                 ),
                 ListTile(
-                  title: Text("<👋> Today",
+                  title: Text("👋 Today",
                       style: GoogleFonts.raleway(
                           textStyle: const TextStyle(
                               color: Color(0xFF432C81),

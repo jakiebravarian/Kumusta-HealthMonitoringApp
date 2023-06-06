@@ -91,7 +91,13 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
             }
           }
         },
-        child: const Text('Submit', style: TextStyle(color: Colors.white)),
+        child: const Text('Submit',
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Raleway', // Set the font family to 'Raleway'
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            )),
       ),
     );
 

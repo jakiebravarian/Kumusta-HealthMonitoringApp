@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/EditEntry.dart';
@@ -69,7 +70,21 @@ class HomepageState extends State<Homepage> {
           String userInput = '';
 
           return AlertDialog(
-            title: Text('Reason for ${reason}'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  20), // Set the border radius for rounded corners
+            ),
+            title: Text(
+              'Reason for ${reason}',
+              style: GoogleFonts.raleway(
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF432C81),
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
             content: TextField(
               controller: messageContoller,
             ),
@@ -78,7 +93,17 @@ class HomepageState extends State<Homepage> {
                 onPressed: () {
                   Navigator.pop(context); // Close the dialog
                 },
-                child: Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF432C81),
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -101,11 +126,36 @@ class HomepageState extends State<Homepage> {
                   }
 
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Color.fromARGB(255, 218, 185, 237),
-                      content: Text('Request sent.'))); // Close the dialog
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Color(
+                          0xFF432C81), // Set the background color to EDECF4
+                      content: Text(
+                        'Request sent.',
+                        style: GoogleFonts.raleway(
+                          textStyle: TextStyle(
+                            color: Color(
+                                0xFFEDECF4), // Set the text color to 432C81
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Text('Send Request'),
+                child: Text(
+                  'Send Request',
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF432C81),
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
               ),
             ],
           );

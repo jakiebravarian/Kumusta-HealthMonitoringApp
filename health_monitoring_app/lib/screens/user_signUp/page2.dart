@@ -6,6 +6,8 @@ import 'package:project_app/providers/user_provider.dart';
 
 import 'package:project_app/screens/user_signUp/page3.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 import '../../models/user_model.dart';
 
 class UserSignupPage2 extends StatefulWidget {
@@ -78,7 +80,8 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
               ],
             ));
 
-    OutlinedButton outlineButtonBuilderForAllergies(key, color, textColor) =>
+    OutlinedButton outlineButtonBuilderForAllergies(
+            key, color, textColor, textStyle) =>
         OutlinedButton(
             onPressed: () {
               context.read<UserProvider>().changeValueInAllergies(key);
@@ -143,15 +146,36 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
         allergies.forEach((key, value) {
           Color color;
           Color textColor;
+          TextStyle textStyle;
           if (value) {
             color = const Color(0xFF432C81);
             textColor = Colors.white;
+            textStyle = GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.5,
+              ),
+            );
           } else {
             color = Colors.white;
             textColor = const Color(0xFF432C81);
+            textStyle = GoogleFonts.raleway(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.5,
+              ),
+            );
           }
-          choices.add(outlineButtonBuilderForAllergies(key, color, textColor));
+          choices.add(outlineButtonBuilderForAllergies(
+            key,
+            color,
+            textColor,
+            textStyle,
+          ));
         });
+
         return GridView.builder(
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -238,9 +262,23 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
                 child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(16, 56, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
                 child: Column(
                   children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Color(0xFFA095C1), // Set arrow color to A095C1
+                        ),
+                        onPressed: () {
+                          // Handle back button action here
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 8),
                     Text("👋 Hi ${context.read<UserProvider>().getUser?.name}!",
                         style: GoogleFonts.raleway(
                             textStyle: const TextStyle(

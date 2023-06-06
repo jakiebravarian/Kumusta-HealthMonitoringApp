@@ -165,8 +165,8 @@ class EmployeepageState extends State<EmployeeHomepage> {
     }
 
     return Column(children: [
-      outlinedButtonBuilder("View All Logs", "all"),
-      outlinedButtonBuilder("View Quarantined Students", "quarantined"),
+      outlinedButtonBuilder("View All Logs NEw", "all"),
+      outlinedButtonBuilder("View All Quarantined Students", "quarantined"),
       outlinedButtonBuilder("View Under Monitoring Students", "monitoring"),
       outlinedButtonBuilder("View Students Requests", "request"),
     ]);

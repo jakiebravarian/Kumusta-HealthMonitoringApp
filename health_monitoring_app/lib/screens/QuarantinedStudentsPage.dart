@@ -35,11 +35,10 @@ class QuarantinedStudentsPageState extends State<QuarantinedStudentsPage> {
   void initState() {
     super.initState();
   }
+  
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> aallUserStream =
-        context.watch<LogsProvider>().allUserStream;
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
 
@@ -112,7 +111,7 @@ class QuarantinedStudentsPageState extends State<QuarantinedStudentsPage> {
               //   title: Text(user.name!),
               //   subtitle: Text(user.stdnum!),
               //   onTap: () {
-              //     print("User's profile");
+              //     print("User's ");
               //   },
               // );
             },

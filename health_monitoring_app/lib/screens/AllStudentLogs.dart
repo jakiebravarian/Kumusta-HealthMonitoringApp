@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +32,7 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
+
     Stream<QuerySnapshot> allUsers =
         context.watch<LogsProvider>().allUserStream;
 
@@ -49,6 +52,13 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
         // filteredUsers = updatedUsers;
       });
     });
+
+    UserModel? getStudentUID(String uid) {
+      UserModel? matchingUser = users.firstWhere((user) => user.id == uid,
+          orElse: () => UserModel(id: '', name: 'Unknown'));
+
+      return matchingUser;
+    }
 
     StreamBuilder allLogsListBuilder = StreamBuilder(
       stream: allUsers,
@@ -75,7 +85,7 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
             Log user = Log.fromJson(
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
-            // user.uid = snaRpshot.data?.docs[index].id;
+            // user.uid = snapshot.data?.docs[index].id;
 
             int milliseconds = int.parse(user.date!);
             DateTime currentDate =
@@ -83,22 +93,38 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
 
             String dayOfWeek = DateFormat('EEEE').format(currentDate);
             String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
+            UserModel? Name = getStudentUID(user.uid!);
 
-            return ListTile(
-              title: Text(dayOfWeek),
-              subtitle: Wrap(
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.deepPurple.shade200,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Text("${user.uid}")),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 89, 39, 169),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Text("$formattedDate")),
-                ],
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: ListTile(
+                onTap: () {},
+                hoverColor: Color.fromARGB(255, 98, 122, 188),
+                shape: null,
+                title: Text(
+                  dayOfWeek,
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 87, 231, 65),
+                      decorationColor: Color.fromARGB(255, 255, 191, 0),
+                      wordSpacing: 10,
+                      height: 5,
+                      fontSize: 10),
+                ),
+                subtitle: Wrap(
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 171, 197, 176),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text(Name!.name ?? "Unknown")),
+                    Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Color.fromARGB(255, 138, 214, 148),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text("$formattedDate")),
+                  ],
+                ),
               ),
             );
           }),

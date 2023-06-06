@@ -126,11 +126,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               );
             } else if (user == "Employee") {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const EmployeeHomepage(),
-                ),
-              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const EmployeeHomepage(),
+              //   ),
+              // );
             } else {
               Navigator.of(context).push(
                 MaterialPageRoute(

@@ -262,7 +262,7 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
                 child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 56, 16, 16),
                 child: Column(
                   children: [
                     Container(

@@ -88,20 +88,17 @@ class _LoginPageState extends State<LoginPage> {
                 emailController.text.trim(),
                 passwordController.text.trim(),
               );
-          if (errorCode == 'user-not-found') {
+          if (errorCode == 'unknown') {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red.shade900,
-                content: const Text('User not found.')));
-          } else if (errorCode == 'wrong-password') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red.shade900,
-                content: const Text('Email and password does not match.')));
+                content: const Text('User does not exist')));
           } else {
             // if (context.mounted) Navigator.pop(context);
 
             context.read<AuthProvider>().fetchAuthentication();
             context.read<UserProvider>().fetchUser(errorCode);
             context.read<EntryProvider>().fetchData(errorCode);
+            context.read<EntryProvider>().setIndex(0);
             // Stream<QuerySnapshot> userInfoStream =
             //     context.watch<UserProvider>().userStream;
             // UserModel user = UserModel.fromJson(

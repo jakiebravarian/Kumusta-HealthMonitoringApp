@@ -14,14 +14,15 @@ import '../providers/log_provider.dart';
 class AllLogs extends StatefulWidget {
   const AllLogs({Key? key}) : super(key: key);
 
+
   @override
   AllStudentsPageState createState() => AllStudentsPageState();
 }
 
-class AllStudentsPageState extends State<AllLogs> {
+class  AllStudentsPageState extends State<AllLogs> {
   TextEditingController searchController = TextEditingController();
   List<UserModel> users = [];
-  List<Log> filteredUsers = [];
+  List<UserModel> filteredUsers = [];
 
   @override
   void initState() {
@@ -32,9 +33,8 @@ class AllStudentsPageState extends State<AllLogs> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> allUserStream =
         context.watch<UserProvider>().allUserStream;
-
-    Stream<QuerySnapshot> allUsers =
-        context.watch<LogsProvider>().allUserStream;
+        Stream<QuerySnapshot> allLogsStream =
+        context.watch<UserProvider>().allUserStream;
 
     allUserStream.listen((QuerySnapshot snapshot) {
       List<UserModel> updatedUsers = [];
@@ -49,19 +49,86 @@ class AllStudentsPageState extends State<AllLogs> {
       // Update the users list and filteredUsers list
       setState(() {
         users = updatedUsers;
-        // filteredUsers = updatedUsers;
+        filteredUsers = updatedUsers;
       });
     });
 
-    UserModel? getStudentUID(String uid) {
-      UserModel? matchingUser = users.firstWhere((user) => user.uid == uid,
-          orElse: () => UserModel(id: '', name: 'Unknown'));
+    void filterUsers(String query) {
+      setState(() {
+        filteredUsers = users
+            .where((user) =>
+                user.name!.toLowerCase().contains(query.toLowerCase()) ||
+                user.stdnum!.contains(query) ||
+                user.college!.toLowerCase().contains(query.toLowerCase()) ||
+                user.course!.toLowerCase().contains(query.toLowerCase()) ||
+                user.email!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
 
-      return matchingUser;
+    searchEngine() {
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(
+              controller: searchController,
+              onChanged: (value) {
+                filterUsers(value);
+              },
+              decoration: const InputDecoration(
+                labelText: 'Search',
+              ),
+            ),
+          ),
+          ListView.builder(
+            itemCount: filteredUsers.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final user = filteredUsers[index];
+              return ListTile(
+                title: Text("${user.name}"),
+                subtitle: Wrap(
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple.shade200,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text("${user.college}")),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple.shade200,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text("${user.course}")),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple.shade200,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text("${user.email}")),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple.shade200,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text("${user.stdnum}"))
+                  ],
+                ),
+              );
+
+              // ListTile(
+              //   title: Text(user.name!),
+              //   subtitle: Text(user.stdnum!),
+              //   onTap: () {
+              //     print("User's profile");
+              //   },
+              // );
+            },
+          ),
+        ],
+      );
     }
 
     StreamBuilder allLogsListBuilder = StreamBuilder(
-      stream: allUsers,
+      stream: allLogsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -146,9 +213,11 @@ class AllStudentsPageState extends State<AllLogs> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              allLogsListBuilder,
+              searchEngine(),
             ],
           ),
         ));
   }
+  
+  UserModel? getStudentUID(String s) {}
 }

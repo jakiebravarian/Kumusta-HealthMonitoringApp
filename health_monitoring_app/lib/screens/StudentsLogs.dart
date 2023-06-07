@@ -27,8 +27,7 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
   }
 
   UserModel? getStudentUID(String uid) {
-    UserModel? matchingUser = users.firstWhere(
-        (user) => user.uid == uid && user.usertype == "Student",
+    UserModel? matchingUser = users.firstWhere((user) => user.uid == uid,
         orElse: () => UserModel(id: '', name: 'Unknown'));
 
     return matchingUser;
@@ -103,12 +102,18 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
 
             user.uid = snapshot.data?.docs[index].id;
 
-            int milliseconds = int.parse(user.date!);
-            DateTime currentDate =
-                DateTime.fromMillisecondsSinceEpoch(milliseconds);
+            // int milliseconds = int.parse(user.date!);
+            // DateTime currentDate =
+            //     DateTime.fromMillisecondsSinceEpoch(milliseconds);
 
-            String dayOfWeek = DateFormat('EEEE').format(currentDate);
-            String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
+            // Parse the date string
+            DateTime date = DateTime.parse(user.date!);
+
+            // Format the day of the week (e.g., Monday, Tuesday)
+            String dayOfWeek = DateFormat('EEEE').format(date);
+            String month = DateFormat('MMMM').format(date);
+
+            String day = DateFormat('dd').format(date);
             UserModel? Name = getStudentUID(user.uid!);
 
             return ClipRRect(
@@ -140,12 +145,21 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
                             color: Color.fromARGB(255, 171, 197, 176),
                             borderRadius: BorderRadius.circular(20)),
                         child: Text(Name!.name ?? "Unknown")),
-                    Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: Color.fromARGB(255, 138, 214, 148),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Text("$formattedDate")),
+                    Row(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: Color.fromARGB(255, 138, 214, 148),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Text(month)),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 171, 197, 176),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Text(day)),
+                      ],
+                    ),
                   ],
                 ),
               ),

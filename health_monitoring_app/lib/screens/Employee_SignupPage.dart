@@ -8,13 +8,18 @@ import 'package:project_app/screens/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:project_app/models/admin_model.dart';
+
+import 'package:project_app/providers/admin_provider.dart';
+import 'package:project_app/providers/auth_provider.dart';
+
 class EmployeeSignupPage extends StatefulWidget {
   const EmployeeSignupPage({super.key});
   @override
-  _EmployeePageState createState() => _EmployeePageState();
+  EmployeeSignupPageState createState() => EmployeeSignupPageState();
 }
 
-class _EmployeePageState extends State<EmployeeSignupPage> {
+class EmployeeSignupPageState extends State<EmployeeSignupPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -111,6 +116,7 @@ class _EmployeePageState extends State<EmployeeSignupPage> {
     //     ),
     //   ),
     // );
+  
 
     final nextButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),

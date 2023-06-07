@@ -1,26 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
-import 'package:project_app/screens/Admin_Homepage.dart';
-
-import 'package:project_app/screens/Employee_SignupPage.dart';
-import 'package:project_app/screens/Employee_Homepage.dart';
 
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/models/admin_model.dart';
 import 'package:project_app/providers/auth_provider.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/Homepage.dart';
-import 'package:project_app/screens/user_signUp/page1.dart';
-import 'package:project_app/screens/admin_signup.dart';
-import '../models/user_model.dart';
-
-import 'admin_nav.dart';
+import 'package:project_app/screens/Student/Homepage.dart';
+import 'package:project_app/screens/Login-SignUp/user_signUp/page1.dart';
+import 'package:project_app/screens/Login-SignUp/admin_signup.dart';
 
 class LoginPage extends StatefulWidget {
   static const routename = '/login2';
@@ -61,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (!EmailValidator.validate(value)) {
             return 'Invalid email address.';
           }
+          return null;
         });
 
     final password = TextFormField(
@@ -76,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (value.toString().length < 6) {
             return 'Invalid password';
           }
+          return null;
         });
 
     final loginButton = ElevatedButton(
@@ -95,8 +88,8 @@ class _LoginPageState extends State<LoginPage> {
           if (errorCode == 'unknown') {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                backgroundColor:
-                    Color(0xFFFFB9B9), // Set the background color to FFB9B9
+                backgroundColor: const Color(
+                    0xFFFFB9B9), // Set the background color to FFB9B9
                 content: Text(
                   'User does not exist',
                   style: GoogleFonts.raleway(
@@ -178,7 +171,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 );
               } else {
-                print("user employee got in");
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const UserSignupPage1(),

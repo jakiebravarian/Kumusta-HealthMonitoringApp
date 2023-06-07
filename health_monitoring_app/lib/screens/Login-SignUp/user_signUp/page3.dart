@@ -1,15 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/screens/done_signup.dart';
+import 'package:project_app/screens/Login-SignUp/done_signup.dart';
 import 'package:provider/provider.dart';
 
 import 'package:project_app/models/user_model.dart';
 
 import 'package:project_app/providers/auth_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
-
-import 'package:project_app/screens/Homepage.dart';
 
 class UserSignupPage3 extends StatefulWidget {
   const UserSignupPage3({super.key});
@@ -36,6 +36,7 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
           } else if (!EmailValidator.validate(value)) {
             return 'Invalid email address.';
           }
+          return null;
         });
 
     final password = TextFormField(
@@ -51,6 +52,7 @@ class _UserSignupPageState3 extends State<UserSignupPage3> {
           } else if (value.toString().length <= 6) {
             return 'Weak password';
           }
+          return null;
         });
 
     final submitButton = Padding(

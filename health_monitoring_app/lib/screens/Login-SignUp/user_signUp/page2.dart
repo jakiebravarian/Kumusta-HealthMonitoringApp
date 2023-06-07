@@ -4,11 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:project_app/providers/user_provider.dart';
 
-import 'package:project_app/screens/user_signUp/page3.dart';
-
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../models/user_model.dart';
+import 'package:project_app/screens/Login-SignUp/user_signUp/page3.dart';
 
 class UserSignupPage2 extends StatefulWidget {
   const UserSignupPage2({super.key});
@@ -21,7 +17,6 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -268,7 +263,7 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back,
                           color: Color(0xFFA095C1), // Set arrow color to A095C1
                         ),
@@ -278,7 +273,7 @@ class _UserSignupPageState2 extends State<UserSignupPage2> {
                         },
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text("👋 Hi ${context.read<UserProvider>().getUser?.name}!",
                         style: GoogleFonts.raleway(
                             textStyle: const TextStyle(

@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/user_signUp/page2.dart';
+import 'package:project_app/screens/Login-SignUp/user_signUp/page2.dart';
 
-import '../../models/user_model.dart';
+import '../../../models/user_model.dart';
 
 class UserSignupPage11 extends StatefulWidget {
   const UserSignupPage11({super.key});
@@ -30,7 +30,6 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
 
   @override
   void initState() {
-    // TODO: implement initState
     chosenCollege = collegeList.first;
     super.initState();
   }
@@ -57,6 +56,7 @@ class _UserSignupPageState11 extends State<UserSignupPage11> {
           if (value == null || value.isEmpty) {
             return 'Please enter your $placeholder.';
           }
+          return null;
         },
       ));
     }

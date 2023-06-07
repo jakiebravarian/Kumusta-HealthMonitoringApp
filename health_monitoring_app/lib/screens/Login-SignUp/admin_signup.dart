@@ -1,29 +1,22 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/user_signUp/page2.dart';
+import 'package:project_app/screens/Login-SignUp/user_signUp/page2.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:project_app/models/admin_model.dart';
-
-import 'package:project_app/providers/admin_provider.dart';
-import 'package:project_app/providers/auth_provider.dart';
-
-class EmployeeSignupPage extends StatefulWidget {
-  const EmployeeSignupPage({super.key});
+class AdminSignupPage extends StatefulWidget {
+  const AdminSignupPage({super.key});
   @override
-  EmployeeSignupPageState createState() => EmployeeSignupPageState();
+  _AdminSignupPageState createState() => _AdminSignupPageState();
 }
 
-class EmployeeSignupPageState extends State<EmployeeSignupPage> {
+class _AdminSignupPageState extends State<AdminSignupPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController empNoController = TextEditingController();
     TextEditingController positionController = TextEditingController();
@@ -41,82 +34,10 @@ class EmployeeSignupPageState extends State<EmployeeSignupPage> {
           if (value == null || value.isEmpty) {
             return 'Please enter your $placeholder.';
           }
+          return null;
         },
       ));
     }
-
-    final email = TextFormField(
-        key: const Key('emailField'),
-        controller: emailController,
-        decoration: const InputDecoration(
-          hintText: "Email",
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your email.';
-          } else if (!EmailValidator.validate(value)) {
-            return 'Invalid email address.';
-          }
-        });
-
-    final password = TextFormField(
-        key: const Key('pwField'),
-        controller: passwordController,
-        obscureText: true,
-        decoration: const InputDecoration(
-          hintText: 'Password',
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your password.';
-          } else if (value.toString().length <= 6) {
-            return 'Weak password';
-          }
-        });
-
-    // final signupButton = Padding(
-    //   padding: const EdgeInsets.symmetric(vertical: 16.0),
-    //   child: ElevatedButton(
-    //     style: ElevatedButton.styleFrom(
-    //       backgroundColor: const Color(0xFF432C81),
-    //       minimumSize: const Size(327, 42),
-    //       shape: RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.circular(15),
-    //       ),
-    //     ),
-    //     onPressed: () async {
-    //       if (formKey.currentState!.validate()) {
-    //         UserModel temp = UserModel(
-    //           email: emailController.text,
-    //           name: nameController.text,
-    //           empno: empNoController.text,
-    //           position: positionController.text,
-    //           homeUnit: homeUnitController.text,
-    //           usertype: "Admin",
-    //           isAdmin: true,
-    //           isQuarantined: false,
-    //           isUnderMonitoring: false,
-    //         );
-
-    //         String uid = await context
-    //             .read<AuthProvider>()
-    //             .signUp(emailController.text, passwordController.text);
-    //         temp.uid = uid;
-    //         context.read<UserProvider>().addUser(temp);
-    //         if (context.mounted) Navigator.pop(context);
-    //       }
-    //     },
-    //     child: Text(
-    //       "Sign Up",
-    //       style: GoogleFonts.raleway(
-    //           textStyle: const TextStyle(
-    //               color: Color(0xFFFFFFFF),
-    //               fontSize: 16,
-    //               fontWeight: FontWeight.w600)),
-    //     ),
-    //   ),
-    // );
-  
 
     final nextButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -136,8 +57,8 @@ class EmployeeSignupPageState extends State<EmployeeSignupPage> {
             admin?.empno = empNoController.text;
             admin?.position = positionController.text;
             admin?.homeUnit = homeUnitController.text;
-            admin?.usertype = "Employee";
-            admin?.isAdmin = false;
+            admin?.usertype = "Admin";
+            admin?.isAdmin = true;
             admin?.isQuarantined = false;
             admin?.isUnderMonitoring = false;
 
@@ -210,15 +131,6 @@ class EmployeeSignupPageState extends State<EmployeeSignupPage> {
                 height: 16,
               ),
               nextButton,
-              // email,
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              // password,
-              // const SizedBox(
-              //   height: 24,
-              // ),
-              // signupButton,
             ],
           ),
         ),

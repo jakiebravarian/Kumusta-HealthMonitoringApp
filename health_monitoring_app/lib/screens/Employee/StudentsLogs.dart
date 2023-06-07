@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-import '../models/log_model.dart';
-import '../models/user_model.dart';
-import '../providers/log_provider.dart';
+import '../../models/log_model.dart';
+import '../../models/user_model.dart';
+import '../../providers/log_provider.dart';
 
 class AllStudentsLogs extends StatefulWidget {
   const AllStudentsLogs({Key? key}) : super(key: key);

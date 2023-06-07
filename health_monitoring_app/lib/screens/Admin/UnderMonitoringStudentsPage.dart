@@ -3,23 +3,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:project_app/models/entry_model.dart';
-import 'package:project_app/providers/entry_provider.dart';
 
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/EditEntry.dart';
-import 'package:project_app/screens/Entry.dart';
-import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 
-import '../models/user_model.dart';
-
-import '../providers/auth_provider.dart';
+import '../../models/user_model.dart';
 
 class UnderMonitoringStudentsPage extends StatefulWidget {
   const UnderMonitoringStudentsPage({super.key});
@@ -128,7 +118,7 @@ class UnderMonitoringStudentsPageState
                 fit: BoxFit.fitWidth,
               )),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: searchController,
               onChanged: (value) {
@@ -241,78 +231,13 @@ class UnderMonitoringStudentsPageState
                       ],
                     ),
                   ));
-
-              // ListTile(
-              //   title: Text(user.name!),
-              //   subtitle: Text(user.stdnum!),
-              //   onTap: () {
-              //     print("User's profile");
-              //   },
-              // );
             },
           ),
         ],
       );
     }
 
-    // StreamBuilder quarantinedListBuilder = StreamBuilder(
-    //     stream: allUserStream,
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasError) {
-    //         return Center(
-    //           child: Text("Error encountered! ${snapshot.error}"),
-    //         );
-    //       } else if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       } else if (!snapshot.hasData) {
-    //         return const Center(
-    //           child: Text("No Entries Found"),
-    //         );
-    //       }
-
-    //       return ListView.builder(
-    //         shrinkWrap: true,
-    //         itemCount: snapshot.data?.docs.length,
-    //         itemBuilder: ((context, index) {
-    //           UserModel user = UserModel.fromJson(
-    //               snapshot.data?.docs[index].data() as Map<String, dynamic>);
-
-    //           user.id = snapshot.data?.docs[index].id;
-
-    //           return ListTile(
-    //             title: Text("${user.name}"),
-    //             subtitle: Wrap(
-    //               children: [
-    //                 OutlinedButton(
-    //                     onPressed: () {
-    //                       context
-    //                           .read<UserProvider>()
-    //                           .editUnderMonitoringStatus(user.id, false);
-    //                     },
-    //                     child: Text("End Monitoring")),
-    //                 OutlinedButton(
-    //                     onPressed: () {
-    //                       context
-    //                           .read<UserProvider>()
-    //                           .editUnderMonitoringStatus(user.id, false);
-    //                       context
-    //                           .read<UserProvider>()
-    //                           .editQuarantineStatus(user.id, true);
-    //                     },
-    //                     child: Text("Quarantine"))
-    //               ],
-    //             ),
-    //           );
-    //         }),
-    //       );
-    //     });
-
     return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text("Under Monitoring Students"),
-        // ),
         body: SingleChildScrollView(
             physics: const ScrollPhysics(),
             child: Column(

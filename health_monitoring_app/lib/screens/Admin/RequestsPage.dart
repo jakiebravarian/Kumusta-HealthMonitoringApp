@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/providers/entry_provider.dart';
-import 'package:project_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-import '../models/entry_model.dart';
-import '../models/user_model.dart';
+import 'package:project_app/models/entry_model.dart';
 
 class RequestsPage extends StatefulWidget {
   const RequestsPage({super.key});
@@ -162,34 +160,6 @@ class RequestsPageState extends State<RequestsPage> {
                       ],
                     ),
                   ));
-              // return ListTile(
-              //   title: Text("${entry.id}"),
-              //   subtitle: Row(
-              //     children: [
-              //       Text(entry.editReason!),
-              //       OutlinedButton(
-              //           onPressed: () {
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleIsEditApproved(entry.id, true);
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleforEditApproval(entry.id, false);
-              //           },
-              //           child: Text("Approve")),
-              //       OutlinedButton(
-              //           onPressed: () {
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleIsEditApproved(entry.id, false);
-              //             context
-              //                 .read<EntryProvider>()
-              //                 .toggleforEditApproval(entry.id, false);
-              //           },
-              //           child: Text("Reject"))
-              //     ],
-              //   ),
-              // );
             }),
           );
         });

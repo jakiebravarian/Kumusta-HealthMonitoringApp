@@ -1,33 +1,25 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/AllStudentLogs.dart';
-import 'package:project_app/screens/EditEntry.dart';
-import 'package:project_app/screens/Entry.dart';
-import 'package:project_app/screens/ProfiePage.dart';
-
-import 'package:project_app/screens/StudentsLogs.dart';
-import 'package:project_app/screens/QRCodeScanner.dart';
-
-import 'package:project_app/screens/login.dart';
+import 'package:project_app/screens/Admin/Admin_Homepage.dart';
+import 'package:project_app/screens/Student/EditEntry.dart';
+import 'package:project_app/screens/Student/Entry.dart';
+import 'package:project_app/screens/Student/ProfiePage.dart';
+import 'package:project_app/screens/Employee/QRCodeScanner.dart';
+import 'package:project_app/screens/Employee/StudentsLogs.dart';
+import 'package:project_app/screens/Login-SignUp/login.dart';
 import 'package:provider/provider.dart';
-import 'AllStudentLogs.dart';
-import 'Employee_Homepage.dart';
-import '../models/user_model.dart';
+import '../../models/user_model.dart';
 
-import '../providers/auth_provider.dart';
-import 'Admin_Homepage.dart';
-import 'admin_nav.dart';
+import '../../providers/auth_provider.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -349,15 +341,11 @@ class HomepageState extends State<Homepage> {
 
           user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
-          
           context.read<UserProvider>().setUser(user!);
           if (user?.usertype == "Admin") {
-
             int selectedIndex = context.watch<EntryProvider>().currentIndex;
             return Scaffold(
-              body: (selectedIndex == 0)
-                  ? const AllStudentsLogs():
-                  (selectedIndex == 2)
+              body: (selectedIndex == 2)
                   ? ProfilePage(user: user!)
                   : (selectedIndex == 1)
                       ? Column(
@@ -474,7 +462,7 @@ class HomepageState extends State<Homepage> {
                                 )
                               ],
                             )
-                          : AllStudentsLogs(),
+                          : const AllStudentsLogs(),
               bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Colors.deepPurple.shade50,
                 items: const <BottomNavigationBarItem>[

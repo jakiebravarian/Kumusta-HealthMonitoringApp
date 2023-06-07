@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/providers/log_provider.dart';
-import 'package:project_app/screens/done_signup.dart';
+import 'package:project_app/screens/Login-SignUp/done_signup.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -11,18 +11,17 @@ import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/providers/auth_provider.dart';
 
-import 'package:project_app/screens/Entry.dart';
-import 'package:project_app/screens/signup_login.dart';
-import 'package:project_app/screens/splash_screen.dart';
-import 'package:project_app/screens/welcome.dart';
-import 'package:project_app/screens/login.dart';
+import 'package:project_app/screens/Student/Entry.dart';
+import 'package:project_app/screens/Login-SignUp/signup_login.dart';
+import 'package:project_app/screens/Login-SignUp/splash_screen.dart';
+import 'package:project_app/screens/Login-SignUp/welcome.dart';
+import 'package:project_app/screens/Login-SignUp/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
 
   runApp(
     MultiProvider(
@@ -130,14 +129,3 @@ class MyApp extends StatelessWidget {
         });
   }
 }
-
-// class MainPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) => Scaffold(
-//           body: StreamBuilder<User?>(
-//         stream: context.read<AuthProvider>().userStream,
-//         builder: (context, snapshot) {
-//           return LoginPage();
-//         },
-//       ));
-// }

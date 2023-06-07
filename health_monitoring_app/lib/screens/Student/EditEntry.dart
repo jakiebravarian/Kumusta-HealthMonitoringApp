@@ -4,8 +4,8 @@ import 'package:project_app/providers/entry_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../models/user_model.dart';
-import '../providers/user_provider.dart';
+import '../../models/user_model.dart';
+import '../../providers/user_provider.dart';
 
 class EditHealthEntry extends StatefulWidget {
   static const routename = '/addEntry';

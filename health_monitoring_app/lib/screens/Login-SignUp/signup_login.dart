@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:project_app/screens/admin_signup.dart';
-import 'package:project_app/screens/login.dart';
-import 'package:project_app/screens/user_signUp/page1.dart';
-import 'Employee_Homepage.dart';
-import 'Employee_SignupPage.dart';
+import 'package:project_app/screens/Login-SignUp/admin_signup.dart';
+import 'package:project_app/screens/Login-SignUp/login.dart';
+import 'package:project_app/screens/Login-SignUp/user_signUp/page1.dart';
+import 'package:project_app/screens/Login-SignUp/Employee_SignupPage.dart';
 
 class SignUpLogin extends StatefulWidget {
   static const routename = '/signup-login2';
@@ -48,7 +47,7 @@ class SignUpLoginState extends State<SignUpLogin> {
         Container(
           alignment: Alignment.topLeft,
           child: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Color(0xFFA095C1), // Set arrow color to A095C1
             ),
@@ -58,7 +57,7 @@ class SignUpLoginState extends State<SignUpLogin> {
             },
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text("Kumusta",
             style: GoogleFonts.raleway(
                 textStyle: const TextStyle(
@@ -145,7 +144,6 @@ class SignUpLoginState extends State<SignUpLogin> {
   @override
   Widget build(BuildContext context) {
     String user = widget.userType.toString();
-    print(user);
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(

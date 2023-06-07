@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/models/user_model.dart';
-import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/login.dart';
+import 'package:project_app/screens/Login-SignUp/login.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import 'QRCodeScanner.dart';
+import '../../providers/auth_provider.dart';
+import 'QRCodeGenerator.dart';
+import '../Employee/QRCodeScanner.dart';
 
-class UserDetails extends StatefulWidget {
-  final UserModel? user;
-  const UserDetails({super.key, required this.user});
+class ProfilePage extends StatefulWidget {
+  final UserModel user;
+  const ProfilePage({super.key, required this.user});
 
   @override
-  UserDetailsState createState() => UserDetailsState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-class UserDetailsState extends State<UserDetails> {
+class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
@@ -39,8 +39,7 @@ class UserDetailsState extends State<UserDetails> {
                     fontSize: 11,
                     fontWeight: FontWeight.w600))));
 
-    return Scaffold(
-        body: Center(
+    return Center(
       child: Column(
         children: [
           SizedBox(height: 6),
@@ -54,7 +53,7 @@ class UserDetailsState extends State<UserDetails> {
           const SizedBox(
             height: 20,
           ),
-          Text("${widget.user?.name}",
+          Text("${widget.user.name}",
               style: GoogleFonts.raleway(
                   textStyle: const TextStyle(
                       color: Color(0xFF432C81),
@@ -62,14 +61,14 @@ class UserDetailsState extends State<UserDetails> {
                       fontWeight: FontWeight.bold,
                       letterSpacing: -0.11))),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            widget.user?.usertype == "Student"
+            widget.user.usertype == "Student"
                 ? outlineButtonBuilder("Student")
-                : (widget.user?.usertype == "Admin"
+                : (widget.user.usertype == "Admin"
                     ? outlineButtonBuilder("Admin")
                     : outlineButtonBuilder("Employee")),
-            (widget.user!.isUnderMonitoring!)
+            (widget.user.isUnderMonitoring!)
                 ? outlineButtonBuilder("Under Monitoring")
-                : (widget.user!.isQuarantined!)
+                : (widget.user.isQuarantined!)
                     ? outlineButtonBuilder("Quarantined")
                     : outlineButtonBuilder("Cleared"),
           ]),
@@ -82,16 +81,47 @@ class UserDetailsState extends State<UserDetails> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!widget.user.isQuarantined! &&
+                        !widget.user.isUnderMonitoring!) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            // builder: (context) => QRCodeGenerator(user: widget.user),
+                            builder: (context) => QRCodeGenerator(
+                              user: widget.user,
+                            ),
+                          ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: const Color(
+                              0xFFFFB9B9), // Set the background color to FFB9B9
+                          content: Text(
+                            'Invalid credentials. Cannot generate QR Code',
+                            style: GoogleFonts.raleway(
+                              textStyle: const TextStyle(
+                                color: Color(
+                                    0xFFEB5858), // Set the text color to EB5858
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   child: ListTile(
-                    title: Text("Delete User",
+                    title: Text("Generate QR Code",
                         style: GoogleFonts.raleway(
                             textStyle: const TextStyle(
                                 color: Color(0xFF82799D),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.11))),
-                    leading: Icon(Icons.delete),
+                    leading: Icon(Icons.qr_code),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   )),
             ),
@@ -103,36 +133,15 @@ class UserDetailsState extends State<UserDetails> {
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Confirm Action'),
-                          content: Text(
-                              'Are you sure you want to elevate User ${widget.user?.name} to Admin?'),
-                          actions: <Widget>[
-                            OutlinedButton(
-                              child: Text('Confirm'),
-                              onPressed: () {
-                                context
-                                    .read<UserProvider>()
-                                    .editUserType(widget.user?.id, "Admin");
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            OutlinedButton(
-                              child: Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ));
+                    context.read<AuthProvider>().signOut();
                   },
                   child: ListTile(
-                    title: Text("Elevate to Admin",
+                    title: Text("Log Out",
                         style: GoogleFonts.raleway(
                             textStyle: const TextStyle(
                                 color: Color(0xFF82799D),
@@ -146,6 +155,6 @@ class UserDetailsState extends State<UserDetails> {
           ),
         ],
       ),
-    ));
+    );
   }
 }

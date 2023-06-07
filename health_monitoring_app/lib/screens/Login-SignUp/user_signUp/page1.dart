@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_app/providers/user_provider.dart';
 
-import 'package:project_app/screens/user_signUp/page1.1.dart';
+import 'package:project_app/screens/Login-SignUp/user_signUp/page1.1.dart';
 
-import '../../models/user_model.dart';
+import '../../../models/user_model.dart';
 
 class UserSignupPage1 extends StatefulWidget {
   const UserSignupPage1({super.key});
@@ -37,6 +37,7 @@ class _UserSignupPageState1 extends State<UserSignupPage1> {
           if (value == null || value.isEmpty) {
             return 'Please enter your $placeholder.';
           }
+          return null;
         },
       ));
     }

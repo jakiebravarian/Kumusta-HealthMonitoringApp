@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_app/screens/signup_login.dart';
+import 'package:project_app/screens/Login-SignUp/signup_login.dart';
 
 class Welcome extends StatefulWidget {
   static const routename = '/welcome';

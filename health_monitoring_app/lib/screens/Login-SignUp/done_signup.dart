@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:project_app/screens/login.dart';
+import 'package:project_app/screens/Login-SignUp/login.dart';
 
 class DoneSignup extends StatefulWidget {
   static const routename = '/done-signup';

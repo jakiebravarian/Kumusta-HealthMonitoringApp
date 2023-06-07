@@ -27,12 +27,6 @@ class FirebaseLogAPI {
     return db.collection("logs").where("uid", isEqualTo: userID).snapshots();
   }
 
-
-//collects all logs
-  Stream<QuerySnapshot> deleteLog() {
-    return db.collection("logs").snapshots();
-  }
-
   Future<String> addLog(Map<String, dynamic> log) async {
     try {
       final docRef = await db.collection("logs").add(log);
@@ -57,7 +51,6 @@ class FirebaseLogAPI {
   //       .where("usertype", isEqualTo: "Student")
   //       .snapshots();
   // }
-
 
   Future<String> deleteLog(String? id) async {
     try {

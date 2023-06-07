@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
-import 'package:project_app/screens/Homepage.dart';
+import 'package:project_app/screens/Student/Homepage.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../providers/user_provider.dart';
+import '../../providers/user_provider.dart';
 
 class HealthEntry extends StatefulWidget {
   static const routename = '/addEntry';

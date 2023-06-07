@@ -33,6 +33,8 @@ class QRCodeGenerator extends StatelessWidget {
     Log log = Log();
     log.uid = user.id;
     log.date = currentDate;
+    log.name = user.name;
+    log.stdnum = user.stdnum;
     final data = log.toJson(log);
     const JsonEncoder encoder = JsonEncoder.withIndent(' ');
     String newJSON = encoder.convert(data);

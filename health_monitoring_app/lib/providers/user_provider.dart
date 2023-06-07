@@ -10,9 +10,10 @@ class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
   late Stream<QuerySnapshot> _userStream;
   late Stream<QuerySnapshot> _allUserStream;
-
+  late Stream<QuerySnapshot> _allUserLogStream;
   UserModel? _user = UserModel();
   UserModel? admin = UserModel();
+  UserModel? _userLog = UserModel();
 
   static final Map<String, bool> _preExistingIllness = {
     "Hypertension": false,
@@ -45,11 +46,14 @@ class UserProvider with ChangeNotifier {
   Map<String, bool> get allergies => _allergies;
   Stream<QuerySnapshot> get userStream => _userStream;
   Stream<QuerySnapshot> get allUserStream => _allUserStream;
-
+  Stream<QuerySnapshot> get allUserLogStream => _allUserLogStream;
   UserModel? get getUser => _user;
   UserModel? get getAdminUser => admin;
   bool _hasScanned = false;
   bool get hasScanned => _hasScanned;
+
+  UserModel? get userLog => _userLog;
+
   void setUserInfo1(name, username) {
     _user?.name = name;
     _user?.username = username;
@@ -78,13 +82,18 @@ class UserProvider with ChangeNotifier {
     _user = user;
   }
 
+  void setUserLog(UserModel user) {
+    _userLog = user;
+    notifyListeners();
+  }
+
   void fetchUser(userID) {
     _userStream = firebaseService.getUser(userID);
     // notifyListeners();
   }
 
   void fetchAllUsers() {
-    _allUserStream = firebaseService.getAllUsers();
+    _allUserLogStream = firebaseService.getAllUsers();
     // notifyListeners();
   }
 

@@ -18,6 +18,10 @@ class FirebaseUserAPI {
     return db.collection("users").where("uid", isEqualTo: userID).snapshots();
   }
 
+  Stream<QuerySnapshot> getUserLog(userID) {
+    return db.collection("users").where("id", isEqualTo: userID).snapshots();
+  }
+
   Stream<QuerySnapshot> getQuarantinedUsers() {
     return db
         .collection("users")
@@ -33,10 +37,7 @@ class FirebaseUserAPI {
   }
 
   Stream<QuerySnapshot> getAllUsers() {
-    return db
-        .collection("users")
-        .where("usertype", isEqualTo: "Student")
-        .snapshots();
+    return db.collection("users").snapshots();
   }
 
   Future<String> editUnderMonitoringStatus(id, bool status) async {

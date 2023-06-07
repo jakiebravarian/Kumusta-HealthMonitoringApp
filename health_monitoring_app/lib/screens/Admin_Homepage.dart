@@ -37,9 +37,6 @@ class AdminHomepageState extends State<AdminHomepage> {
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     // Stream<User?> userStream = context.watch<AuthProvider>().userStream;
@@ -116,71 +113,6 @@ class AdminHomepageState extends State<AdminHomepage> {
     }
 
     outlinedButtonBuilder(title, purpose) {
-
-//       return (OutlinedButton(
-//           onPressed: () {
-//             if (purpose == "all") {
-//               Navigator.push(
-
-
-
-//                 //get all students here 
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => const AllStudentsPage(),
-//                   ));
-//               context.read<UserProvider>().fetchAllUsers();
-//             } else if (purpose == "quarantined") {
-//               Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => const QuarantinedStudentsPage(),
-//                   ));
-//               context.read<UserProvider>().fetchQuarantinedUsers();
-//             } else if (purpose == "monitoring") {
-//               Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => const UnderMonitoringStudentsPage(),
-//                   ));
-//               context.read<UserProvider>().fetchUnderMonitoringUsers();
-//             } else if (purpose == "request") {
-//               Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => const RequestsPage(),
-//                   ));
-//             }
-//             context.read<EntryProvider>().fetchEntriesRequestingForEdit();
-//             context.read<EntryProvider>().fetchEntriesRequestingForDelete();
-//             // context.read<UserProvider>().changeValueInPreexistingIllness(key);
-//           },
-//           style: OutlinedButton.styleFrom(
-//               shadowColor: Colors.black87,
-//               elevation: 4,
-//               backgroundColor: Colors.purple.shade50,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(12),
-//               ),
-//               side: BorderSide(color: Colors.purple.shade100, width: 1)),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Text(title,
-//                   textAlign: TextAlign.center,
-//                   style: GoogleFonts.raleway(
-//                       textStyle: const TextStyle(
-//                           color: Colors.black,
-//                           fontSize: 16,
-//                           fontWeight: FontWeight.w500,
-//                           letterSpacing: -.5))),
-//               const SizedBox(
-//                 width: 55,
-//                 child: Icon(Icons.person),
-//               )
-//             ],
-//           )));
-
       return Padding(
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
           child: (OutlinedButton(

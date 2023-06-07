@@ -21,6 +21,7 @@ import 'package:project_app/screens/QRCodeScanner.dart';
 
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
+import '../providers/log_provider.dart';
 import 'AllStudentLogs.dart';
 import 'Employee_Homepage.dart';
 import '../models/user_model.dart';
@@ -28,6 +29,7 @@ import '../models/user_model.dart';
 import '../providers/auth_provider.dart';
 import 'Admin_Homepage.dart';
 import 'admin_nav.dart';
+import 'AllStudentLogs.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -349,15 +351,12 @@ class HomepageState extends State<Homepage> {
 
           user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
-          
+
           context.read<UserProvider>().setUser(user!);
           if (user?.usertype == "Admin") {
-
             int selectedIndex = context.watch<EntryProvider>().currentIndex;
             return Scaffold(
-              body: (selectedIndex == 0)
-                  ? const AllStudentsLogs():
-                  (selectedIndex == 2)
+              body: (selectedIndex == 2)
                   ? ProfilePage(user: user!)
                   : (selectedIndex == 1)
                       ? Column(
@@ -432,6 +431,7 @@ class HomepageState extends State<Homepage> {
             );
           } else if (user?.usertype == "Employee") {
             // context.read<EntryProvider>().fetchData(user?.uid);
+
             int selectedIndex = context.watch<EntryProvider>().currentIndex;
             return Scaffold(
               body: (selectedIndex == 3)
@@ -499,6 +499,10 @@ class HomepageState extends State<Homepage> {
                 selectedItemColor: Color(0xFF82799D),
                 onTap: (index) {
                   context.read<EntryProvider>().setIndex(index);
+                  if (index == 0) {
+                    context.read<LogsProvider>().fetchLogs();
+                    context.read<UserProvider>().fetchAllUsers();
+                  }
                 },
               ),
               floatingActionButton: FloatingActionButton(

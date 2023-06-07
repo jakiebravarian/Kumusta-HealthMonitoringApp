@@ -20,6 +20,7 @@ import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:project_app/screens/admin_signup.dart';
 import '../models/user_model.dart';
 
+import '../providers/log_provider.dart';
 import 'admin_nav.dart';
 
 class LoginPage extends StatefulWidget {
@@ -117,6 +118,8 @@ class _LoginPageState extends State<LoginPage> {
             context.read<UserProvider>().fetchUser(errorCode);
             context.read<EntryProvider>().fetchData(errorCode);
             context.read<EntryProvider>().setIndex(0);
+            context.read<LogsProvider>().fetchLogs();
+            context.read<UserProvider>().fetchAllUsers();
             // Stream<QuerySnapshot> userInfoStream =
             //     context.watch<UserProvider>().userStream;
             // UserModel user = UserModel.fromJson(

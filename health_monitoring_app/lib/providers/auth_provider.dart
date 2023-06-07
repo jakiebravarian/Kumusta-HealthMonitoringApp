@@ -18,23 +18,23 @@ class AuthProvider with ChangeNotifier {
   void fetchAuthentication() {
     uStream = authService.getUser();
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future<String> signUp(String email, String password) async {
     var uid = await authService.signUp(email, password);
-    notifyListeners();
+    // notifyListeners();
     return uid;
   }
 
   Future<String> signIn(String email, String password) async {
     String code = await authService.signIn(email, password);
-    notifyListeners();
+    // notifyListeners();
     return code;
   }
 
   Future<void> signOut() async {
     await authService.signOut();
-    notifyListeners();
+    // notifyListeners();
   }
 }

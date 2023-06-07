@@ -1,3 +1,4 @@
+
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,9 +18,13 @@ import 'package:project_app/screens/UnderMonitoringStudentsPage.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 
+import '../models/log_model.dart';
 import '../models/user_model.dart';
+import '../providers/log_provider.dart';
 
 import '../providers/auth_provider.dart';
+import 'AllStudentLogs.dart';
+
 import 'QuarantinedStudentsPage.dart';
 import 'RequestsPage.dart';
 
@@ -36,9 +41,6 @@ class EmployeeHomepageState extends State<EmployeeHomepage> {
 
     super.initState();
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,9 +123,21 @@ class EmployeeHomepageState extends State<EmployeeHomepage> {
                     builder: (context) => const QuarantinedStudentsPage(),
                   ));
               context.read<UserProvider>().fetchQuarantinedUsers();
-            } 
+            } else if (purpose == "monitoring") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UnderMonitoringStudentsPage(),
+                  ));
+              context.read<UserProvider>().fetchUnderMonitoringUsers();
+            } else if (purpose == "request") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RequestsPage(),
+                  ));
+            }
 
-            
             context.read<EntryProvider>().fetchEntriesRequestingForEdit();
             context.read<EntryProvider>().fetchEntriesRequestingForDelete();
             // context.read<UserProvider>().changeValueInPreexistingIllness(key);
@@ -158,7 +172,6 @@ class EmployeeHomepageState extends State<EmployeeHomepage> {
     return Column(children: [
       outlinedButtonBuilder("View All Logs", "all"),
       outlinedButtonBuilder("View All Students Logs", "quarantined"),
-     
     ]);
 
     // StreamBuilder(

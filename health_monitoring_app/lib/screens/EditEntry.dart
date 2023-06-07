@@ -108,14 +108,13 @@ class EditHealthEntryState extends State<EditHealthEntry> {
                 ),
                 side: const BorderSide(color: Color(0xFF432C81), width: 1)),
             onPressed: () async {
+              UserModel? user = context.read<UserProvider>().getUser;
               Entry? entry = context.read<EntryProvider>().getEntry;
               entry?.userID = context.read<EntryProvider>().uid;
               DateTime curDate = DateTime.now();
               entry?.date = curDate.millisecondsSinceEpoch;
               entry?.isApproved = false;
-              entry?.isExposed = context.read<EntryProvider>().isExposed;
-              entry?.isUnderMonitoring =
-                  context.read<EntryProvider>().isUnderMonitoring;
+              entry?.submittedBy = user?.name;
 
               List<String> symptomsList = [];
               Map<String, dynamic> symptomsMap =
@@ -125,16 +124,39 @@ class EditHealthEntryState extends State<EditHealthEntry> {
               });
 
               entry?.symptoms = symptomsList;
-
               context.read<EntryProvider>().editEntry(entry!);
+              if (context.read<EntryProvider>().isExposed ||
+                  context.read<EntryProvider>().isUnderMonitoring ||
+                  symptomsList.isNotEmpty) {
+                context
+                    .read<UserProvider>()
+                    .editUnderMonitoringStatus(user?.id, true);
+              }
 
               context.read<EntryProvider>().resetSymptomsMap();
               context
                   .read<EntryProvider>()
                   .toggleIsEditApproved(entry.id, false);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  backgroundColor: Color.fromARGB(255, 126, 231, 45),
-                  content: Text('Entry is edited.')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor:
+                      Color(0xFF89CB87), // Set the background color to 89CB87
+                  content: Text(
+                    'Entry is edited.',
+                    style: GoogleFonts.raleway(
+                      textStyle: const TextStyle(
+                        color:
+                            Color(0xFF347C32), // Set the text color to 347C32
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+
+              // await Future.delayed(const Duration(seconds: 2));
               Navigator.pop(context);
             },
             child: Text(
@@ -190,7 +212,6 @@ class EditHealthEntryState extends State<EditHealthEntry> {
                               fontWeight: FontWeight.w500,
                               letterSpacing: -0.11))),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Card(
@@ -262,7 +283,6 @@ class EditHealthEntryState extends State<EditHealthEntry> {
                     ]),
                   ),
                 ),
-
                 submitButton,
               ],
             ),

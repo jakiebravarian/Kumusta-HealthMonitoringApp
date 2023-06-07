@@ -8,20 +8,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/models/entry_model.dart';
 import 'package:project_app/providers/entry_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/AllStudentLogs.dart';
 import 'package:project_app/screens/EditEntry.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/ProfiePage.dart';
+
 import 'package:project_app/screens/StudentsLogs.dart';
+import 'package:project_app/screens/QRCodeScanner.dart';
+
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
+import 'AllStudentLogs.dart';
 import 'Employee_Homepage.dart';
 import '../models/user_model.dart';
 
 import '../providers/auth_provider.dart';
 import 'Admin_Homepage.dart';
+import 'admin_nav.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -71,7 +77,21 @@ class HomepageState extends State<Homepage> {
           String userInput = '';
 
           return AlertDialog(
-            title: Text('Reason for ${reason}'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  20), // Set the border radius for rounded corners
+            ),
+            title: Text(
+              'Reason for ${reason}',
+              style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF432C81),
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
             content: TextField(
               controller: messageContoller,
             ),
@@ -80,7 +100,17 @@ class HomepageState extends State<Homepage> {
                 onPressed: () {
                   Navigator.pop(context); // Close the dialog
                 },
-                child: Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF432C81),
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -103,11 +133,36 @@ class HomepageState extends State<Homepage> {
                   }
 
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Color.fromARGB(255, 218, 185, 237),
-                      content: Text('Request sent.'))); // Close the dialog
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: const Color(
+                          0xFF432C81), // Set the background color to EDECF4
+                      content: Text(
+                        'Request sent.',
+                        style: GoogleFonts.raleway(
+                          textStyle: const TextStyle(
+                            color: Color(
+                                0xFFEDECF4), // Set the text color to 432C81
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Text('Send Request'),
+                child: Text(
+                  'Send Request',
+                  style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF432C81),
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
               ),
             ],
           );
@@ -116,7 +171,7 @@ class HomepageState extends State<Homepage> {
     }
 
     trailingEditButton(entry) {
-      if (entry.isEditApproved) {
+      if (entry.isEditApproved || user?.usertype == "Admin") {
         return IconButton(
           onPressed: () {
             context.read<EntryProvider>().setEntry(entry);
@@ -124,12 +179,6 @@ class HomepageState extends State<Homepage> {
             entry.symptoms?.forEach((element) {
               context.read<EntryProvider>().changeValueInSymptoms(element);
             });
-            if (entry.isExposed!) {
-              context.read<EntryProvider>().toggleIsExposed();
-            }
-            if (entry.isUnderMonitoring!) {
-              context.read<EntryProvider>().toggleIsUnderMonitoring();
-            }
 
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -150,7 +199,7 @@ class HomepageState extends State<Homepage> {
     }
 
     trailingDeleteButton(entry) {
-      if (entry.isDeleteApproved) {
+      if (entry.isDeleteApproved || user?.usertype == "Admin") {
         return IconButton(
           onPressed: () {
             context.read<EntryProvider>().setEntry(entry);
@@ -205,16 +254,21 @@ class HomepageState extends State<Homepage> {
             );
           }
 
+          var entriesList = [];
+          for (var doc in snapshot.data?.docs) {
+            entriesList.add(Entry.fromJson(doc.data() as Map<String, dynamic>));
+          }
+
+          entriesList.sort((a, b) => a.date.compareTo(b.date));
+
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: snapshot.data?.docs.length,
+            itemCount: entriesList.length,
             itemBuilder: ((context, index) {
-              Entry entry = Entry.fromJson(
-                  snapshot.data?.docs[index].data() as Map<String, dynamic>);
+              Entry entry = entriesList[index];
 
               String formattedDate = DateFormat.yMMMEd().format(
                   DateTime.fromMicrosecondsSinceEpoch(entry.date! * 1000));
-              entry.id = snapshot.data?.docs[index].id;
 
               return Container(
                 height: 125,
@@ -225,13 +279,21 @@ class HomepageState extends State<Homepage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
-                        title: Text(formattedDate,
-                            style: GoogleFonts.raleway(
-                                textStyle: const TextStyle(
-                                    color: Color(0xFF432C81),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: -0.11))),
+                        title: (index == 0)
+                            ? Text("Today",
+                                style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                        color: Color(0xFF432C81),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: -0.11)))
+                            : Text(formattedDate,
+                                style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                        color: Color(0xFF432C81),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: -0.11))),
                         subtitle: Wrap(
                           children: [
                             if (entry.symptoms!.isEmpty)
@@ -287,12 +349,10 @@ class HomepageState extends State<Homepage> {
 
           user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
-
-          print(user?.usertype);
+          
+          context.read<UserProvider>().setUser(user!);
           if (user?.usertype == "Admin") {
-            return const AdminHomepage();
-          } else {
-            // context.read<EntryProvider>().fetchData(user?.uid);
+
             int selectedIndex = context.watch<EntryProvider>().currentIndex;
             return Scaffold(
               body: (selectedIndex == 0)
@@ -335,12 +395,95 @@ class HomepageState extends State<Homepage> {
                             )
                           ],
                         )
-                      : Column(),
+                      : AdminHomepage(),
+              bottomNavigationBar: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.auto_awesome_mosaic_rounded),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_rounded),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_rounded),
+                    label: '',
+                  ),
+                ],
+                currentIndex: context.read<EntryProvider>().currentIndex,
+                onTap: (index) =>
+                    {context.read<EntryProvider>().setIndex(index)},
+              ),
+              floatingActionButton: FloatingActionButton(
+                  backgroundColor: const Color(0xFFFEC62F),
+                  onPressed: () {
+                    context.read<EntryProvider>().resetSymptomsMap();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const HealthEntry(),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color: Color(0xFF432C81),
+                  )),
+            );
+          } else if (user?.usertype == "Employee") {
+            // context.read<EntryProvider>().fetchData(user?.uid);
+            int selectedIndex = context.watch<EntryProvider>().currentIndex;
+            return Scaffold(
+              body: (selectedIndex == 3)
+                  ? ProfilePage(user: user!)
+                  : (selectedIndex == 1)
+                      ? const QRViewExample()
+                      : (selectedIndex == 2)
+                          ? Column(
+                              children: <Widget>[
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text("Hello, ${user?.name}",
+                                    style: GoogleFonts.raleway(
+                                        textStyle: const TextStyle(
+                                            color: Color(0xFF432C81),
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: -1))),
+                                Text("Welcome Back!",
+                                    style: GoogleFonts.raleway(
+                                        textStyle: const TextStyle(
+                                            color: Color(0xFF82799D),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: -0.11))),
+                                displayImage(),
+                                Expanded(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.deepPurple.shade50,
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20, top: 20),
+                                        child: entriesListBuilder,
+                                      )),
+                                )
+                              ],
+                            )
+                          : AllStudentsLogs(),
               bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Colors.deepPurple.shade50,
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.list_alt),
+                    label: "",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code_scanner),
                     label: "",
                   ),
                   BottomNavigationBarItem(

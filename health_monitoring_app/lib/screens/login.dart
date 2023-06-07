@@ -4,20 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/screens/Admin_Homepage.dart';
+
 import 'package:project_app/screens/Employee_SignupPage.dart';
+import 'package:project_app/screens/Employee_Homepage.dart';
+
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:project_app/models/admin_model.dart';
 import 'package:project_app/providers/auth_provider.dart';
 import 'package:project_app/providers/entry_provider.dart';
 import 'package:project_app/providers/user_provider.dart';
-
 import 'package:project_app/screens/Homepage.dart';
 import 'package:project_app/screens/user_signUp/page1.dart';
 import 'package:project_app/screens/admin_signup.dart';
-
 import '../models/user_model.dart';
+
+import 'admin_nav.dart';
 
 class LoginPage extends StatefulWidget {
   static const routename = '/login2';
@@ -90,9 +93,23 @@ class _LoginPageState extends State<LoginPage> {
                 passwordController.text.trim(),
               );
           if (errorCode == 'unknown') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red.shade900,
-                content: const Text('User does not exist')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor:
+                    Color(0xFFFFB9B9), // Set the background color to FFB9B9
+                content: Text(
+                  'User does not exist',
+                  style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                      color: Color(0xFFEB5858), // Set the text color to EB5858
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
+              ),
+            );
           } else {
             // if (context.mounted) Navigator.pop(context);
 
@@ -104,12 +121,26 @@ class _LoginPageState extends State<LoginPage> {
             //     context.watch<UserProvider>().userStream;
             // UserModel user = UserModel.fromJson(
             //     snapshot.data?.docs[0].data() as Map<String, dynamic>);
-
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const Homepage(),
-              ),
-            );
+            if (user == "Admin") {
+              context.read<AdminProvider>().fetchAdmin(errorCode);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
+            } else if (user == "Employee") {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
+            }
           }
         }
       },

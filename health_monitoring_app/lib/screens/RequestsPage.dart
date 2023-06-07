@@ -15,11 +15,6 @@ class RequestsPage extends StatefulWidget {
 
 class RequestsPageState extends State<RequestsPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> editRequestStream =
         context.watch<EntryProvider>().streamOfEntriesRequestingForEdit;
@@ -283,10 +278,11 @@ class RequestsPageState extends State<RequestsPage> {
                                     onPressed: () {
                                       context
                                           .read<EntryProvider>()
-                                          .toggleIsEditApproved(entry.id, true);
+                                          .toggleIsDeleteApproved(
+                                              entry.id, true);
                                       context
                                           .read<EntryProvider>()
-                                          .toggleforEditApproval(
+                                          .toggleforDeleteApproval(
                                               entry.id, false);
                                     },
                                     style: OutlinedButton.styleFrom(
@@ -311,7 +307,7 @@ class RequestsPageState extends State<RequestsPage> {
                                       context
                                           .read<EntryProvider>()
                                           .toggleIsDeleteApproved(
-                                              entry.id, true);
+                                              entry.id, false);
                                       context
                                           .read<EntryProvider>()
                                           .toggleforDeleteApproval(

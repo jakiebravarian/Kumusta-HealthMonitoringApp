@@ -4,18 +4,17 @@ import 'package:project_app/models/user_model.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import 'QRCodeGenerator.dart';
 import 'QRCodeScanner.dart';
 
-class ProfilePage extends StatefulWidget {
-  final UserModel user;
-  const ProfilePage({super.key, required this.user});
+class UserDetails extends StatefulWidget {
+  final UserModel? user;
+  const UserDetails({super.key, required this.user});
 
   @override
-  ProfilePageState createState() => ProfilePageState();
+  UserDetailsState createState() => UserDetailsState();
 }
 
-class ProfilePageState extends State<ProfilePage> {
+class UserDetailsState extends State<UserDetails> {
   @override
   void initState() {
     super.initState();
@@ -53,7 +52,7 @@ class ProfilePageState extends State<ProfilePage> {
           const SizedBox(
             height: 20,
           ),
-          Text("${widget.user.name}",
+          Text("${widget.user?.name}",
               style: GoogleFonts.raleway(
                   textStyle: const TextStyle(
                       color: Color(0xFF432C81),
@@ -61,14 +60,14 @@ class ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold,
                       letterSpacing: -0.11))),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            widget.user.usertype == "Student"
+            widget.user?.usertype == "Student"
                 ? outlineButtonBuilder("Student")
-                : (widget.user.usertype == "Admin"
+                : (widget.user?.usertype == "Admin"
                     ? outlineButtonBuilder("Admin")
                     : outlineButtonBuilder("Employee")),
-            (widget.user.isUnderMonitoring!)
+            (widget.user!.isUnderMonitoring!)
                 ? outlineButtonBuilder("Under Monitoring")
-                : (widget.user.isQuarantined!)
+                : (widget.user!.isQuarantined!)
                     ? outlineButtonBuilder("Quarantined")
                     : outlineButtonBuilder("Cleared"),
           ]),
@@ -81,47 +80,16 @@ class ProfilePageState extends State<ProfilePage> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
-                  onPressed: () {
-                    if (!widget.user.isQuarantined! &&
-                        !widget.user.isUnderMonitoring!) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            // builder: (context) => QRCodeGenerator(user: widget.user),
-                            builder: (context) => QRCodeGenerator(
-                              user: widget.user,
-                            ),
-                          ));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: const Color(
-                              0xFFFFB9B9), // Set the background color to FFB9B9
-                          content: Text(
-                            'Invalid credentials. Cannot generate QR Code',
-                            style: GoogleFonts.raleway(
-                              textStyle: const TextStyle(
-                                color: Color(
-                                    0xFFEB5858), // Set the text color to EB5858
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: -0.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: () {},
                   child: ListTile(
-                    title: Text("Generate QR Code",
+                    title: Text("Delete User",
                         style: GoogleFonts.raleway(
                             textStyle: const TextStyle(
                                 color: Color(0xFF82799D),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.11))),
-                    leading: Icon(Icons.qr_code),
+                    leading: Icon(Icons.delete),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   )),
             ),
@@ -133,15 +101,15 @@ class ProfilePageState extends State<ProfilePage> {
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ));
-                    context.read<AuthProvider>().signOut();
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const LoginPage(),
+                    //     ));
+                    // context.read<AuthProvider>().signOut();
                   },
                   child: ListTile(
-                    title: Text("Log Out",
+                    title: Text("Elevate to Admin",
                         style: GoogleFonts.raleway(
                             textStyle: const TextStyle(
                                 color: Color(0xFF82799D),

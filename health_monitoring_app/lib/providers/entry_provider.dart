@@ -145,37 +145,37 @@ class EntryProvider with ChangeNotifier {
   void toggleIsEditApproved(id, status) async {
     String message = await firebaseService.toggleIsEditApproved(id, status);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void toggleIsDeleteApproved(id, status) async {
     String message = await firebaseService.toggleIsDeleteApproved(id, status);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void toggleforEditApproval(id, status) async {
     String message = await firebaseService.toggleforEditApproval(id, status);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void toggleforDeleteApproval(id, status) async {
     String message = await firebaseService.toggleforDeleteApproval(id, status);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void editApprovalReason(id, reason) async {
     String message = await firebaseService.editApprovalReason(id, reason);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void deleteApprovalReason(id, reason) async {
     String message = await firebaseService.deleteApprovalReason(id, reason);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   // void isEditApprovedListenable(id) {

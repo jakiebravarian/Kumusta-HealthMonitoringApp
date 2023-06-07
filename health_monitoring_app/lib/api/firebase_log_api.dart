@@ -32,6 +32,17 @@ class FirebaseLogAPI {
     return db.collection("logs").snapshots();
   }
 
+  Future<String> addLog(Map<String, dynamic> log) async {
+    try {
+      final docRef = await db.collection("logs").add(log);
+      await db.collection("logs").doc(docRef.id).update({'id': docRef.id});
+
+      return "New log was added!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
   // Stream<QuerySnapshot> getUnderMonitoringlogs() {
   //   return db
   //       .collection("logs")

@@ -11,7 +11,7 @@ class UserProvider with ChangeNotifier {
   late Stream<QuerySnapshot> _userStream;
   late Stream<QuerySnapshot> _allUserStream;
 
-  UserModel? user = UserModel();
+  UserModel? _user = UserModel();
   UserModel? admin = UserModel();
 
   static final Map<String, bool> _preExistingIllness = {
@@ -33,8 +33,6 @@ class UserProvider with ChangeNotifier {
     "Others": false
   };
 
-
-
   UserProvider() {
     firebaseService = FirebaseUserAPI();
     fetchUser("");
@@ -43,37 +41,41 @@ class UserProvider with ChangeNotifier {
     fetchUnderMonitoringUsers();
   }
 
-
-
-
-
-
   Map<String, bool> get preExistingIllness => _preExistingIllness;
   Map<String, bool> get allergies => _allergies;
   Stream<QuerySnapshot> get userStream => _userStream;
   Stream<QuerySnapshot> get allUserStream => _allUserStream;
 
-  UserModel? get getUser => user;
+  UserModel? get getUser => _user;
   UserModel? get getAdminUser => admin;
-
+  bool _hasScanned = false;
+  bool get hasScanned => _hasScanned;
   void setUserInfo1(name, username) {
-    user?.name = name;
-    user?.username = username;
+    _user?.name = name;
+    _user?.username = username;
+  }
+
+  setHasScanned(flag) {
+    _hasScanned = flag;
   }
 
   void setUserInfo11(college, course, stdnum) {
-    user?.college = college;
-    user?.course = course;
-    user?.stdnum = stdnum;
+    _user?.college = college;
+    _user?.course = course;
+    _user?.stdnum = stdnum;
   }
 
   void setUserInfo2(illnesses, allergies) {
-    user?.illnessList = illnesses;
-    user?.allergiesList = allergies;
+    _user?.illnessList = illnesses;
+    _user?.allergiesList = allergies;
   }
 
   void setUserInfo3(email) {
-    user?.email = email;
+    _user?.email = email;
+  }
+
+  void setUser(UserModel user) {
+    _user = user;
   }
 
   void fetchUser(userID) {
@@ -129,13 +131,13 @@ class UserProvider with ChangeNotifier {
     String message =
         await firebaseService.editUnderMonitoringStatus(id, status);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void editQuarantineStatus(id, status) async {
     String message = await firebaseService.editQuarantineStatus(id, status);
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   // void editTodo(int index, String newTitle) {

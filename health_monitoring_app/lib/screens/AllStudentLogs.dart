@@ -11,7 +11,6 @@ import '../models/log_model.dart';
 import '../models/user_model.dart';
 import '../providers/log_provider.dart';
 
-
 class AllStudentsLogs extends StatefulWidget {
   const AllStudentsLogs({Key? key}) : super(key: key);
 
@@ -24,7 +23,6 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
   List<UserModel> users = [];
   List<Log> filteredUsers = [];
 
-
   @override
   void initState() {
     super.initState();
@@ -32,12 +30,11 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
 
   @override
   Widget build(BuildContext context) {
-//     Stream<QuerySnapshot> allUserStream =
-//         context.watch<UserProvider>().allUserStream;
+    Stream<QuerySnapshot> allUserStream =
+        context.watch<UserProvider>().allUserStream;
 
     Stream<QuerySnapshot> allUsers =
         context.watch<LogsProvider>().allUserStream;
-
 
     allUserStream.listen((QuerySnapshot snapshot) {
       List<UserModel> updatedUsers = [];

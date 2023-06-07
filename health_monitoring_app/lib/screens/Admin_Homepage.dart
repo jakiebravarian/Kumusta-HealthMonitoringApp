@@ -37,71 +37,68 @@ class AdminHomepageState extends State<AdminHomepage> {
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-    Stream<User?> userStream = context.watch<AuthProvider>().userStream;
-    Stream<QuerySnapshot> allUserStream =
-        context.watch<UserProvider>().allUserStream;
+    // Stream<User?> userStream = context.watch<AuthProvider>().userStream;
+    // Stream<QuerySnapshot> allUserStream =
+    //     context.watch<UserProvider>().allUserStream;
 
-    StreamBuilder allUsersListBuilder = StreamBuilder(
-        stream: allUserStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error encountered! ${snapshot.error}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (!snapshot.hasData) {
-            return const Center(
-              child: Text("No Entries Found"),
-            );
-          }
+    // StreamBuilder allUsersListBuilder = StreamBuilder(
+    //     stream: allUserStream,
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Center(
+    //           child: Text("Error encountered! ${snapshot.error}"),
+    //         );
+    //       } else if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return const Center(
+    //           child: CircularProgressIndicator(),
+    //         );
+    //       } else if (!snapshot.hasData) {
+    //         return const Center(
+    //           child: Text("No Entries Found"),
+    //         );
+    //       }
 
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data?.docs.length,
-            itemBuilder: ((context, index) {
-              UserModel user = UserModel.fromJson(
-                  snapshot.data?.docs[index].data() as Map<String, dynamic>);
+    //       return ListView.builder(
+    //         shrinkWrap: true,
+    //         itemCount: snapshot.data?.docs.length,
+    //         itemBuilder: ((context, index) {
+    //           UserModel user = UserModel.fromJson(
+    //               snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
-              user.id = snapshot.data?.docs[index].id;
+    //           user.id = snapshot.data?.docs[index].id;
 
-              return ListTile(
-                title: Text("${user.name}"),
-                subtitle: Wrap(
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.college}")),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.course}")),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${user.email}")),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple.shade200,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("Is quarantined: ${user.isQuarantined}"))
-                  ],
-                ),
-              );
-            }),
-          );
-        });
+    //           return ListTile(
+    //             title: Text("${user.name}"),
+    //             subtitle: Wrap(
+    //               children: [
+    //                 Container(
+    //                     decoration: BoxDecoration(
+    //                         color: Colors.deepPurple.shade200,
+    //                         borderRadius: BorderRadius.circular(10)),
+    //                     child: Text("${user.college}")),
+    //                 Container(
+    //                     decoration: BoxDecoration(
+    //                         color: Colors.deepPurple.shade200,
+    //                         borderRadius: BorderRadius.circular(10)),
+    //                     child: Text("${user.course}")),
+    //                 Container(
+    //                     decoration: BoxDecoration(
+    //                         color: Colors.deepPurple.shade200,
+    //                         borderRadius: BorderRadius.circular(10)),
+    //                     child: Text("${user.email}")),
+    //                 Container(
+    //                     decoration: BoxDecoration(
+    //                         color: Colors.deepPurple.shade200,
+    //                         borderRadius: BorderRadius.circular(10)),
+    //                     child: Text("Is quarantined: ${user.isQuarantined}"))
+    //               ],
+    //             ),
+    //           );
+    //         }),
+    //       );
+    //     });
 
     String purposeChecker(key) {
       if (key == "all") {
@@ -184,159 +181,137 @@ class AdminHomepageState extends State<AdminHomepage> {
               ))));
     }
 
-    return StreamBuilder(
-        stream: userStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error encountered! ${snapshot.error}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (!snapshot.hasData) {
-            return const LoginPage();
-          }
-          // if user is logged in, display the scaffold containing the streambuilder for the todos
-
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 56, 0, 0),
+            child: Text("🔍 UPLB's Stat",
+                style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                        color: Color(0xFF432C81),
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.5))),
+          )
+        ],
+      ),
+      SizedBox(
+          width: 198,
+          child: Image.asset(
+            'assets/images/Lifesavers Organs.png',
+            fit: BoxFit.fitWidth,
+          )),
+      Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+            color: Color(0xFFEDECF4),
+          ),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 56, 0, 0),
-                      child: Text("🔍 UPLB's Stat",
-                          style: GoogleFonts.raleway(
-                              textStyle: const TextStyle(
-                                  color: Color(0xFF432C81),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -0.5))),
-                    )
-                  ],
+                const SizedBox(
+                  height: 24,
                 ),
-                SizedBox(
-                    width: 198,
-                    child: Image.asset(
-                      'assets/images/Lifesavers Organs.png',
-                      fit: BoxFit.fitWidth,
-                    )),
-                Container(
-                    decoration: const BoxDecoration(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30)),
-                      color: Color(0xFFEDECF4),
-                    ),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                outlinedButtonBuilder(
-                                    "View All\nStudents\n", "all"),
-                                outlinedButtonBuilder(
-                                    "Students' Requests\n", "request"),
-                              ]),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                outlinedButtonBuilder(
-                                    "Quarantined Students\n", "quarantined"),
-                                outlinedButtonBuilder(
-                                    "Under Monitoring Students\n", "monitoring")
-                              ]),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                        ]))
-              ]);
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      outlinedButtonBuilder("View All\nStudents\n", "all"),
+                      outlinedButtonBuilder("Students' Requests\n", "request"),
+                    ]),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      outlinedButtonBuilder(
+                          "Quarantined Students\n", "quarantined"),
+                      outlinedButtonBuilder(
+                          "Under Monitoring Students\n", "monitoring")
+                    ]),
+                const SizedBox(
+                  height: 24,
+                ),
+              ]))
+    ]);
 
-          // StreamBuilder(
-          //     stream: userStream,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasError) {
-          //         return Center(
-          //           child: Text("Error encountered! ${snapshot.error}"),
-          //         );
-          //       } else if (snapshot.connectionState == ConnectionState.waiting) {
-          //         return const Center(
-          //           child: CircularProgressIndicator(),
-          //         );
-          //       } else if (!snapshot.hasData) {
-          //         return const LoginPage();
-          //       }
-          //       // if user is logged in, display the scaffold containing the streambuilder for the todos
+    // StreamBuilder(
+    //     stream: userStream,
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Center(
+    //           child: Text("Error encountered! ${snapshot.error}"),
+    //         );
+    //       } else if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return const Center(
+    //           child: CircularProgressIndicator(),
+    //         );
+    //       } else if (!snapshot.hasData) {
+    //         return const LoginPage();
+    //       }
+    //       // if user is logged in, display the scaffold containing the streambuilder for the todos
 
-          //       return Scaffold(
-          //         appBar: AppBar(
-          //           title: const Text("UPLB's stat"),
-          //         ),
-          //         drawer: Drawer(
-          //           child: ListView(
-          //             // Important: Remove any padding from the ListView.
-          //             padding: EdgeInsets.zero,
-          //             children: [
-          //               DrawerHeader(
-          //                 decoration: BoxDecoration(
-          //                   color: Colors.green.shade100,
-          //                 ),
-          //                 child: const Text('Profile'),
-          //               ),
-          //               ListTile(
-          //                   //tileColor: Colors.white,
-          //                   leading: const Icon(
-          //                     Icons.book_outlined,
-          //                   ),
-          //                   title: const Text('Profile'),
-          //                   onTap: () {}),
-          //               ListTile(
-          //                 leading: const Icon(Icons.person_rounded),
-          //                 title: const Text('Sign out'),
-          //                 onTap: () {
-          //                   Navigator.push(
-          //                       context,
-          //                       MaterialPageRoute(
-          //                         builder: (context) => const LoginPage(),
-          //                       ));
-          //                   context.read<AuthProvider>().signOut();
-          //                 },
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //         body: Column(children: [
-          //           outlinedButtonBuilder("View All Students", "all"),
-          //           outlinedButtonBuilder("View Quarantined Students", "quarantined"),
-          //           outlinedButtonBuilder(
-          //               "View Under Monitoring Students", "monitoring"),
-          //           outlinedButtonBuilder("View Students Requests", "request"),
-          //         ]),
-          //         // floatingActionButton: FloatingActionButton(
-          //         //     backgroundColor: const Color(0xFFFEC62F),
-          //         //     onPressed: () {
-          //         //       context.read<EntryProvider>().resetSymptomsMap();
-          //         //       Navigator.of(context).push(
-          //         //         MaterialPageRoute(
-          //         //           builder: (context) => const HealthEntry(),
-          //         //         ),
-          //         //       );
-          //         //     },
-          //         //     child: const Icon(
-          //         //       Icons.add,
-          //         //       color: Color(0xFF432C81),
-          //         //     )),
-          //       );
-          //     });
-        });
+    //       return Scaffold(
+    //         appBar: AppBar(
+    //           title: const Text("UPLB's stat"),
+    //         ),
+    //         drawer: Drawer(
+    //           child: ListView(
+    //             // Important: Remove any padding from the ListView.
+    //             padding: EdgeInsets.zero,
+    //             children: [
+    //               DrawerHeader(
+    //                 decoration: BoxDecoration(
+    //                   color: Colors.green.shade100,
+    //                 ),
+    //                 child: const Text('Profile'),
+    //               ),
+    //               ListTile(
+    //                   //tileColor: Colors.white,
+    //                   leading: const Icon(
+    //                     Icons.book_outlined,
+    //                   ),
+    //                   title: const Text('Profile'),
+    //                   onTap: () {}),
+    //               ListTile(
+    //                 leading: const Icon(Icons.person_rounded),
+    //                 title: const Text('Sign out'),
+    //                 onTap: () {
+    //                   Navigator.push(
+    //                       context,
+    //                       MaterialPageRoute(
+    //                         builder: (context) => const LoginPage(),
+    //                       ));
+    //                   context.read<AuthProvider>().signOut();
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         body: Column(children: [
+    //           outlinedButtonBuilder("View All Students", "all"),
+    //           outlinedButtonBuilder("View Quarantined Students", "quarantined"),
+    //           outlinedButtonBuilder(
+    //               "View Under Monitoring Students", "monitoring"),
+    //           outlinedButtonBuilder("View Students Requests", "request"),
+    //         ]),
+    //         // floatingActionButton: FloatingActionButton(
+    //         //     backgroundColor: const Color(0xFFFEC62F),
+    //         //     onPressed: () {
+    //         //       context.read<EntryProvider>().resetSymptomsMap();
+    //         //       Navigator.of(context).push(
+    //         //         MaterialPageRoute(
+    //         //           builder: (context) => const HealthEntry(),
+    //         //         ),
+    //         //       );
+    //         //     },
+    //         //     child: const Icon(
+    //         //       Icons.add,
+    //         //       color: Color(0xFF432C81),
+    //         //     )),
+    //       );
+    //     });
   }
 }

@@ -78,7 +78,7 @@ class EntryProvider with ChangeNotifier {
 
   void setEntry(entry) {
     _entry = entry;
-    notifyListeners();
+    // notifyListeners();
   }
 
   void resetSymptomsMap() {
@@ -103,30 +103,30 @@ class EntryProvider with ChangeNotifier {
   fetchData(userID) {
     _entriesStream = firebaseService.getEntries(userID);
     _uid = userID;
-    notifyListeners();
+    // notifyListeners();
   }
 
   fetchAllData() {
     _allEntriesStream = firebaseService.getAllEntries();
-    notifyListeners();
+    // notifyListeners();
   }
 
   fetchEntriesRequestingForEdit() {
     _streamOfEntriesRequestingForEdit =
         firebaseService.getEntriesRequestingForEdit();
-    notifyListeners();
+    // notifyListeners();
   }
 
   fetchEntriesRequestingForDelete() {
     _streamOfEntriesRequestingForDelete =
         firebaseService.getEntriesRequestingForDelete();
-    notifyListeners();
+    // notifyListeners();
   }
 
   void addEntry(Entry entry) async {
     String message = await firebaseService.addEntry(entry.toJson(entry));
     print(message);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void editEntry(Entry entry) async {
@@ -145,7 +145,7 @@ class EntryProvider with ChangeNotifier {
   void toggleIsEditApproved(id, status) async {
     String message = await firebaseService.toggleIsEditApproved(id, status);
     print(message);
-    // notifyListeners();
+    notifyListeners();
   }
 
   void toggleIsDeleteApproved(id, status) async {

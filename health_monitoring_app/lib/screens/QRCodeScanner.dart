@@ -216,10 +216,6 @@ class _QRViewExampleState extends State<QRViewExample> {
       controller.scannedDataStream.listen((scanData) {
         controller.pauseCamera();
         context.read<UserProvider>().setHasScanned(true);
-        // setState(() {
-        //   result = scanData;
-        // });
-
         Map<String, dynamic> stringData = jsonDecode(scanData.code!);
         _showScannedDataDialog(stringData);
       });

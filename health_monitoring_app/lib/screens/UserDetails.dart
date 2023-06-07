@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/models/user_model.dart';
+import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -38,7 +39,8 @@ class UserDetailsState extends State<UserDetails> {
                     fontSize: 11,
                     fontWeight: FontWeight.w600))));
 
-    return Center(
+    return Scaffold(
+        body: Center(
       child: Column(
         children: [
           SizedBox(height: 6),
@@ -101,12 +103,33 @@ class UserDetailsState extends State<UserDetails> {
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const LoginPage(),
-                    //     ));
-                    // context.read<AuthProvider>().signOut();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Confirm Action'),
+                          content: Text(
+                              'Are you sure you want to elevate User ${widget.user?.name} to Admin?'),
+                          actions: <Widget>[
+                            OutlinedButton(
+                              child: Text('Confirm'),
+                              onPressed: () {
+                                context
+                                    .read<UserProvider>()
+                                    .editUserType(widget.user?.id, "Admin");
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            OutlinedButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: ListTile(
                     title: Text("Elevate to Admin",
@@ -123,6 +146,6 @@ class UserDetailsState extends State<UserDetails> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

@@ -80,22 +80,22 @@ class UserProvider with ChangeNotifier {
 
   void fetchUser(userID) {
     _userStream = firebaseService.getUser(userID);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void fetchAllUsers() {
     _allUserStream = firebaseService.getAllUsers();
-    notifyListeners();
+    // notifyListeners();
   }
 
   void fetchQuarantinedUsers() {
     _allUserStream = firebaseService.getQuarantinedUsers();
-    notifyListeners();
+    // notifyListeners();
   }
 
   void fetchUnderMonitoringUsers() {
     _allUserStream = firebaseService.getUnderMonitoringUsers();
-    notifyListeners();
+    // notifyListeners();
   }
 
   void changeValueInPreexistingIllness(key) {
@@ -113,7 +113,7 @@ class UserProvider with ChangeNotifier {
   void addUser(UserModel user) async {
     String returnValue = await firebaseService.addUser(user.toJson(user));
     print(returnValue);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void reset() {
@@ -136,6 +136,12 @@ class UserProvider with ChangeNotifier {
 
   void editQuarantineStatus(id, status) async {
     String message = await firebaseService.editQuarantineStatus(id, status);
+    print(message);
+    // notifyListeners();
+  }
+
+  void editUserType(id, type) async {
+    String message = await firebaseService.editUserType(id, type);
     print(message);
     // notifyListeners();
   }

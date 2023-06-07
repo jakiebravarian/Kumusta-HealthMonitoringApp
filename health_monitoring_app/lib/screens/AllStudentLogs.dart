@@ -31,10 +31,9 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> allUserStream =
-        context.watch<UserProvider>().allUserStream;
+        context.read<UserProvider>().allUserStream;
 
-    Stream<QuerySnapshot> allUsers =
-        context.watch<LogsProvider>().allUserStream;
+    Stream<QuerySnapshot> allUsers = context.read<LogsProvider>().allUserStream;
 
     allUserStream.listen((QuerySnapshot snapshot) {
       List<UserModel> updatedUsers = [];

@@ -25,4 +25,13 @@ class LogsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  
+  void deleteEntry(String id) async {
+    String message = await firebaseService.deleteLog(id);
+    print(message);
+    notifyListeners();
+  }
+
+
+
 }

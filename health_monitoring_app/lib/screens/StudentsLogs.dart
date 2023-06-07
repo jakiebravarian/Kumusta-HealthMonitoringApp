@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,14 +9,14 @@ import '../models/log_model.dart';
 import '../models/user_model.dart';
 import '../providers/log_provider.dart';
 
-class AllLogs extends StatefulWidget {
-  const AllLogs({Key? key}) : super(key: key);
+class AllStudentsLogs extends StatefulWidget {
+  const AllStudentsLogs({Key? key}) : super(key: key);
 
   @override
   AllStudentsPageState createState() => AllStudentsPageState();
 }
 
-class AllStudentsPageState extends State<AllLogs> {
+class AllStudentsPageState extends State<AllStudentsLogs> {
   TextEditingController searchController = TextEditingController();
   List<UserModel> users = [];
   List<Log> filteredUsers = [];
@@ -26,6 +24,14 @@ class AllStudentsPageState extends State<AllLogs> {
   @override
   void initState() {
     super.initState();
+  }
+
+  UserModel? getStudentUID(String uid) {
+    UserModel? matchingUser = users.firstWhere(
+        (user) => user.uid == uid && user.usertype == "Student",
+        orElse: () => UserModel(id: '', name: 'Unknown'));
+
+    return matchingUser;
   }
 
   @override
@@ -53,12 +59,22 @@ class AllStudentsPageState extends State<AllLogs> {
       });
     });
 
-    UserModel? getStudentUID(String uid) {
-      UserModel? matchingUser = users.firstWhere((user) => user.uid == uid,
-          orElse: () => UserModel(id: '', name: 'Unknown'));
+    allUsers.listen((QuerySnapshot snapshot) {
+      List<UserModel> updatedUsers = [];
 
-      return matchingUser;
-    }
+      // Iterate over the documents in the snapshot and convert them to UserModels
+      for (var doc in snapshot.docs) {
+        UserModel user = UserModel.fromJson(doc.data() as Map<String, dynamic>);
+
+        updatedUsers.add(user);
+      }
+
+      // Update the users list and filteredUsers list
+      setState(() {
+        users = updatedUsers;
+        // filteredUsers = updatedUsers;
+      });
+    });
 
     StreamBuilder allLogsListBuilder = StreamBuilder(
       stream: allUsers,
@@ -85,7 +101,7 @@ class AllStudentsPageState extends State<AllLogs> {
             Log user = Log.fromJson(
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
-            // user.uid = snapshot.data?.docs[index].id;
+            user.uid = snapshot.data?.docs[index].id;
 
             int milliseconds = int.parse(user.date!);
             DateTime currentDate =
@@ -98,6 +114,7 @@ class AllStudentsPageState extends State<AllLogs> {
             return ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: ListTile(
+                onTap: () {},
                 trailing: IconButton(
                     icon: const Icon(
                         IconData(0xe1b9, fontFamily: 'MaterialIcons')),
@@ -105,7 +122,6 @@ class AllStudentsPageState extends State<AllLogs> {
                     onPressed: () {
                       context.read<LogsProvider>().deleteEntry(user.uid!);
                     }),
-                onTap: () {},
                 hoverColor: Color.fromARGB(255, 98, 122, 188),
                 shape: null,
                 title: Text(

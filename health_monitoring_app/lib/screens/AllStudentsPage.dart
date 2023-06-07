@@ -57,63 +57,6 @@ class AllStudentsPageState extends State<AllStudentsPage> {
       });
     }
 
-    // StreamBuilder allUsersListBuilder = StreamBuilder(
-    //     stream: allUserStream,
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasError) {
-    //         return Center(
-    //           child: Text("Error encountered! ${snapshot.error}"),
-    //         );
-    //       } else if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       } else if (!snapshot.hasData) {
-    //         return const Center(
-    //           child: Text("No Entries Found"),
-    //         );
-    //       }
-
-    //       return ListView.builder(
-    //         shrinkWrap: true,
-    //         itemCount: snapshot.data?.docs.length,
-    //         itemBuilder: ((context, index) {
-    //           UserModel user = UserModel.fromJson(
-    //               snapshot.data?.docs[index].data() as Map<String, dynamic>);
-
-    //           user.id = snapshot.data?.docs[index].id;
-
-    //           return ListTile(
-    //             title: Text("${user.name}"),
-    //             subtitle: Wrap(
-    //               children: [
-    //                 Container(
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.deepPurple.shade200,
-    //                         borderRadius: BorderRadius.circular(10)),
-    //                     child: Text("${user.college}")),
-    //                 Container(
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.deepPurple.shade200,
-    //                         borderRadius: BorderRadius.circular(10)),
-    //                     child: Text("${user.course}")),
-    //                 Container(
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.deepPurple.shade200,
-    //                         borderRadius: BorderRadius.circular(10)),
-    //                     child: Text("${user.email}")),
-    //                 Container(
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.deepPurple.shade200,
-    //                         borderRadius: BorderRadius.circular(10)),
-    //                     child: Text("${user.stdnum}"))
-    //               ],
-    //             ),
-    //           );
-    //         }),
-    //       );
-    //     });
-
     searchEngine() {
       return Column(
         children: [

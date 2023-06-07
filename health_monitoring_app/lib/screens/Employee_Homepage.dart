@@ -13,6 +13,7 @@ import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/AllStudentsPage.dart';
 import 'package:project_app/screens/EditEntry.dart';
 import 'package:project_app/screens/Entry.dart';
+import 'package:project_app/screens/StudentsLogs.dart';
 import 'package:project_app/screens/UnderMonitoringStudentsPage.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
@@ -109,16 +110,16 @@ class EmployeepageState extends State<EmployeeHomepage> {
                   //get all students here
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AllStudentsLogs(),
+                    builder: (context) => const AllLogs(),
                   ));
               context.read<UserProvider>().fetchAllUsers();
-            } else if (purpose == "quarantined") {
+            } else if (purpose == "studentlogs") {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const QuarantinedStudentsPage(),
+                    builder: (context) => const AllLogs(),
                   ));
-              context.read<UserProvider>().fetchQuarantinedUsers();
+              context.read<UserProvider>().fetchAllUsers();
             } else if (purpose == "monitoring") {
               Navigator.push(
                   context,
@@ -165,8 +166,8 @@ class EmployeepageState extends State<EmployeeHomepage> {
     }
 
     return Column(children: [
-      outlinedButtonBuilder("View All Logs NEw", "all"),
-      outlinedButtonBuilder("View All Quarantined Students", "quarantined"),
+      outlinedButtonBuilder("View All Logs", "all"),
+      outlinedButtonBuilder("View All Student's Logs", "studentlogs"),
       outlinedButtonBuilder("View Under Monitoring Students", "monitoring"),
       outlinedButtonBuilder("View Students Requests", "request"),
     ]);

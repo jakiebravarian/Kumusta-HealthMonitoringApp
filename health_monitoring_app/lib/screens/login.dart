@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                 content: Text(
                   'User does not exist',
                   style: GoogleFonts.raleway(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       color: Color(0xFFEB5858), // Set the text color to EB5858
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -122,15 +122,15 @@ class _LoginPageState extends State<LoginPage> {
               context.read<AdminProvider>().fetchAdmin(errorCode);
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const AdminNav(),
+                  builder: (context) => const Homepage(),
                 ),
               );
             } else if (user == "Employee") {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => const EmployeeHomepage(),
-              //   ),
-              // );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
             } else {
               Navigator.of(context).push(
                 MaterialPageRoute(

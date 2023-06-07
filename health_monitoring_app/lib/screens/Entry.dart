@@ -124,7 +124,7 @@ class HealthEntryState extends State<HealthEntry> {
                 side: const BorderSide(color: Color(0xFF432C81), width: 1)),
             onPressed: () async {
               UserModel? user = context.read<UserProvider>().getUser;
-
+              print("USER: ${user?.id}");
               Entry? entry = context.read<EntryProvider>().getEntry;
               entry?.userID = context.read<EntryProvider>().uid;
               entry?.submittedBy = user?.name;
@@ -132,9 +132,6 @@ class HealthEntryState extends State<HealthEntry> {
               DateTime curDate = DateTime.now();
               entry?.date = curDate.millisecondsSinceEpoch;
               entry?.isApproved = false;
-              entry?.isExposed = context.read<EntryProvider>().isExposed;
-              entry?.isUnderMonitoring =
-                  context.read<EntryProvider>().isUnderMonitoring;
 
               List<String> symptomsList = [];
               Map<String, dynamic> symptomsMap =
@@ -142,11 +139,25 @@ class HealthEntryState extends State<HealthEntry> {
               symptomsMap.forEach((key, value) {
                 if (value == true) symptomsList.add(key);
               });
+              entry?.submittedBy = user?.name;
 
               entry?.symptoms = symptomsList;
               entry?.isEditApproved = false;
               entry?.isDeleteApproved = false;
               context.read<EntryProvider>().addEntry(entry!);
+
+              if (context.read<EntryProvider>().isExposed ||
+                  context.read<EntryProvider>().isUnderMonitoring ||
+                  symptomsList.isNotEmpty) {
+                context
+                    .read<UserProvider>()
+                    .editUnderMonitoringStatus(user?.id, true);
+              } else {
+                context
+                    .read<UserProvider>()
+                    .editUnderMonitoringStatus(user?.id, false);
+              }
+
               context.read<EntryProvider>().resetSymptomsMap();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -155,7 +166,7 @@ class HealthEntryState extends State<HealthEntry> {
                   content: Text(
                     'New entry is added.',
                     style: GoogleFonts.raleway(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: Color(0xFF347C32),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -165,7 +176,7 @@ class HealthEntryState extends State<HealthEntry> {
                   ),
                 ),
               );
-              Navigator.pop(context);
+              if (mounted) Navigator.pop(context);
             },
             child: Text(
               "ADD ENTRY",

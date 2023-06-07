@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,17 +33,24 @@ class UnderMonitoringStudentsPageState
   TextEditingController searchController = TextEditingController();
   List<UserModel> users = [];
   List<UserModel> filteredUsers = [];
+  StreamSubscription<Object>? myStreamSubscription;
+
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    myStreamSubscription?.cancel();
+    myStreamSubscription = null;
+
+    // Dispose or remove other listeners/references...
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> allUserStream =
-        context.watch<UserProvider>().allUserStream;
+        context.read<UserProvider>().allUserStream;
 
-    allUserStream.listen((QuerySnapshot snapshot) {
+    myStreamSubscription = allUserStream.listen((QuerySnapshot snapshot) {
       List<UserModel> updatedUsers = [];
 
       // Iterate over the documents in the snapshot and convert them to UserModels
@@ -52,23 +61,27 @@ class UnderMonitoringStudentsPageState
       }
 
       // Update the users list and filteredUsers list
-      setState(() {
-        users = updatedUsers;
-        filteredUsers = updatedUsers;
-      });
+      if (mounted) {
+        setState(() {
+          users = updatedUsers;
+          filteredUsers = updatedUsers;
+        });
+      }
     });
 
     void filterUsers(String query) {
-      setState(() {
-        filteredUsers = users
-            .where((user) =>
-                user.name!.toLowerCase().contains(query.toLowerCase()) ||
-                user.stdnum!.contains(query) ||
-                user.college!.toLowerCase().contains(query.toLowerCase()) ||
-                user.course!.toLowerCase().contains(query.toLowerCase()) ||
-                user.email!.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      });
+      if (mounted) {
+        setState(() {
+          filteredUsers = users
+              .where((user) =>
+                  user.name!.toLowerCase().contains(query.toLowerCase()) ||
+                  user.stdnum!.contains(query) ||
+                  user.college!.toLowerCase().contains(query.toLowerCase()) ||
+                  user.course!.toLowerCase().contains(query.toLowerCase()) ||
+                  user.email!.toLowerCase().contains(query.toLowerCase()))
+              .toList();
+        });
+      }
     }
 
     final backButton = Row(

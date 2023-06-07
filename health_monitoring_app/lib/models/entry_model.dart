@@ -6,8 +6,6 @@ class Entry {
   String? id;
   int? date;
   bool? isApproved;
-  bool? isExposed;
-  bool? isUnderMonitoring;
   bool? isEditApproved;
   bool? isDeleteApproved;
   bool? editRequest;
@@ -24,8 +22,6 @@ class Entry {
     this.id,
     this.date,
     this.isApproved,
-    this.isExposed,
-    this.isUnderMonitoring,
     this.symptoms,
     this.userID,
     this.isEditApproved,
@@ -44,8 +40,6 @@ class Entry {
       id: json['id'],
       date: json['date'],
       isApproved: json['isApporved'],
-      isExposed: json['isExposed'],
-      isUnderMonitoring: json['isUnderMonitoring'],
       symptoms: json['symptoms'],
       userID: json['userID'],
       isEditApproved: json["isEditApproved"],
@@ -69,8 +63,6 @@ class Entry {
       'id': entry.id,
       'date': entry.date,
       'isApproved': entry.isApproved,
-      'isExposed': entry.isExposed,
-      'isUnderMonitoring': entry.isUnderMonitoring,
       'symptoms': entry.symptoms,
       'userID': entry.userID,
       'isEditApproved': entry.isEditApproved,

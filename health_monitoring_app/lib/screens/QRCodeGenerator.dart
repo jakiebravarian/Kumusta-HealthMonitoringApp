@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_app/models/log_model.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -23,6 +26,22 @@ class QRCodeGenerator extends StatelessWidget {
       ),
     );
 
+    // String jsonString = '{"uid": "${user.id}", "date": "${currentDate}"}';
+
+    // Map<String, dynamic> data = {"uid": user.uid, "date": currentDate};
+
+    Log log = Log();
+    log.uid = user.id;
+    log.date = currentDate;
+    final data = log.toJson(log);
+    const JsonEncoder encoder = JsonEncoder.withIndent(' ');
+    String newJSON = encoder.convert(data);
+
+    Map<String, dynamic> map = jsonDecode(newJSON);
+
+    print(data);
+    print(newJSON);
+    print(map);
     return Scaffold(
         body: Center(
       child: Column(
@@ -31,7 +50,7 @@ class QRCodeGenerator extends StatelessWidget {
           backButton,
           Container(
               child: QrImageView(
-            data: user.toJson(user).toString(),
+            data: newJSON,
             version: QrVersions.auto,
             size: 200.0,
           )),

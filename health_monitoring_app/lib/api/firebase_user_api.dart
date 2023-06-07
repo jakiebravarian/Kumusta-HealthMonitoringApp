@@ -61,4 +61,14 @@ class FirebaseUserAPI {
       return "Failed with error '${e.code}: ${e.message}";
     }
   }
+
+  Future<String> editUserType(id, String type) async {
+    print(id);
+    try {
+      await db.collection("users").doc(id).update({"usertype": type});
+      return "Successfully elevated user to admin!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
 }

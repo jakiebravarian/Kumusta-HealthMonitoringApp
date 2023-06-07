@@ -32,6 +32,7 @@ class QuarantinedStudentsPageState extends State<QuarantinedStudentsPage> {
 
     super.dispose();
   }
+  
 
   @override
   Widget build(BuildContext context) {

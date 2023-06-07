@@ -11,10 +11,14 @@ import 'package:project_app/providers/entry_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_app/providers/user_provider.dart';
+import 'package:project_app/screens/AllStudentLogs.dart';
 import 'package:project_app/screens/EditEntry.dart';
 import 'package:project_app/screens/Entry.dart';
 import 'package:project_app/screens/ProfiePage.dart';
+
+import 'package:project_app/screens/StudentsLogs.dart';
 import 'package:project_app/screens/QRCodeScanner.dart';
+
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 import 'AllStudentLogs.dart';
@@ -345,11 +349,15 @@ class HomepageState extends State<Homepage> {
 
           user = UserModel.fromJson(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
+          
           context.read<UserProvider>().setUser(user!);
           if (user?.usertype == "Admin") {
+
             int selectedIndex = context.watch<EntryProvider>().currentIndex;
             return Scaffold(
-              body: (selectedIndex == 2)
+              body: (selectedIndex == 0)
+                  ? const AllStudentsLogs():
+                  (selectedIndex == 2)
                   ? ProfilePage(user: user!)
                   : (selectedIndex == 1)
                       ? Column(

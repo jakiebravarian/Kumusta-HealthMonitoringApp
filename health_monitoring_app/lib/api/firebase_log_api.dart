@@ -27,6 +27,7 @@ class FirebaseLogAPI {
     return db.collection("logs").where("uid", isEqualTo: userID).snapshots();
   }
 
+
 //collects all logs
   Stream<QuerySnapshot> deleteLog() {
     return db.collection("logs").snapshots();
@@ -57,26 +58,14 @@ class FirebaseLogAPI {
   //       .snapshots();
   // }
 
-  // Future<String> editUnderMonitoringStatus(id, bool status) async {
-  //   print(id);
-  //   try {
-  //     await db
-  //         .collection("log")
-  //         .doc(id)
-  //         .update({"isUnderMonitoring": status});
-  //     return "Successfully edited monitoring status!";
-  //   } on FirebaseException catch (e) {
-  //     return "Failed with error '${e.code}: ${e.message}";
-  //   }
-  // }
 
-  // Future<String> editQuarantineStatus(id, bool status) async {
-  //   print(id);
-  //   try {
-  //     await db.collection("users").doc(id).update({"isQuarantined": status});
-  //     return "Successfully edited quarantine status!";
-  //   } on FirebaseException catch (e) {
-  //     return "Failed with error '${e.code}: ${e.message}";
-  //   }
-  // }
+  Future<String> deleteLog(String? id) async {
+    try {
+      await db.collection("logs").doc(id).delete();
+
+      return "Successfully deleted todo!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
 }

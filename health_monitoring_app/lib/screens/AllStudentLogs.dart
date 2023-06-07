@@ -11,14 +11,23 @@ import '../models/log_model.dart';
 import '../models/user_model.dart';
 import '../providers/log_provider.dart';
 
+
+// class AllLogs extends StatefulWidget {
+//   const AllLogs({Key? key}) : super(key: key);
+
+
 class AllStudentsLogs extends StatefulWidget {
   const AllStudentsLogs({Key? key}) : super(key: key);
+
 
   @override
   AllStudentsPageState createState() => AllStudentsPageState();
 }
 
+
+
 class AllStudentsPageState extends State<AllStudentsLogs> {
+
   TextEditingController searchController = TextEditingController();
   List<UserModel> users = [];
   List<Log> filteredUsers = [];
@@ -31,9 +40,14 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> allUserStream =
-        context.read<UserProvider>().allUserStream;
+        context.watch<UserProvider>().allUserStream;
+        Stream<QuerySnapshot> allLogsStream =
+        context.watch<UserProvider>().allUserStream;
 
-    Stream<QuerySnapshot> allUsers = context.read<LogsProvider>().allUserStream;
+//         context.read<UserProvider>().allUserStream;
+
+//     Stream<QuerySnapshot> allUsers = context.read<LogsProvider>().allUserStream;
+
 
     allUserStream.listen((QuerySnapshot snapshot) {
       List<UserModel> updatedUsers = [];
@@ -170,6 +184,85 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
       },
     );
 
+    StreamBuilder allLogsListBuilder = StreamBuilder(
+      stream: allLogsStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text("Error encountered! ${snapshot.error}"),
+          );
+        } else if (snapshot.connectionState == ConnectionState.waiting ||
+            users.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (!snapshot.hasData) {
+          return const Center(
+            child: Text("No Entries Found"),
+          );
+        }
+
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.data?.docs.length,
+          itemBuilder: ((context, index) {
+            Log user = Log.fromJson(
+                snapshot.data?.docs[index].data() as Map<String, dynamic>);
+
+            // user.uid = snapshot.data?.docs[index].id;
+
+            int milliseconds = int.parse(user.date!);
+            DateTime currentDate =
+                DateTime.fromMillisecondsSinceEpoch(milliseconds);
+
+            String dayOfWeek = DateFormat('EEEE').format(currentDate);
+            String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
+            UserModel? Name = getStudentUID(user.uid!);
+
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: ListTile(
+                trailing: IconButton(
+                    icon: const Icon(
+                        IconData(0xe1b9, fontFamily: 'MaterialIcons')),
+                    tooltip: 'Delete Log',
+                    onPressed: () {
+                      context.read<LogsProvider>().deleteEntry(user.uid!);
+                    }),
+                onTap: () {},
+                hoverColor: Color.fromARGB(255, 98, 122, 188),
+                shape: null,
+                title: Text(
+                  dayOfWeek,
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 87, 231, 65),
+                      decorationColor: Color.fromARGB(255, 255, 191, 0),
+                      wordSpacing: 10,
+                      height: 5,
+                      fontSize: 10),
+                ),
+                subtitle: Wrap(
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 171, 197, 176),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text(Name!.name ?? "Unknown")),
+                    Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Color.fromARGB(255, 138, 214, 148),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text("$formattedDate")),
+                  ],
+                ),
+              ),
+            );
+          }),
+        );
+      },
+    );
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("All Student Logs"),
@@ -182,4 +275,6 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
           ),
         ));
   }
+  
+  UserModel? getStudentUID(String s) {}
 }

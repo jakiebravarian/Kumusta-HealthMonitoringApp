@@ -4,7 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/providers/admin_provider.dart';
 import 'package:project_app/screens/Admin_Homepage.dart';
+
+import 'package:project_app/screens/Employee_SignupPage.dart';
 import 'package:project_app/screens/Employee_Homepage.dart';
+
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -162,13 +165,20 @@ class _LoginPageState extends State<LoginPage> {
                     fontWeight: FontWeight.w500))),
         TextButton(
             onPressed: () {
-              if (user == "Admin" || user == "Employee") {
+              if (user == "Admin") {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminSignupPage(),
+                  ),
+                );
+              } else if (user == "Employee") {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const AdminSignupPage(),
                   ),
                 );
               } else {
+                print("user employee got in");
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const UserSignupPage1(),

@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:project_app/screens/Login-SignUp/user_signUp/page2.dart';

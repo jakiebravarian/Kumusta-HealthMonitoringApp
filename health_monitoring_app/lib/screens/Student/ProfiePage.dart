@@ -5,7 +5,6 @@ import 'package:project_app/screens/Login-SignUp/login.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import 'QRCodeGenerator.dart';
-import '../Employee/QRCodeScanner.dart';
 
 class ProfilePage extends StatefulWidget {
   final UserModel user;
@@ -42,7 +41,7 @@ class ProfilePageState extends State<ProfilePage> {
     return Center(
       child: Column(
         children: [
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           const SizedBox(
             height: 100,
           ),
@@ -78,7 +77,7 @@ class ProfilePageState extends State<ProfilePage> {
           Padding(
             padding:
                 const EdgeInsets.only(top: 8, bottom: 8, left: 25, right: 25),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                   onPressed: () {
@@ -121,7 +120,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.11))),
-                    leading: Icon(Icons.qr_code),
+                    leading: const Icon(Icons.qr_code),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   )),
             ),
@@ -129,7 +128,7 @@ class ProfilePageState extends State<ProfilePage> {
           Padding(
             padding:
                 const EdgeInsets.only(top: 8, bottom: 8, left: 25, right: 25),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                   onPressed: () {
@@ -148,7 +147,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.11))),
-                    leading: Icon(Icons.logout_rounded),
+                    leading: const Icon(Icons.logout_rounded),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   )),
             ),

@@ -1,11 +1,7 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../api/firebase_user_api.dart';
 import '../models/log_model.dart';
-import '../models/user_model.dart';
 import '../api/firebase_log_api.dart';
 
 class LogsProvider with ChangeNotifier {
@@ -26,21 +22,15 @@ class LogsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-  
   void deleteEntry(String id) async {
     String message = await firebaseService.deleteLog(id);
     print(message);
     notifyListeners();
   }
 
-
-
-
   void addLog(Log log) async {
     String message = await firebaseService.addLog(log.toJson(log));
     print(message);
     notifyListeners();
   }
-
 }

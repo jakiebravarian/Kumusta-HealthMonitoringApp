@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -145,22 +143,4 @@ class UserProvider with ChangeNotifier {
     print(message);
     // notifyListeners();
   }
-
-  // void editTodo(int index, String newTitle) {
-  //   // _todoList[index].title = newTitle;
-  //   print("Edit");
-  //   notifyListeners();
-  // }
-
-  // void deleteTodo() async {
-  //   String message = await firebaseService.deleteTodo(_selectedTodo!.id);
-  //   print(message);
-  //   notifyListeners();
-  // }
-
-  // void toggleStatus(int index, bool status) {
-  //   // _todoList[index].completed = status;
-  //   print("Toggle Status");
-  //   notifyListeners();
-  // }
 }

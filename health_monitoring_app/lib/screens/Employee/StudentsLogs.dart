@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -116,51 +117,65 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
             String day = DateFormat('dd').format(date);
             UserModel? Name = getStudentUID(user.uid!);
 
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: ListTile(
-                onTap: () {},
-                trailing: IconButton(
-                    icon: const Icon(
-                        IconData(0xe1b9, fontFamily: 'MaterialIcons')),
-                    tooltip: 'Delete Log',
-                    onPressed: () {
-                      context.read<LogsProvider>().deleteEntry(user.uid!);
-                    }),
-                hoverColor: Color.fromARGB(255, 98, 122, 188),
-                shape: null,
-                title: Text(
-                  dayOfWeek,
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 87, 231, 65),
-                      decorationColor: Color.fromARGB(255, 255, 191, 0),
-                      wordSpacing: 10,
-                      height: 5,
-                      fontSize: 10),
-                ),
-                subtitle: Wrap(
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 171, 197, 176),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Text(Name!.name ?? "Unknown")),
-                    Row(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: Color.fromARGB(255, 138, 214, 148),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Text(month)),
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 171, 197, 176),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Text(day)),
-                      ],
-                    ),
-                  ],
+            return Container(
+              height: 125,
+              padding:
+                  const EdgeInsets.symmetric(vertical: 2, horizontal: 16.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    side: const BorderSide(color: Color(0xFF432C81), width: 1),
+                    borderRadius: BorderRadius.circular(15)),
+                color: const Color.fromARGB(255, 255, 255, 255),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                      title: Text(
+                        dayOfWeek,
+                        style: GoogleFonts.raleway(
+                            textStyle: const TextStyle(
+                                color: Color(0xFF432C81),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: -0.5)),
+                      ),
+                      subtitle: Wrap(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF432C81),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Text(Name!.name ?? "Unknown",
+                                  style: GoogleFonts.raleway(
+                                      textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400)))),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF432C81),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Text("$month $day",
+                                  style: GoogleFonts.raleway(
+                                      textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400))))
+                        ],
+                      ),
+                      trailing: IconButton(
+                          icon: const Icon(
+                              IconData(0xe1b9, fontFamily: 'MaterialIcons')),
+                          tooltip: 'Delete Log',
+                          onPressed: () {
+                            context.read<LogsProvider>().deleteEntry(user.uid!);
+                          })),
                 ),
               ),
             );
@@ -169,16 +184,53 @@ class AllStudentsPageState extends State<AllStudentsLogs> {
       },
     );
 
+    final backButton = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: IconButton(
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFFA095C1),
+            ),
+          ),
+        )
+      ],
+    );
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("All Student Logs"),
-        ),
         body: SingleChildScrollView(
-          child: Column(
+      child: Column(
+        children: [
+          backButton,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              allLogsListBuilder,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text("🔔  Student Logs",
+                    style: GoogleFonts.raleway(
+                        textStyle: const TextStyle(
+                            color: Color(0xFF432C81),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.5))),
+              )
             ],
           ),
-        ));
+          SizedBox(
+              width: 198,
+              child: Image.asset(
+                'assets/images/The Lifesavers Telemedicine.png',
+                fit: BoxFit.fitWidth,
+              )),
+          allLogsListBuilder,
+        ],
+      ),
+    ));
   }
 }

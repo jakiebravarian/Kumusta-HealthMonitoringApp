@@ -10,7 +10,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QRCodeGenerator extends StatelessWidget {
   UserModel user;
 
-  QRCodeGenerator({required this.user});
+  QRCodeGenerator({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {

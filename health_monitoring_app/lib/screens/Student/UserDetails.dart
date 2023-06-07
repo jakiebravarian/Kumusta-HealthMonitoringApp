@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/models/user_model.dart';
 import 'package:project_app/providers/user_provider.dart';
-import 'package:project_app/screens/Login-SignUp/login.dart';
 import 'package:provider/provider.dart';
-import '../../providers/auth_provider.dart';
-import '../Employee/QRCodeScanner.dart';
 
 class UserDetails extends StatefulWidget {
   final UserModel? user;
